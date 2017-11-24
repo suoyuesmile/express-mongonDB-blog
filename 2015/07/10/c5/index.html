@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="C," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="文件输入输出文件通信 重定向：books &amp;gt; bklist 可能会把不必要的东西输出到文件 文件：一系列连续的字节，文本模式，二进制模式 文件模式：所有文件内容都以二进制形式存储 文本文件：最初使用二进制编码的字符表示文本 二进制文件：二进制值代表机器语言代码或数值数据或图片或音乐编码 不同操作系统处理不">
+<meta name="keywords" content="C">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《C primer plus》笔记：文件">
+<meta property="og:url" content="http://yoursite.com/2015/07/10/c5/index.html">
+<meta property="og:site_name" content="锁越smile">
+<meta property="og:description" content="文件输入输出文件通信 重定向：books &amp;gt; bklist 可能会把不必要的东西输出到文件 文件：一系列连续的字节，文本模式，二进制模式 文件模式：所有文件内容都以二进制形式存储 文本文件：最初使用二进制编码的字符表示文本 二进制文件：二进制值代表机器语言代码或数值数据或图片或音乐编码 不同操作系统处理不同 MS-DOS读文件\r\n–&amp;gt;\n写文件\n–&amp;gt;\r\n I/O级别：底">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-10-13T01:56:41.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《C primer plus》笔记：文件">
+<meta name="twitter:description" content="文件输入输出文件通信 重定向：books &amp;gt; bklist 可能会把不必要的东西输出到文件 文件：一系列连续的字节，文本模式，二进制模式 文件模式：所有文件内容都以二进制形式存储 文本文件：最初使用二进制编码的字符表示文本 二进制文件：二进制值代表机器语言代码或数值数据或图片或音乐编码 不同操作系统处理不同 MS-DOS读文件\r\n–&amp;gt;\n写文件\n–&amp;gt;\r\n I/O级别：底">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2015/07/10/c5/"/>
+
+
+
+
+
+  <title>《C primer plus》笔记：文件 | 锁越smile</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">锁越smile</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">邵锁的博客</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/07/10/c5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="suoyue">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="锁越smile">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">《C primer plus》笔记：文件</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-07-10T12:58:04+08:00">
+                2015-07-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="文件输入输出"><a href="#文件输入输出" class="headerlink" title="文件输入输出"></a>文件输入输出</h1><h3 id="文件通信"><a href="#文件通信" class="headerlink" title="文件通信"></a>文件通信</h3><ul>
+<li>重定向：books &gt; bklist 可能会把不必要的东西输出到文件</li>
+<li>文件：一系列连续的字节，文本模式，二进制模式</li>
+<li>文件模式：所有文件内容都以二进制形式存储</li>
+<li>文本文件：最初使用二进制编码的字符表示文本</li>
+<li>二进制文件：二进制值代表机器语言代码或数值数据或图片或音乐编码</li>
+<li>不同操作系统处理不同 MS-DOS读文件\r\n–&gt;\n写文件\n–&gt;\r\n</li>
+<li>I/O级别：底层I/O使用操作系统标准I/O，标准高级I/O使用stdio.h头文件的定义的（通用）</li>
+<li>标准文件：C打开3个文件，标准输入（键盘），标准输出，标准准错误输出（显示器）</li>
+</ul>
+<h3 id="标准I-O"><a href="#标准I-O" class="headerlink" title="标准I/O"></a>标准I/O</h3><ul>
+<li>好处：可移植性强，专门函数简化了操作，输入输出优势缓冲的</li>
+<li>演示：</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> * argv[])</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> ch;       <span class="comment">//读取文件,存储每个字符的地方</span></span><br><span class="line">    FILE *fp;     <span class="comment">//文件指针</span></span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> count = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span>(argc != <span class="number">2</span>)&#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"Usage: %s filename \n"</span>, argv[<span class="number">0</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>( (fp = fopen(argv[<span class="number">1</span>], <span class="string">"r"</span>)) == <span class="literal">NULL</span> )&#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"can't open %s\n"</span>, argv[<span class="number">1</span>]);</span><br><span class="line">        <span class="built_in">exit</span>(EXIT_FAILURE);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span>( (ch = getc(fp)) != EOF )&#123;</span><br><span class="line">        putc(ch, <span class="built_in">stdout</span>);</span><br><span class="line">        count++;</span><br><span class="line">    &#125;</span><br><span class="line">    fclose(fp);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"File %s has %lu characters\n"</span>, argv[<span class="number">1</span>], count);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>检查命令行参数：exit()关闭文件并结束程序（0或EXIT_SUCCESS结束成功，EXIT _FALLURE结束失败）</li>
+<li>fopen函数：打开文件，成功打开后返回文件指针（FILE*）</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FILE * fp = fopen(<span class="string">"words"</span>, <span class="string">"r"</span>);</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>模式</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>r</td>
+<td>读模式</td>
+</tr>
+<tr>
+<td>w</td>
+<td>写模式（文件长度截0，可以创建新文件）</td>
+</tr>
+<tr>
+<td>a</td>
+<td>写模式（添加字符，可以创建新文件）</td>
+</tr>
+<tr>
+<td>r+</td>
+<td>更新模式（读写）</td>
+</tr>
+<tr>
+<td>w+</td>
+<td>更新模式（读写，截断，创新）</td>
+</tr>
+<tr>
+<td>a+</td>
+<td>更新模式（读写，添加，创新）</td>
+</tr>
+<tr>
+<td>*b</td>
+<td>二进制文件用法同上</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>getc和putc函数：与getchar,putchar类似</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ch = getchar();   ch = getc(fp);   <span class="comment">//文件输入</span></span><br><span class="line">ch = <span class="built_in">putchar</span>();   ch = putc(fpout) <span class="comment">//文件输出</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>文件结尾：避免读到空文件，使用入口循环</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>( (ch = getc(fp)) != EOF) &#123; putc(fpout); &#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>fclose函数：关闭指定的文件，必要刷新缓冲取区</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (fclose(fp) != <span class="number">0</span> )  <span class="comment">//成功放回0,否则返回EOF</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"error in closing file %s\n"</span>, argv[<span class="number">1</span>]);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>指向标准文件的指针</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>标准文件</th>
+<th>文件指针</th>
+<th>设备</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>标准输入</td>
+<td>stdin</td>
+<td>键盘</td>
+</tr>
+<tr>
+<td>标准输出</td>
+<td>stdou</td>
+<td>显示器</td>
+</tr>
+<tr>
+<td>标准错误</td>
+<td>stder</td>
+<td>显示器</td>
+</tr>
+</tbody>
+</table>
+<h3 id="文件压缩程序"><a href="#文件压缩程序" class="headerlink" title="文件压缩程序"></a>文件压缩程序</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> N 40</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> * argv[])</span></span>&#123;</span><br><span class="line">    FILE *in, *out;</span><br><span class="line">    <span class="keyword">int</span> ch;</span><br><span class="line">    <span class="keyword">char</span> name[N];</span><br><span class="line">    <span class="keyword">int</span> count;</span><br><span class="line">    <span class="comment">//检查命令行参数</span></span><br><span class="line">    <span class="keyword">if</span>(argc &lt; <span class="number">2</span>)&#123;</span><br><span class="line">        <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"Usage:%s filename\n"</span>, argv[<span class="number">0</span>]);</span><br><span class="line">        <span class="built_in">exit</span>(EXIT_FAILURE);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//设置输入</span></span><br><span class="line">    <span class="keyword">if</span>( (in = fopen(argv[<span class="number">1</span>], <span class="string">"r"</span>)) == <span class="literal">NULL</span>)&#123;</span><br><span class="line">        <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"I could not open this file\" %s \" \n "</span>, argv[<span class="number">1</span>]);</span><br><span class="line">        <span class="built_in">exit</span>(EXIT_FAILURE);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//设置输出</span></span><br><span class="line">    <span class="built_in">strncpy</span>(name, argv[<span class="number">1</span>], N - <span class="number">5</span>);</span><br><span class="line">    name[N <span class="number">-5</span>] = <span class="string">'\0'</span>;</span><br><span class="line">    <span class="built_in">strcat</span>(name, <span class="string">".red"</span>);</span><br><span class="line">    <span class="keyword">if</span>( (out = fopen(name, <span class="string">"w"</span>)) == <span class="literal">NULL</span> )&#123;</span><br><span class="line">        <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"I could not open this file"</span>);</span><br><span class="line">        <span class="built_in">exit</span>(<span class="number">3</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//拷贝</span></span><br><span class="line">    <span class="keyword">while</span>( (ch = getc(in)) != EOF )&#123;</span><br><span class="line">        <span class="keyword">if</span> (count++ % <span class="number">3</span> == <span class="number">0</span>)</span><br><span class="line">            putc(ch, out);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//关闭文件</span></span><br><span class="line">    <span class="keyword">if</span>( fclose(in) != <span class="number">0</span> || fclose(out) != <span class="number">0</span> )</span><br><span class="line">        <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"Error in closing files\n"</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="文件I-O"><a href="#文件I-O" class="headerlink" title="文件I/O"></a>文件I/O</h3><ul>
+<li>fprinf和fscanf函数：与printf和scanf类似，区别在于，前面需要第一个参数待处理的文件。</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">fprintf</span>(fp, <span class="string">"%s\n"</span>, words);</span><br><span class="line"><span class="built_in">fscanf</span>(fp, <span class="string">"%s\n"</span>, words);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>fgets和fputs函数：</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">fgets(buf, LEN, fp);    <span class="comment">// buf char型数组的名称，fp指针</span></span><br><span class="line"><span class="built_in">fputs</span>(buf, fp);</span><br></pre></td></tr></table></figure>
+<h3 id="随机访问"><a href="#随机访问" class="headerlink" title="随机访问"></a>随机访问</h3><ul>
+<li>fseek() ftell()函数：文件看成数组，fseek返回int.ftell返回long</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">fseek(fp, <span class="number">0L</span>, SEEK_END); <span class="comment">//定位到文件末尾</span></span><br><span class="line"><span class="comment">// 1）FILE指针,指向待查找的文件</span></span><br><span class="line"><span class="comment">// 2）偏移量，从起始点开始要移动的距离，正负0</span></span><br><span class="line"><span class="comment">// 3）模式，SEEK_SET文件开始, SEEK_CUR当前位置，SEEK_END文件末尾</span></span><br><span class="line"><span class="comment">// 正常返回0，c出现错误返回-1</span></span><br><span class="line">ftell(fp) <span class="comment">//返回当前位置</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>二进制模式和文本模式：</li>
+<li><ul>
+<li>UNIX只有一种文件格式，不需要特殊转换，MS-DOS很多编辑器都是用ctrl+z来标记文件结尾的二进制文件和文本文件模式的另一个不同的地方，</li>
+</ul>
+</li>
+<li><ul>
+<li>MS_DOS用户\r\n来标识文件结尾,c程序会把\r\n看做成\n,对于ftell()返回值把\r\n当作一个字节来计数</li>
+</ul>
+</li>
+<li>可移植性：</li>
+<li><ul>
+<li>二进制模式中，实现不必支持SEEK_END模式，因此无法保证程序的可移植性，更好的办法是一个一个字节读取整个文件</li>
+</ul>
+</li>
+<li><ul>
+<li>文本模式中，只有使用fseek才能保证其相应的行为</li>
+</ul>
+</li>
+<li>fgetpos函数，fsetpos函数：新增的定位函数，突破long的限制</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">fgetpos</span><span class="params">(FILE * <span class="keyword">restrict</span> stream, <span class="keyword">fpos_t</span> * <span class="keyword">restrict</span> pos)</span></span>; <span class="comment">// 成功返回0，失败返回非0</span></span><br><span class="line"><span class="comment">// 把fpos_t的值放在pos指向的位置</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">fsetpos</span><span class="params">(FILE * stream, <span class="keyword">const</span> <span class="keyword">fpos_t</span> * pos)</span></span>; <span class="comment">//成功返回0，失败返回非0</span></span><br><span class="line"><span class="comment">// 使用fpos_t设置文件指针指向该值指向的位置</span></span><br></pre></td></tr></table></figure>
+<h3 id="标准IO机理"><a href="#标准IO机理" class="headerlink" title="标准IO机理"></a>标准IO机理</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//第一步：调用fopen打开文件</span></span><br><span class="line"><span class="comment">//1）自动打开3个标准文件 </span></span><br><span class="line"><span class="comment">//2）打开文件 </span></span><br><span class="line"><span class="comment">//3）打开一个或者两个缓冲区以及其文件缓冲的数据结构 </span></span><br><span class="line"><span class="comment">//4）返回一个指向该结构的指针</span></span><br><span class="line">FILE * fp = fopen(<span class="string">"words"</span>, <span class="string">"a+"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//第二步：调用stdio.h中的输入函数</span></span><br><span class="line"><span class="comment">//1）文件的数据块被拷贝至缓冲区</span></span><br><span class="line"><span class="comment">//2）设置缓冲区大小，设置fp所指向结构中的值（流中当前位置和拷贝进缓冲区的字节数）</span></span><br></pre></td></tr></table></figure>
+<h3 id="其他标准IO函数"><a href="#其他标准IO函数" class="headerlink" title="其他标准IO函数"></a>其他标准IO函数</h3><table>
+<thead>
+<tr>
+<th>函数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>int ungetc(int, FILE*)</td>
+<td>c指定的字符放回输入流</td>
+</tr>
+<tr>
+<td>int fflush(FILE*)</td>
+<td>刷新缓冲区</td>
+</tr>
+<tr>
+<td>int setcbuf(FILE<em>,char </em>, int, size_t)</td>
+<td>创建一个供io替换的缓冲区</td>
+</tr>
+<tr>
+<td>size_t fread()</td>
+<td>二进制out</td>
+</tr>
+<tr>
+<td>size_t fwirte()</td>
+<td>二进制in</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>size_t fwrite函数：返回sizeof运算后的类型</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">size_t</span> fwrite(<span class="keyword">const</span> <span class="keyword">void</span> * <span class="keyword">restrict</span> ptr, <span class="keyword">size_t</span> size, <span class="keyword">size_t</span> nmemb, FILE * <span class="keyword">restrict</span> fp);</span><br><span class="line"><span class="comment">// ptr 待写入的地址，size数据块的大小， nmemb带写入数据块的数量，fp待写入的文件</span></span><br><span class="line"><span class="keyword">char</span> buffer[<span class="number">256</span>];</span><br><span class="line">fwrite(buffer, <span class="number">256</span>, <span class="number">1</span>, fp);</span><br><span class="line"><span class="keyword">double</span> earnings[<span class="number">10</span>];</span><br><span class="line">fwrite(earings, <span class="keyword">sizeof</span>(<span class="keyword">double</span>), <span class="number">10</span>, fp);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>size_t fread函数：返回sizeof运算后的类型</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">size_t</span> fwrite(<span class="keyword">void</span> * <span class="keyword">restrict</span> ptr, <span class="keyword">size_t</span> size, <span class="keyword">size_t</span> nmemb, FILE * <span class="keyword">restrict</span> fp);</span><br><span class="line"><span class="comment">// ptr 待读取文件数据在内存中的地址，size数据块的大小， nmemb带写入数据块的数量，fp待读取的文件</span></span><br><span class="line"><span class="keyword">char</span> buffer[<span class="number">256</span>];</span><br><span class="line">fwrite(buffer, <span class="number">256</span>, <span class="number">1</span>, fp);</span><br><span class="line"><span class="keyword">double</span> earnings[<span class="number">10</span>];</span><br><span class="line">fwrite(earings, <span class="keyword">sizeof</span>(<span class="keyword">double</span>), <span class="number">10</span>, fp);</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/C/" rel="tag"># C</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/07/06/c4/" rel="next" title="《C primer plus》笔记：字符串">
+                <i class="fa fa-chevron-left"></i> 《C primer plus》笔记：字符串
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/07/15/c6/" rel="prev" title="《C primer plus》笔记：内存管理">
+                《C primer plus》笔记：内存管理 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">suoyue</p>
+              <p class="site-description motion-element" itemprop="description">保持乐观，保持谦虚</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#文件输入输出"><span class="nav-number">1.</span> <span class="nav-text">文件输入输出</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#文件通信"><span class="nav-number">1.0.1.</span> <span class="nav-text">文件通信</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#标准I-O"><span class="nav-number">1.0.2.</span> <span class="nav-text">标准I/O</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文件压缩程序"><span class="nav-number">1.0.3.</span> <span class="nav-text">文件压缩程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文件I-O"><span class="nav-number">1.0.4.</span> <span class="nav-text">文件I/O</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#随机访问"><span class="nav-number">1.0.5.</span> <span class="nav-text">随机访问</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#标准IO机理"><span class="nav-number">1.0.6.</span> <span class="nav-text">标准IO机理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他标准IO函数"><span class="nav-number">1.0.7.</span> <span class="nav-text">其他标准IO函数</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">suoyue</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

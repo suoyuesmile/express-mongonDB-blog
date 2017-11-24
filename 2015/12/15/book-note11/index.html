@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="JavaScript," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="终于到了收官之作了，学了这么长时间的 JavaScript ，对这门语言也有一个全面的认识。虽然你没有 C 系列经典健全，没有 Java 系列流行应用广泛，也许也没有 PHP 广受追捧。甚至天生的不完美给开发者带来不少麻烦，各个浏览器不同的支持兼容性也很让人头疼。但是随着前端的发展，作为一门脚本语言，你变化越来越大也越">
+<meta name="keywords" content="JavaScript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《JavaScript高级程序设计》读后记&lt;十一&gt;：跨域">
+<meta property="og:url" content="http://yoursite.com/2015/12/15/book-note11/index.html">
+<meta property="og:site_name" content="锁越smile">
+<meta property="og:description" content="终于到了收官之作了，学了这么长时间的 JavaScript ，对这门语言也有一个全面的认识。虽然你没有 C 系列经典健全，没有 Java 系列流行应用广泛，也许也没有 PHP 广受追捧。甚至天生的不完美给开发者带来不少麻烦，各个浏览器不同的支持兼容性也很让人头疼。但是随着前端的发展，作为一门脚本语言，你变化越来越大也越来越完善，同时好的工具也层出不穷，各种开源技术遍地开花。因此我始终相信你会成为一">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-10-18T04:06:56.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《JavaScript高级程序设计》读后记&lt;十一&gt;：跨域">
+<meta name="twitter:description" content="终于到了收官之作了，学了这么长时间的 JavaScript ，对这门语言也有一个全面的认识。虽然你没有 C 系列经典健全，没有 Java 系列流行应用广泛，也许也没有 PHP 广受追捧。甚至天生的不完美给开发者带来不少麻烦，各个浏览器不同的支持兼容性也很让人头疼。但是随着前端的发展，作为一门脚本语言，你变化越来越大也越来越完善，同时好的工具也层出不穷，各种开源技术遍地开花。因此我始终相信你会成为一">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2015/12/15/book-note11/"/>
+
+
+
+
+
+  <title>《JavaScript高级程序设计》读后记<十一>：跨域 | 锁越smile</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">锁越smile</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">邵锁的博客</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/12/15/book-note11/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="suoyue">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="锁越smile">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">《JavaScript高级程序设计》读后记<十一>：跨域</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-12-15T22:31:11+08:00">
+                2015-12-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScript</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>终于到了收官之作了，学了这么长时间的 JavaScript ，对这门语言也有一个全面的认识。虽然你没有 C 系列经典健全，没有 Java 系列流行应用广泛，也许也没有 PHP 广受追捧。甚至天生的不完美给开发者带来不少麻烦，各个浏览器不同的支持兼容性也很让人头疼。但是随着前端的发展，作为一门脚本语言，你变化越来越大也越来越完善，同时好的工具也层出不穷，各种开源技术遍地开花。因此我始终相信你会成为一门理想的编程语言，让前端这个领域始终朝气蓬勃。</p>
+<h3 id="同源策略"><a href="#同源策略" class="headerlink" title="同源策略"></a>同源策略</h3><p>什么是跨域？为什么跨域？这一切都要从它谈起：<strong>同源策略</strong>。<br>同源策略：同协议，同域，同端口<br>如果三个条件满足就是同源，两个不同源的站点是无法获取数据的。这是浏览器的一种策略。目的是为了保护用户信息安全，防止窃取数据。<br>具体是以下行为被禁止</p>
+<ul>
+<li>Cookie 和 LocalStroage ，indexDB 无法读取</li>
+<li>Dom 无法获得</li>
+<li>Ajax 请求无法获得<br>下面我们具体了解下 Ajax</li>
+</ul>
+<h3 id="AJAX"><a href="#AJAX" class="headerlink" title="AJAX"></a>AJAX</h3><p>全称 Asynchronous JavaScript + XML，这个技术能够向服务器请求额外的数据而无需卸载页面，简单的说就是无刷新技术，不需要刷新页面就可以获得新数据并显示在页面上。<br>这个技术的核心是<code>XMLHttpRequest</code>对象</p>
+<h4 id="XMLHttpRequest"><a href="#XMLHttpRequest" class="headerlink" title="XMLHttpRequest"></a>XMLHttpRequest</h4><p>直接上代码吧<br>1.创建 XHR 对象<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建XHR对象</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createXHR</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> XMLHttpRequest != <span class="string">"undefined"</span>) &#123;</span><br><span class="line">        <span class="comment">// IE7 以上版本</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> XMLHttpRequest();</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">typeof</span> ActiveXObject != <span class="string">"undefined"</span>) &#123;</span><br><span class="line">        <span class="comment">// IE7 之前的版本</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="built_in">arguments</span>.callee.activeXString != <span class="string">"string"</span>) &#123;</span><br><span class="line">        <span class="keyword">var</span> versions = [<span class="string">"MSXML2.XMLHttp6.0"</span>, <span class="string">"MSXML2.XMLHTTP.3.0"</span>, <span class="string">"MSXML2.XMLHttp"</span>];</span><br><span class="line">        <span class="keyword">var</span> <span class="number">1</span>, len;</span><br><span class="line">        <span class="keyword">for</span> (i = <span class="number">0</span>, len = versions.length; i &lt; len; i++) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="keyword">new</span> ActiveXObject(versions[i]);</span><br><span class="line">                <span class="built_in">arguments</span>.callee.activeXString = versions[i];</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125; <span class="keyword">catch</span> (ex) &#123;</span><br><span class="line">                <span class="comment">// 跳过</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> ActivaXObject(<span class="built_in">arguments</span>.callee.activeXString);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">"no xhr object avaiable"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>2.使用 XHR 方法和属性<br>发送同步请求<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建XHR对象</span></span><br><span class="line"><span class="keyword">var</span> xhr = createXHR();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 启动请求(同步)</span></span><br><span class="line">xhr.open(<span class="string">"get"</span>, <span class="string">"login.php"</span>, <span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 发送请求</span></span><br><span class="line">xhr.send(<span class="literal">null</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 服务器收到请求后自动填充xhr对象的属性</span></span><br><span class="line"><span class="keyword">if</span> (xhr.status &gt;= <span class="number">200</span> &amp;&amp; xhr status &lt; <span class="number">300</span> || xhr.status == <span class="number">304</span>) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(xhr.responseText);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"request fail!"</span> + xhr.status);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>发送异步请求<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> xhr = createXHR(); <span class="comment">// 0状态</span></span><br><span class="line"></span><br><span class="line">xhr.onreadystatechange = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 检测请求状态</span></span><br><span class="line">    <span class="keyword">if</span> (xhr.readyState == <span class="number">4</span>) &#123;</span><br><span class="line">        <span class="comment">// 检测状态码，确认响应成功返回</span></span><br><span class="line">        <span class="keyword">if</span> (xhr.status &gt;= <span class="number">200</span> &amp;&amp; xhr.status &lt; <span class="number">300</span> || xhr.status == <span class="number">304</span>) &#123;</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">"xhr.responseText"</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">"fail"</span> + xhr.status);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 1状态</span></span><br><span class="line">xhr.open(<span class="string">"get"</span>, <span class="string">"login.php"</span>, <span class="string">"true"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2状态</span></span><br><span class="line">xhr.send(<span class="literal">null</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用xhr.about()可以取消异步请求</span></span><br></pre></td></tr></table></figure></p>
+<p>说明：</p>
+<ul>
+<li>responseText: 响应主体被返回的文本</li>
+<li>responseXML: 响应的XML DOM 文档</li>
+<li>status: 响应的HTTP状态，200成功，304资源未修改</li>
+<li>statusText: HTTP状态说明</li>
+<li>readyState: 0未初始-1启动-2发送-3接收-4完成</li>
+</ul>
+<p>3.HTTP 头部信息<br>(1)发送 XHR 时还会发送相应的头部信息</p>
+<ul>
+<li>Accept: 浏览器能处理的内容</li>
+<li>Accept-Charset: 能处理的字符集</li>
+<li>Accept-Encoding: 压缩编码</li>
+<li>Accept-Language: 语言</li>
+<li>Connection: 连接类型</li>
+<li>Cookie: 设置的 Cookie</li>
+<li>Host: 所在的域</li>
+<li>Referer: 请求的 URL (Referrer拼写正确的单词)</li>
+<li>User-Agent: 用户代理字符串</li>
+</ul>
+<p>(2)设置获取头部信息<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// send方法之前</span></span><br><span class="line">xhr.setRequestHeader(<span class="string">"User-Agent"</span>, <span class="string">"suo"</span>); <span class="comment">// 设置</span></span><br><span class="line"></span><br><span class="line">xhr.getRequestHeader(<span class="string">"User-Agent"</span>); <span class="comment">// 获取</span></span><br><span class="line"></span><br><span class="line">xhr.getRequestHeader(); <span class="comment">// 获取所有</span></span><br></pre></td></tr></table></figure></p>
+<p>(3)Get 请求<br>关键在于处理字符格式<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 处理字符函数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">addURLParam</span>(<span class="params">url, name, value</span>) </span>&#123;</span><br><span class="line">    url += (url.indexOf(<span class="string">"?"</span>) == <span class="number">-1</span> ? <span class="string">"?"</span> : <span class="string">"&amp;"</span>);</span><br><span class="line">    url += encodeURLComponent(name) + <span class="string">"="</span> + encodeURLComponent(value);</span><br><span class="line">    <span class="keyword">return</span> url;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 处理</span></span><br><span class="line"><span class="keyword">var</span> url = <span class="string">"index.php"</span>;</span><br><span class="line">url = addURLParam(url, <span class="string">"name"</span>, <span class="string">"suo"</span>);</span><br><span class="line">url = addURLParam(url, <span class="string">"friend"</span>, <span class="string">"yue"</span>);</span><br><span class="line"><span class="comment">// 请求</span></span><br><span class="line">xhr.open();</span><br></pre></td></tr></table></figure></p>
+<p>(4)Post 请求<br>模仿表单提交<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">xhr.open(<span class="string">"post"</span>, <span class="string">"login"</span>, <span class="literal">true</span>);</span><br><span class="line">xhr.setRequestHeader(<span class="string">"Content-Type"</span>, <span class="string">"application/x-www-form-urlencoded"</span>);</span><br><span class="line"><span class="keyword">var</span> form = <span class="built_in">document</span>.getElementById(<span class="string">"user-info"</span>);</span><br><span class="line">xhr.send(serialize(form));</span><br></pre></td></tr></table></figure></p>
+<h4 id="XMLHttpRequest2"><a href="#XMLHttpRequest2" class="headerlink" title="XMLHttpRequest2"></a>XMLHttpRequest2</h4><p>1.FromData<br>2.超时设定<br>3.进度事件<br>4.progress 事件</p>
+<h4 id="进度事件"><a href="#进度事件" class="headerlink" title="进度事件"></a>进度事件</h4><h3 id="CORS"><a href="#CORS" class="headerlink" title="CORS"></a>CORS</h3><p>全称为Cross-Origin Resource Sharing, 跨域资源共享，W3C新出来的一个规范的跨域方法<br>在发送请求的时候添加一个 origin 头部，服务器根据头部信息决定是否响应<br>Origin: <a href="http://suosmile.cn" target="_blank" rel="noopener">http://suosmile.cn</a><br>服务器判断是否要响应，可以接受就回发一个<br>Access-Control-Allow-Origin: <a href="http://suosmile.cn" target="_blank" rel="noopener">http://suosmile.cn</a></p>
+<h4 id="IE-实现-CORS"><a href="#IE-实现-CORS" class="headerlink" title="IE 实现 CORS"></a>IE 实现 CORS</h4><p>IE8 中引入了 XDR 类型</p>
+<ul>
+<li>cookie 不会随请求发出，也不会响应返回</li>
+<li>只能设置请求头部信息中的 Content-Type 字段</li>
+<li>不能访问响应头部信息</li>
+<li>只支持 GET 和 POST</li>
+<li>默认异步</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建XDR</span></span><br><span class="line"><span class="keyword">var</span> xdr = <span class="keyword">new</span> XDomainRequest();</span><br><span class="line"><span class="comment">// 成功触发</span></span><br><span class="line">xdr.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(xdr.responseText);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 错误返回</span></span><br><span class="line">xdr.onerror = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"error"</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 超时</span></span><br><span class="line">xdr.timeout = <span class="number">1000</span>;</span><br><span class="line">xdr.ontimeout = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"timeout"</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 启动</span></span><br><span class="line">xdr.open(<span class="string">"post"</span>, <span class="string">"http://suosmile.cn"</span>);</span><br><span class="line"><span class="comment">// 设置post格式</span></span><br><span class="line">xdr.contentType = <span class="string">"application/x-www-form-urlencoded"</span>;</span><br><span class="line"><span class="comment">// 发送</span></span><br><span class="line">xdr.send(<span class="literal">null</span>);</span><br></pre></td></tr></table></figure>
+<h4 id="其他浏览器实现"><a href="#其他浏览器实现" class="headerlink" title="其他浏览器实现"></a>其他浏览器实现</h4><p>只需要把<code>XMLHttpRequest</code>对象中的<code>open</code>方法的<code>url</code>改写成绝对地址就可以了，但是会有一些限制</p>
+<ul>
+<li>不能使用<code>setRequestHeader()</code>和<code>getAllResponseHeaders()</code>方法</li>
+<li>不能发送和接收<code>cookie</code></li>
+</ul>
+<h4 id="跨浏览器实现"><a href="#跨浏览器实现" class="headerlink" title="跨浏览器实现"></a>跨浏览器实现</h4><h3 id="图片-Ping"><a href="#图片-Ping" class="headerlink" title="图片 Ping"></a>图片 Ping</h3><p>一个网页可以从任何网页加载图片<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> img = <span class="keyword">new</span> Image();</span><br><span class="line">img.onload = img.onerror = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"ok"</span>);</span><br><span class="line">&#125;;</span><br><span class="line">img.src = <span class="string">"http://suosmile.cn?name=suo"</span>; <span class="comment">// ok</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="JSONP"><a href="#JSONP" class="headerlink" title="JSONP"></a>JSONP</h3><p>全称Json with padding的简写，是应用JSON的一种新方法<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">callback(&#123;<span class="string">"name"</span>:<span class="string">"suo"</span>&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>有两个部分组成，一个是回调函数和数据<br>通过动态操作脚本实现<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleResponse</span>(<span class="params">response</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(response.ip + <span class="string">","</span> + response.city + <span class="string">','</span> + response.region_name);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> script = <span class="built_in">document</span>.createElement(<span class="string">"script"</span>);</span><br><span class="line">script.src = <span class="string">"http://suosmile.cn?callback=handleResponse"</span>;</span><br><span class="line"><span class="built_in">document</span>.body.insertBefore(script, <span class="built_in">document</span>.body.firstChild);</span><br></pre></td></tr></table></figure></p>
+<h3 id="Comet"><a href="#Comet" class="headerlink" title="Comet"></a>Comet</h3><p>一种高级的<code>Comet</code>，高级的<code>AJAX</code></p>
+<h3 id="服务器发送"><a href="#服务器发送" class="headerlink" title="服务器发送"></a>服务器发送</h3><p>SSE </p>
+<h3 id="Web-Sockets"><a href="#Web-Sockets" class="headerlink" title="Web Sockets"></a>Web Sockets</h3><h3 id="SSE"><a href="#SSE" class="headerlink" title="SSE"></a>SSE</h3><h3 id="XSS"><a href="#XSS" class="headerlink" title="XSS"></a>XSS</h3>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/12/12/book-note10/" rel="next" title="《JavaScript高级程序设计》读后记<十>：事件">
+                <i class="fa fa-chevron-left"></i> 《JavaScript高级程序设计》读后记<十>：事件
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/03/13/h5-note/" rel="prev" title="学习新技术：从 HTML4 到 HTML5 的改变">
+                学习新技术：从 HTML4 到 HTML5 的改变 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">suoyue</p>
+              <p class="site-description motion-element" itemprop="description">保持乐观，保持谦虚</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#同源策略"><span class="nav-number">1.</span> <span class="nav-text">同源策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AJAX"><span class="nav-number">2.</span> <span class="nav-text">AJAX</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#XMLHttpRequest"><span class="nav-number">2.1.</span> <span class="nav-text">XMLHttpRequest</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#XMLHttpRequest2"><span class="nav-number">2.2.</span> <span class="nav-text">XMLHttpRequest2</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#进度事件"><span class="nav-number">2.3.</span> <span class="nav-text">进度事件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CORS"><span class="nav-number">3.</span> <span class="nav-text">CORS</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#IE-实现-CORS"><span class="nav-number">3.1.</span> <span class="nav-text">IE 实现 CORS</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#其他浏览器实现"><span class="nav-number">3.2.</span> <span class="nav-text">其他浏览器实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#跨浏览器实现"><span class="nav-number">3.3.</span> <span class="nav-text">跨浏览器实现</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#图片-Ping"><span class="nav-number">4.</span> <span class="nav-text">图片 Ping</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JSONP"><span class="nav-number">5.</span> <span class="nav-text">JSONP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Comet"><span class="nav-number">6.</span> <span class="nav-text">Comet</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#服务器发送"><span class="nav-number">7.</span> <span class="nav-text">服务器发送</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Web-Sockets"><span class="nav-number">8.</span> <span class="nav-text">Web Sockets</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SSE"><span class="nav-number">9.</span> <span class="nav-text">SSE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#XSS"><span class="nav-number">10.</span> <span class="nav-text">XSS</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">suoyue</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
