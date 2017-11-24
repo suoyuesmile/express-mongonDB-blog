@@ -272,312 +272,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/11/29/book-note4/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="suoyue">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="锁越smile">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2015/11/29/book-note4/" itemprop="url">《JavaScript高级程序设计》读后记<四>：垃圾回收</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-11-29T15:22:15+08:00">
-                2015-11-29
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
-                    <span itemprop="name">JavaScript</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>上一篇博客里，阐明了闭包的概念和作用，但是它有个缺点就是容易造成内存泄露，为什么会造成内存泄露呢？内存泄露又是怎样产生的呢？这一切要从 JavaScript 的垃圾回收机制说起</p>
-<h3 id="理解JavaScript的垃圾回收机制"><a href="#理解JavaScript的垃圾回收机制" class="headerlink" title="理解JavaScript的垃圾回收机制"></a>理解JavaScript的垃圾回收机制</h3><p>JavaScript 具有自动垃圾回收机制，因此我们可以不必管它，但是也要知道它的原理。<br>垃圾回收机制的原理：<strong>垃圾回收机制会周期性的释放不再使用的变量的内存</strong>。<br>这里我们要知道两点：<br>1.这个周期是多少？是如何决定的？<br>2.如何判断这个变量不再继续使用？</p>
-<p>我们先来探究第二个问题，<strong>如何判断这个变量不再使用，并回收</strong>？<br>我们知道，每一个变量都是有生命周期的，如果哪个变量没有的话，就会一直残留下去，总有一天会消耗完内存。这也叫内存泄露。下面我们分析下局部变量的正常生命周期<br>局部变量只在函数执行过程中存在，函数执行结束后，局部变量就没有存在价值了，然后垃圾回收器给无用的局部变量标记。等回收周期到来的时候，回收这个变量。</p>
-<p><strong>标记变量有两种策略：一种是标记清除法，另一种是引用计数法</strong><br>这个标记清除法其实很简单解释，当变量进入环境时（变量声明），该变量就被标记为“进入环境”。当变量离开环境时（函数执行完），该变量就被标记为“离开环境”。而这些被标记成离开环境的变量就是无用变量，等着垃圾回收机制回收就可以了</p>
-<p>第二个问题清楚了，我们看看第一个问题，<strong>垃圾回收机制的周期是多少？怎么决定的？</strong><br>从 IE 开始谈起，IE 垃圾回收器是根据内存分配量运行的，具体就是 256 个变量，4096 个对象字面量，数组元素，或者 64Kb 的字符串。达到上面任何一个临界值，垃圾回收器就开始运行。但是这样又出现了一个问题，如果一个脚本本来就有那么多变量，垃圾回收器就会一直的运行。每次回收完了又到达临界值，这样导致垃圾回收器频繁的调用，对性能来说是有很大影响的。</p>
-<p>等到 IE7 的出现，重写了垃圾回收机制。<strong>固定的临界量改为了动态的分配</strong>。垃圾回收的内存分配量低于 15% 时，临界值就加倍。当内存分配量达 85% 时，临界时恢复为初始的值。简单的来说就是，内存够用时，就不急着回收。内存不够时，就和初始一样，达到就回收。这样一来，即便脚本中的变量很多，只要内存够用，也不会频繁的调用垃圾回收器了。</p>
-<p>在 JavaScript 中虽然我们不必担心内存管理的问题，但是我们也需要保证页面的性能更好。这里我们可以去优化内存。<strong>优化内存最佳的方式就是，将无用数据，设置为<code>null</code>,来释放其引用，也就是解除引用</strong>。</p>
-<p>下面我们来看一段代码<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createPerson</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span>  localPerson = <span class="keyword">new</span> <span class="built_in">Object</span>;</span><br><span class="line">    localPerson.name = name;</span><br><span class="line">    <span class="keyword">return</span> localPerson;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> globalPerson = createPerson(<span class="string">"suo"</span>);</span><br><span class="line"><span class="comment">// 解除引用</span></span><br><span class="line">globalPerson = <span class="literal">null</span>;</span><br></pre></td></tr></table></figure></p>
-<p>这里我们可以知道的是<code>localPerson</code>是局部的变量，所以垃圾回收器会自动为它解除引用<br>但是<code>globalPerson</code>是全局变量，如果不需要用了，垃圾回收机制不会干，现在我们手动为它解除引用。解除引用之后，它不会立即销毁，只是脱离了执行环境，等待垃圾回收器来回收。</p>
-<p>说了这么多，搞清楚了垃圾回收机制。上一篇博客中谈到闭包的缺点，闭包会造成内存泄露。清楚了垃圾回收机制，我们可以知道的是，闭包访问的变量是无法被垃圾回收器回收的。那么我们该怎么办了。恰好刚刚就有种方法。我们可以手动来解除引用。这样就避免了闭包产生的内存泄露了。<br>下面给出闭包和解除引用的实例<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">assignHadler</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> element = <span class="built_in">document</span>.getElementById(<span class="string">"div"</span>);</span><br><span class="line">    <span class="keyword">var</span> id = element.id;</span><br><span class="line">    element.onclick = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        alert(id);</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="comment">// 解除引用</span></span><br><span class="line">    element = <span class="literal">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/11/28/book-note3/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="suoyue">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="锁越smile">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2015/11/28/book-note3/" itemprop="url">《JavaScript高级程序设计》读后记<三>：闭包</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-11-28T11:28:15+08:00">
-                2015-11-28
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
-                    <span itemprop="name">JavaScript</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>在上一篇博客里，谈到了作用域，留下了一个问题，怎样从函数外访问到函数内部的局部变量。这是在我完全理解闭包和函数后，写的一篇博客。</p>
-<h3 id="理解函数与闭包"><a href="#理解函数与闭包" class="headerlink" title="理解函数与闭包"></a>理解函数与闭包</h3><p>前面我们知道了作用域最小单位就是函数，那么函数是怎么表示的呢？<br>定义函数有两种方式：一种是函数声明，另一种是函数表达式。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 函数声明</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params">arg0, arg1, arg2</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// code...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>我们知道函数也是一种引用类型，所以函数，也有自己的属性，其中一个就是<code>name</code><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(foo.name);  <span class="comment">// foo</span></span><br></pre></td></tr></table></figure></p>
-<p>由此我们也更加确定了，函数也是一个对象，里面包含各种属性和方法<br>对于函数还有一个特别的性质，那就是函数声明提升，如同变量声明提升，函数声明也是可以提升的<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sayBye();  <span class="comment">// bye bye</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sayBye</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    alert(<span class="string">"bye bye"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>函数声明提升会带来一个问题<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 反例</span></span><br><span class="line"><span class="keyword">var</span> a = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">if</span> (a &gt; <span class="number">1</span>) &#123;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">saybye</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="comment">// code...</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> (a &lt; <span class="number">1</span>) &#123;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">saybye</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="comment">// code...</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>上面的代码，很容易看出来，函数声明提升后，可能产生和预期不一样的效果<br>接下来我们看下函数表达式<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> foo = <span class="function"><span class="keyword">function</span>(<span class="params">arg0, arg1, arg2</span>) </span>&#123;</span><br><span class="line">    <span class="comment">//code..</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-<p><strong>这个表达式怎么解释呢？</strong><br>就如一个赋值语句一样，将后面的匿名函数赋值给<code>foo</code>变量，有人可能有疑问，函数也可以赋值吗？在 js 里面来说，这是可以的，因为 js 里面函数也是一种引用类型，当作对象赋值给变量</p>
-<p><strong>那么函数表达式是否也有函数提升呢？</strong><br>下面验证一下<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">foo(); <span class="comment">// VM225:1 Uncaught TypeError: foo is not a function</span></span><br><span class="line"><span class="keyword">var</span> foo = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    alert(<span class="string">"ok"</span>);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-<p>答案是没有，函数并没有提升上去，因为在这里函数作为了对象赋值给了变量，并不是声明，这里的赋值同样的也是引用赋值。此时<code>foo</code>指向的是堆中的内存块。</p>
-<p><strong>谈谈闭包</strong><br>闭包是有权访问另一个函数作用域中的变量的函数，创建闭包的常见方式，就是在一个函数内部创建另一个函数<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 要访问foo中的a</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> a1 = <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line">foo();</span><br><span class="line"><span class="built_in">console</span>.log(a1);</span><br><span class="line"><span class="comment">// VM309:4 Uncaught ReferenceError: a1 is not defined</span></span><br></pre></td></tr></table></figure></p>
-<p>显然访问不了<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用闭包函数访问</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> a2 = <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">var</span> b = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(a2);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> b();</span><br><span class="line">&#125;</span><br><span class="line">foo(); <span class="comment">// 2</span></span><br></pre></td></tr></table></figure></p>
-<p><strong>下面解释一下是怎么做到的</strong><br><code>a2</code>是<code>foo</code>的局部变量，而是<code>b</code>函数的外部变量，而<code>b</code>是可以访问到的，<code>b</code>函数在闭包函数<code>b</code>返回到外部的函数或全局变量<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 改写成立即执行函数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> a3 = <span class="number">3</span>;</span><br><span class="line">    <span class="keyword">return</span> (<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(a3);</span><br><span class="line">        &#125;)();</span><br><span class="line">&#125;</span><br><span class="line">foo(); <span class="comment">// 3</span></span><br></pre></td></tr></table></figure></p>
-<p>将<code>b</code>函数改写成立即执行函数更加清晰紧凑了，相当于函数里面将一个执行的函数返回到外部去<br>就好像在函数内外构建了一个桥梁。<br><strong>闭包有闭包的好处，但是它也有不少缺陷</strong><br>闭包会携带包含它的函数的作用域，因此比其他函数占用更多的内存，过度的使用闭包可能会导致内存占用过多<br><strong>闭包的限制与解除</strong>，闭包只能取得包含函数中的任何变量的最后一个值，闭包保存的是整个变量对象，而不是某个特殊的变量<br>下面我们来看看代码<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> arr = <span class="keyword">new</span> <span class="built_in">Array</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i=<span class="number">0</span>; i&lt;<span class="number">10</span>; i++) &#123;</span><br><span class="line">        arr[i] = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> i;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> arr;</span><br><span class="line">&#125;</span><br><span class="line">alert(foo());</span><br></pre></td></tr></table></figure></p>
-<p>谈到闭包的缺点，必须要说的一个东西就是 Js 的垃圾回收机制，下篇博客，我将重点研究关于 JS 的垃圾回收机制，</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/11/27/book-note2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1042,6 +736,311 @@
 
 
     
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/10/23/css-zn3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="suoyue">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="锁越smile">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2015/10/23/css-zn3/" itemprop="url">《CSS权威指南》读后记<三>：浮动与定位</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-10-23T19:55:47+08:00">
+                2015-10-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CSS/" itemprop="url" rel="index">
+                    <span itemprop="name">CSS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>上一段时间学了盒子模型，盒子模型虽然弄清楚了，对于制作页面来说还是一点小懵懂的地方，那就是布局。怎样布局才算是好的布局，才能轻松的高效的还原设计稿。学了这章后，对于一般页面的布局没什么太大问题了。现在记下一点笔记，以后查漏补缺。</p>
+<h3 id="浮动（float）"><a href="#浮动（float）" class="headerlink" title="浮动（float）"></a>浮动（float）</h3><h4 id="浮动元素"><a href="#浮动元素" class="headerlink" title="浮动元素"></a>浮动元素</h4><p>脱离了文档流，浮动元素与周围外边距不会合并。浮动元素会生成一个块框<br>1.浮动规则</p>
+<ul>
+<li>左右不能超过父级块边界</li>
+<li>浮同一父元素下的浮动动元素之间不能相互覆盖</li>
+<li>顶端不能超过父元素顶端</li>
+<li>顶端不能比之前所有元素顶端高</li>
+<li>空间不足，浮动元素将被挤到新行</li>
+<li>负外边距可以使浮动元素跑到父元素外边</li>
+</ul>
+<p>2.重叠规则</p>
+<ul>
+<li>行内框重叠时，边框，背景，内容显示在浮动元素之上</li>
+<li>块框重叠时，显示在浮动元素之下</li>
+</ul>
+<h4 id="实现浮动"><a href="#实现浮动" class="headerlink" title="实现浮动"></a>实现浮动</h4><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">p</span> &#123;<span class="attribute">float</span>: left;&#125;</span><br><span class="line"><span class="selector-class">.slect</span> &#123;<span class="attribute">float</span>: right;&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="清除浮动"><a href="#清除浮动" class="headerlink" title="清除浮动"></a>清除浮动</h4><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;!<span class="selector-tag">--</span> 清除<span class="selector-tag">h1</span>左边的浮动 <span class="selector-tag">--</span>&gt;</span><br><span class="line"><span class="selector-tag">h1</span> &#123;<span class="attribute">clear</span>: left;&#125;</span><br><span class="line">&lt;!<span class="selector-tag">--</span> 清除两边的浮动 <span class="selector-tag">--</span>&gt;</span><br><span class="line"><span class="selector-tag">h1</span> &#123;<span class="attribute">clear</span>: both;&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="定位（position"><a href="#定位（position" class="headerlink" title="定位（position)"></a>定位（position)</h3><h4 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h4><h4 id="偏移"><a href="#偏移" class="headerlink" title="偏移"></a>偏移</h4><h4 id="高度宽度"><a href="#高度宽度" class="headerlink" title="高度宽度"></a>高度宽度</h4><h4 id="溢出剪裁"><a href="#溢出剪裁" class="headerlink" title="溢出剪裁"></a>溢出剪裁</h4><h4 id="可见性"><a href="#可见性" class="headerlink" title="可见性"></a>可见性</h4><h4 id="绝对定位"><a href="#绝对定位" class="headerlink" title="绝对定位"></a>绝对定位</h4><h4 id="Z轴放置"><a href="#Z轴放置" class="headerlink" title="Z轴放置"></a>Z轴放置</h4><h4 id="固定定位"><a href="#固定定位" class="headerlink" title="固定定位"></a>固定定位</h4><h4 id="相对定位"><a href="#相对定位" class="headerlink" title="相对定位"></a>相对定位</h4>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/10/20/css-zn2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="suoyue">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="锁越smile">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2015/10/20/css-zn2/" itemprop="url">《CSS权威指南》读后记<二>：盒子模型</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-10-20T20:06:44+08:00">
+                2015-10-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CSS/" itemprop="url" rel="index">
+                    <span itemprop="name">CSS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>之前一直在使用 height 和 width，但是经常会遇到问题。在看了 <strong>盒子模型</strong>这一章后，很多东西迎刃而解了。现在详细的记录这些知识点。</p>
+<h3 id="盒子模型"><a href="#盒子模型" class="headerlink" title="盒子模型"></a>盒子模型</h3><p>由四个部分组成，如下图<br><a href="/images/ds7.png">img</a></p>
+<h4 id="内容"><a href="#内容" class="headerlink" title="内容"></a>内容</h4><p>高度与宽度决定内容大小<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">p</span> &#123;<span class="attribute">height</span>: <span class="number">100px</span>; <span class="attribute">width</span>: <span class="number">100px</span>;&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="外边距"><a href="#外边距" class="headerlink" title="外边距"></a>外边距</h4><p>边框外部<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">h1</span> &#123;<span class="attribute">margin</span>: <span class="number">0.25in</span>; <span class="attribute">background-color</span>: red;&#125;</span><br><span class="line">&lt;!<span class="selector-tag">--</span> 可以接受<span class="selector-tag">px</span>,<span class="selector-tag">em</span>,<span class="selector-tag">cm</span>单位 <span class="selector-tag">--</span>&gt;</span><br><span class="line"></span><br><span class="line">&lt;!<span class="selector-tag">--</span> 单独设置 <span class="selector-tag">--</span>&gt;</span><br><span class="line"><span class="selector-tag">h1</span> &#123;<span class="attribute">margin</span>: <span class="number">10px</span> <span class="number">20px</span> <span class="number">15px</span> <span class="number">10px</span>;&#125;</span><br><span class="line">&lt;!<span class="selector-tag">--</span> <span class="selector-tag">top</span> <span class="selector-tag">right</span> <span class="selector-tag">bottom</span> <span class="selector-tag">left</span> 可以混合单位<span class="selector-tag">--</span>&gt;</span><br><span class="line"></span><br><span class="line">&lt;!<span class="selector-tag">--</span> 缺值规则 <span class="selector-tag">--</span>&gt;</span><br><span class="line">&lt;!<span class="selector-tag">--</span> 缺左外，使用右外，缺下使用上，缺右使用上 <span class="selector-tag">--</span>&gt;</span><br><span class="line"><span class="selector-tag">h1</span> &#123;<span class="attribute">margin</span>: <span class="number">10px</span> <span class="number">0</span>;&#125;</span><br><span class="line">&lt;!<span class="selector-tag">--</span> 10<span class="selector-tag">px</span> 0 10<span class="selector-tag">px</span> 0 <span class="selector-tag">--</span>&gt;</span><br><span class="line"></span><br><span class="line">&lt;!<span class="selector-tag">--</span> 单边外设置 <span class="selector-tag">--</span>&gt;</span><br><span class="line"><span class="selector-tag">h1</span> &#123;<span class="attribute">margin-lelf</span>: <span class="number">10px</span>;&#125;</span><br><span class="line"></span><br><span class="line">&lt;!<span class="selector-tag">--</span> 负外边距 <span class="selector-tag">--</span>&gt;</span><br><span class="line"><span class="selector-tag">h1</span> &#123;<span class="attribute">margin-left</span>: -<span class="number">10px</span>;&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="边框"><a href="#边框" class="headerlink" title="边框"></a>边框</h4><p>外边距与内边距之间<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&lt;!<span class="selector-tag">--</span> 默认为<span class="selector-tag">none</span> <span class="selector-tag">--</span>&gt;</span><br><span class="line">&lt;!<span class="selector-tag">--</span> <span class="selector-tag">border-style</span>的值很多 <span class="selector-tag">--</span>&gt;</span><br><span class="line">&lt;!<span class="selector-tag">--</span> <span class="selector-tag">none</span>,<span class="selector-tag">hidden</span>,<span class="selector-tag">dotted</span>,<span class="selector-tag">dashed</span>,<span class="selector-tag">solid</span>,<span class="selector-tag">double</span>,<span class="selector-tag">groove</span>,<span class="selector-tag">ridge</span>,... <span class="selector-tag">--</span>&gt;</span><br><span class="line"></span><br><span class="line">&lt;!<span class="selector-tag">--</span> 可以定义多样式 <span class="selector-tag">--</span>&gt;</span><br><span class="line"><span class="selector-tag">p</span><span class="selector-class">.new</span> &#123;<span class="attribute">border-style</span>: solid;&#125;</span><br><span class="line"><span class="selector-tag">p</span><span class="selector-class">.new</span> &#123;<span class="attribute">border-top-style</span>: solid;&#125;</span><br><span class="line"><span class="selector-tag">p</span><span class="selector-class">.new</span> &#123;<span class="attribute">border-style</span>: solid dashed none;&#125;</span><br><span class="line"></span><br><span class="line">&lt;!<span class="selector-tag">--</span> 边框宽度 <span class="selector-tag">--</span>&gt;</span><br><span class="line"><span class="selector-tag">p</span><span class="selector-class">.new</span> &#123;<span class="attribute">border-width</span>: <span class="number">1px</span>;&#125;</span><br><span class="line"><span class="selector-tag">p</span><span class="selector-class">.new</span> &#123;<span class="attribute">border-top-width</span>: <span class="number">2px</span>;&#125;</span><br><span class="line"><span class="selector-tag">p</span><span class="selector-class">.new</span> &#123;<span class="attribute">border-width</span>: <span class="number">2px</span> <span class="number">1px</span> <span class="number">3px</span> <span class="number">2px</span>;&#125;</span><br><span class="line"></span><br><span class="line">&lt;!<span class="selector-tag">--</span> 边框颜色 <span class="selector-tag">--</span>&gt;</span><br><span class="line"><span class="selector-tag">p</span><span class="selector-class">.new</span> &#123;<span class="attribute">border-color</span>: <span class="number">#666</span>;&#125;</span><br><span class="line"><span class="selector-tag">p</span><span class="selector-class">.new</span> &#123;<span class="attribute">border-top-color</span>: <span class="number">#666</span>;&#125;</span><br><span class="line"><span class="selector-tag">p</span><span class="selector-class">.new</span> &#123;<span class="attribute">border-color</span>: <span class="number">#666</span> <span class="number">#344</span> <span class="number">#333</span> <span class="number">#455</span>;&#125;</span><br><span class="line"></span><br><span class="line">&lt;!<span class="selector-tag">--</span> 简写属性 <span class="selector-tag">--</span>&gt;</span><br><span class="line"><span class="selector-tag">p</span><span class="selector-class">.new</span> &#123;<span class="attribute">border</span>: <span class="number">3px</span> solid <span class="number">#666</span>&#125;</span><br><span class="line">&lt;!<span class="selector-tag">--</span> 顺序不重要 <span class="selector-tag">--</span>&gt;</span><br></pre></td></tr></table></figure></p>
+<h4 id="内边距"><a href="#内边距" class="headerlink" title="内边距"></a>内边距</h4><p>边框与内容之间<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;!<span class="selector-tag">--</span> 同理<span class="selector-tag">margin</span> <span class="selector-tag">--</span>&gt;</span><br><span class="line"><span class="selector-tag">p</span><span class="selector-class">.new</span> &#123;<span class="attribute">padding</span>: <span class="number">10px</span>;&#125;</span><br><span class="line"><span class="selector-tag">p</span><span class="selector-class">.new</span> &#123;<span class="attribute">padding-top</span>: <span class="number">20px</span>;&#125;</span><br><span class="line"><span class="selector-tag">p</span><span class="selector-class">.new</span> &#123;<span class="attribute">padding</span>: <span class="number">10px</span> <span class="number">20px</span> <span class="number">30px</span> <span class="number">40px</span>;&#125;</span><br></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
   </section>
 
   
@@ -1092,7 +1091,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-count">42</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1114,7 +1113,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-count">19</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
