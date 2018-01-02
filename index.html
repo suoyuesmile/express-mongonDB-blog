@@ -272,6 +272,814 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/23/gitflow/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="suoyue">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="锁越smile">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/12/23/gitflow/" itemprop="url">git及gitflow 使用</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-23T20:33:23+08:00">
+                2017-12-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端工具/" itemprop="url" rel="index">
+                    <span itemprop="name">前端工具</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="git与gitflow使用"><a href="#git与gitflow使用" class="headerlink" title="git与gitflow使用"></a>git与gitflow使用</h4><h4 id="新建"><a href="#新建" class="headerlink" title="新建"></a>新建</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 新建本地 git 仓库</span></span><br><span class="line">git init [repoName]</span><br><span class="line"><span class="comment"># 克隆远程仓库</span></span><br><span class="line">git <span class="built_in">clone</span> [repoUrl]</span><br></pre></td></tr></table></figure>
+<h4 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看配置内容</span></span><br><span class="line">git config --list</span><br><span class="line"><span class="comment"># 编辑配置文件</span></span><br><span class="line">git config -e</span><br><span class="line"><span class="comment"># 配置姓名</span></span><br><span class="line">git config [--global] user.name <span class="string">"suoyue"</span></span><br><span class="line"><span class="comment"># 配置邮箱 </span></span><br><span class="line">git config [--glabal] .user.email <span class="string">"email"</span></span><br></pre></td></tr></table></figure>
+<h4 id="流程分解"><a href="#流程分解" class="headerlink" title="流程分解"></a>流程分解</h4><p>平时我们</p>
+<ul>
+<li>工作区:平时编写代码的地方,本地的文件</li>
+<li>暂存区:我们在提交到本地仓库前的一个暂存处</li>
+<li>本地仓库：提交后的本地仓库</li>
+<li>远程仓库：远端的一个代码托管的仓库</li>
+</ul>
+<h4 id="文件状态"><a href="#文件状态" class="headerlink" title="文件状态"></a>文件状态</h4><ul>
+<li>未跟踪</li>
+<li>未修改</li>
+<li>已修改</li>
+<li>已暂存</li>
+</ul>
+<h4 id="添加、删除"><a href="#添加、删除" class="headerlink" title="添加、删除"></a>添加、删除</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 添加工作区改变的到暂存区</span></span><br><span class="line">git add [file1] [file2]</span><br><span class="line"><span class="comment"># 编辑工作区与本地不同的地方</span></span><br><span class="line">git add -e</span><br><span class="line"><span class="comment"># 添加所有修改或者删除的文件</span></span><br><span class="line">git add -u</span><br><span class="line"><span class="comment"># 添加变动的文件到暂存区</span></span><br><span class="line">git add -A</span><br><span class="line"><span class="comment"># 移除暂存区文件</span></span><br><span class="line">git rm [file1] [file2]</span><br><span class="line"><span class="comment"># 停止追踪某个文件</span></span><br><span class="line">git rm --cached [file1] [file2]</span><br><span class="line"><span class="comment"># 改名</span></span><br><span class="line">git mv [oriFile] [distFile]</span><br></pre></td></tr></table></figure>
+<h4 id="提交"><a href="#提交" class="headerlink" title="提交"></a>提交</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 提交暂存区的文件到仓库</span></span><br><span class="line">git commit -m <span class="string">"test commit"</span></span><br><span class="line">git commit [file1] [file2] -m <span class="string">"test commit"</span></span><br><span class="line"><span class="comment"># 全部直接提交</span></span><br><span class="line">git commit -a</span><br><span class="line"><span class="comment"># 显示diff</span></span><br><span class="line">git commit -v</span><br><span class="line"><span class="comment"># 替代上次提交</span></span><br><span class="line">git commit -ament -m <span class="string">"replace commit last"</span></span><br><span class="line">git commit -ament [file1] [file2] -m <span class="string">"replace commit last"</span></span><br></pre></td></tr></table></figure>
+<h4 id="忽略"><a href="#忽略" class="headerlink" title="忽略"></a>忽略</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 编辑 git 忽略配置文件</span></span><br><span class="line">vim .gitignore</span><br><span class="line"><span class="comment"># 被写 git 忽略文件, git add 会自动忽略它</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># .gitignore 自动忽略log文件和文件名为suo结尾的文件</span></span><br><span class="line">*.<span class="built_in">log</span></span><br><span class="line">*suo</span><br></pre></td></tr></table></figure>
+<h4 id="分支"><a href="#分支" class="headerlink" title="分支"></a>分支</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看本地分支</span></span><br><span class="line">git branch</span><br><span class="line"><span class="comment"># 查看远程的分支</span></span><br><span class="line">git branch -vgit</span><br><span class="line"><span class="comment"># 查看已跟踪到远程和本地所有分支</span></span><br><span class="line">git branch -a</span><br><span class="line"><span class="comment"># 新建一个分支名为ss的分支（不切换）</span></span><br><span class="line">git branch ss</span><br><span class="line"><span class="comment"># 新建一个分支名为test的分支并切换过去</span></span><br><span class="line">git checkout -b <span class="built_in">test</span></span><br><span class="line"><span class="comment"># 切换分支并更新工作区</span></span><br><span class="line">git checkout ss</span><br><span class="line"><span class="comment"># 合并分支到当前</span></span><br><span class="line">git merge <span class="built_in">test</span></span><br><span class="line"><span class="comment"># 如果有冲突手动改代码在添加提交</span></span><br><span class="line"><span class="comment"># 删除不用分支</span></span><br><span class="line">git checkout -d <span class="built_in">test</span> -m</span><br><span class="line"><span class="comment"># 新建远程分支</span></span><br><span class="line">git push origin ss:ss</span><br><span class="line"><span class="comment"># 删除远程分支</span></span><br><span class="line">git push origin --delete ss</span><br><span class="line"><span class="comment"># 建立远程追踪关系</span></span><br><span class="line">git branch --<span class="built_in">set</span>-upstream-to=origin/ss <span class="built_in">test</span></span><br></pre></td></tr></table></figure>
+<h4 id="远程"><a href="#远程" class="headerlink" title="远程"></a>远程</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#</span></span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/13/vue-note2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="suoyue">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="锁越smile">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/12/13/vue-note2/" itemprop="url">一周上手 vue 框架：<下篇></a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-13T20:33:23+08:00">
+                2017-12-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/vue/" itemprop="url" rel="index">
+                    <span itemprop="name">vue</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="动画"><a href="#动画" class="headerlink" title="动画"></a>动画</h4><p>1.单组件过渡<br>2.初始渲染过渡<br>3.多组件过渡<br>4.列表过渡<br>5.可复用过渡<br>6.动态过渡<br>7.状态过渡</p>
+<h4 id="混合"><a href="#混合" class="headerlink" title="混合"></a>混合</h4><p>混合mixins 分发vue组件中可复用功能的非常灵活的方式，混合对象可以包含任意组件选项<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">myMinxi = &#123;</span><br><span class="line">    created: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.hello()</span><br><span class="line">    &#125;,</span><br><span class="line">    methods: &#123;</span><br><span class="line">        hello: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">'hello from mixin!'</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> Component = Vue.extend(&#123;</span><br><span class="line">    mixins: [myMixin]</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> component = <span class="keyword">new</span> Component()</span><br></pre></td></tr></table></figure></p>
+<p>1.选项合并<br>组件和混合对象含有同名选项时，这些选项以恰当的方式混合<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> mixin = &#123;</span><br><span class="line">    created: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'混合对象的钩子被调用'</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> Vue(&#123;</span><br><span class="line">    mixins: [mixin],</span><br><span class="line">    created: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'组件的钩子被调用'</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">// 注意，命名冲突取组件对象的键值对</span></span><br></pre></td></tr></table></figure></p>
+<p>2.全局混合<br>全局注册混合对象，一旦使用全局混合对象，将会影响到所有之后创建的vue 实例。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Vue.mixin(&#123;</span><br><span class="line">    created: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> myOption = <span class="keyword">this</span>.$option.myOption</span><br><span class="line">        <span class="keyword">if</span> (myOption) &#123;</span><br><span class="line">            <span class="built_in">console</span>.log(myOption)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">new</span> Vue(&#123;</span><br><span class="line">    myOption: <span class="string">'hello'</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>3.自定义选项合并(省)</p>
+<h4 id="插件"><a href="#插件" class="headerlink" title="插件"></a>插件</h4><p>1.开发插件<br>全局插件</p>
+<ul>
+<li>添加全局方法或者属性</li>
+<li>添加全局资源</li>
+<li>通过全局 mixin 方法，添加一些组件选项</li>
+<li>添加 Vue 实例方法，通过把他们添加到 Vue.prototype 上实现</li>
+<li>一个库，提供自己的API，同时提供提到的一个或者多个功能<br>方法<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">myPlugin.install = <span class="function"><span class="keyword">function</span> (<span class="params">Vue, options</span>) </span>&#123;</span><br><span class="line">    Vue.myGlobalMethod = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="comment">//...</span></span><br><span class="line">    &#125;</span><br><span class="line">    Vue.directive(<span class="string">'my-directive'</span>, &#123;</span><br><span class="line">        bind(el, binding, vnode, oldVnode)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>2.使用插件<br>通过全局方法使用插件<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Vue.use(MyPlugin)</span><br><span class="line"><span class="comment">// </span></span><br><span class="line">Vue.use(MyPlugin, &#123; <span class="attr">someOption</span>: <span class="literal">true</span> &#125;)</span><br><span class="line"><span class="comment">// 自动阻止多次注册相同插件，只会注册一次</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 用 Browserify 或者 webpack 提供的commonJS模块环境时</span></span><br><span class="line"><span class="keyword">var</span> Vue = <span class="built_in">require</span>(<span class="string">'vue'</span>)</span><br><span class="line"><span class="keyword">var</span> VueRouter = <span class="built_in">require</span>(<span class="string">'vue-router'</span>)</span><br><span class="line"></span><br><span class="line">Vue.use(VueRouter)</span><br></pre></td></tr></table></figure>
+<h4 id="过滤"><a href="#过滤" class="headerlink" title="过滤"></a>过滤</h4><p>用于常见的文本格式化，过滤用在两个地方：双花括号插值和v-bind表达式<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123; msg | capitalize &#125;&#125;</span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">v-bind:id</span>=<span class="string">"rawId|formatId"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="路由"><a href="#路由" class="headerlink" title="路由"></a>路由</h4><p>单页应用非常简单，增加路由后，要将组件映射到路由，然后告诉vue-router在哪里渲染他们<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"app"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h1</span>&gt;</span>hello App<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- 使用 router-link 组件来导航 --&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- 通过传人 `to` 属性指定链接 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">router-link</span> <span class="attr">to</span>=<span class="string">"/foo"</span>&gt;</span>Go to Foo<span class="tag">&lt;/<span class="name">router-link</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">router-link</span> <span class="attr">to</span>=<span class="string">"/bar"</span>&gt;</span>Go to Bar<span class="tag">&lt;/<span class="name">router-link</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 路由出口 --&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 路由匹配到的组件将渲染在这里 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">router-view</span>&gt;</span><span class="tag">&lt;/<span class="name">router-view</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1.定义组件</span></span><br><span class="line"><span class="keyword">const</span> Foo = &#123; <span class="attr">template</span>: <span class="string">'&lt;div&gt;foo&lt;/div&gt;'</span> &#125;</span><br><span class="line"><span class="keyword">const</span> Bar = &#123; <span class="attr">template</span>: <span class="string">'&lt;div&gt;bar&lt;/div&gt;'</span> &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2.定义路由</span></span><br><span class="line"><span class="keyword">const</span> routers = [</span><br><span class="line">    &#123; <span class="attr">path</span>: <span class="string">'/foo'</span>, <span class="attr">component</span>: Foo &#125;,</span><br><span class="line">    &#123; <span class="attr">path</span>: <span class="string">'/bar'</span>, <span class="attr">component</span>: Bar &#125;</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"><span class="comment">// 3.创建 router 实例，然后 `routers` 配置</span></span><br><span class="line"><span class="keyword">const</span> router = <span class="keyword">new</span> VueRouter(&#123;</span><br><span class="line">    routes</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 4.创建和挂载根实例</span></span><br><span class="line"><span class="keyword">const</span> app = <span class="keyword">new</span> Vue(&#123;</span><br><span class="line">    router</span><br><span class="line">&#125;).$mount(<span class="string">'#app'</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="状态"><a href="#状态" class="headerlink" title="状态"></a>状态</h4><h4 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h4><h4 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h4>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/12/vue-note/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="suoyue">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="锁越smile">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/12/12/vue-note/" itemprop="url">一周上手 vue 框架：<上篇></a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-12T20:33:23+08:00">
+                2017-12-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/vue/" itemprop="url" rel="index">
+                    <span itemprop="name">vue</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>接触 vue 时间并不长，之前一直用的 react，也很想学习一下 Vue，但是没有什么机会去接触。刚入职不久，公司用的 Vue，用了3-5天的时间学习了下 Vue 的官方教程。知识点还挺多的，现在重新梳理一遍，以备后续查看。</p>
+<h2 id="一周内-Vue-框架快速上手"><a href="#一周内-Vue-框架快速上手" class="headerlink" title="一周内 Vue 框架快速上手"></a>一周内 Vue 框架快速上手</h2><p>首先列一个计划，打算一个星期能上手 Vue 的中型项目，任务还有点重，给自己加下油。</p>
+<h3 id="计划表"><a href="#计划表" class="headerlink" title="计划表"></a>计划表</h3><table>
+<thead>
+<tr>
+<th>时间</th>
+<th>任务 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>周一</td>
+<td><a href="https://cn.vuejs.org/v2/guide/list.html" target="_blank" rel="noopener">学习官方教程</a></td>
+</tr>
+<tr>
+<td>周二</td>
+<td><a href="">vue-demo</a></td>
+</tr>
+<tr>
+<td>周三</td>
+<td><a href="">vue-todo-list</a></td>
+</tr>
+<tr>
+<td>周四</td>
+<td><a href="">vue-exam-system</a></td>
+</tr>
+<tr>
+<td>周五</td>
+<td><a href="">vue-elma-admin</a></td>
+</tr>
+<tr>
+<td>周六</td>
+<td><a href="">总结</a></td>
+</tr>
+<tr>
+<td>周日</td>
+<td><a href="">整理</a></td>
+</tr>
+</tbody>
+</table>
+<h3 id="基础准备"><a href="#基础准备" class="headerlink" title="基础准备"></a>基础准备</h3><ul>
+<li>HTML 基本标签语法(掌握）</li>
+<li>CSS 基本语法(掌握）</li>
+<li>JavaScript ES5以上的语法（掌握）</li>
+<li>Jslint (掌握）</li>
+<li>前端组件化(了解)</li>
+<li>前端工程化 webpack(掌握)</li>
+<li>UMD 模块标准(掌握)</li>
+<li>Sass css编程式写法</li>
+<li>npm 命令基本使用</li>
+</ul>
+<h3 id="官方教程知识点汇总"><a href="#官方教程知识点汇总" class="headerlink" title="官方教程知识点汇总"></a>官方教程知识点汇总</h3><h4 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h4><ol>
+<li><p>直接引入 vue.js 文件<br>新手入门先用引入的js文件来做一些 demo，再过渡到大型的单文件的环境中去</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 在线引入 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"https://cdn.jsdelivr.net/npm/vue"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 本地引入 这个js文件需要到官方网站里面下载，有压缩版的，和非压缩的--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"vue.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>构建工具环境<br>之后学习完路由之后才能理解里面的构建形式</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 全局安装vue-cli</span><br><span class="line">npm install --global vue-cli</span><br><span class="line"><span class="meta">#</span> 创建一个webpack 模版的新项目</span><br><span class="line">vue init webpack my-project</span><br><span class="line"><span class="meta">#</span> 安装依赖</span><br><span class="line">cd my-project</span><br><span class="line">npm install</span><br><span class="line">npm run dev</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="模板"><a href="#模板" class="headerlink" title="模板"></a>模板</h4><p>1.插值<br>简单的理解就是，我们现在在 html 里面增加我们的模版的语法，框架后期会帮我编译成原生的 html<br>插入的值的部分就是我们页面中动态的部分，也就是可以变化的。不仅可以插入变量，还可以插入 js 的值表达式，甚至动态的属性<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 插文本 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>&#123;&#123; msg &#125;&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 插HTML --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span> <span class="attr">v-html</span>=<span class="string">"rawHtml"</span>&gt;</span> <span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 插特性 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">v-bind:id</span>=<span class="string">"dynamicId"</span>&gt;</span>suo<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 插js --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>&#123;&#123; number + 1 &#125;&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>2.指令（directives）<br>这些带有 v- 前缀的属性就是我们所说的指令。作用是响应式的作用于 dom，也就是让我们可以通过我们插值的变化来改变 dom</p>
+<p>(1)常用指令汇总</p>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>作用 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>v-model</td>
+<td>表单输入绑定</td>
+</tr>
+<tr>
+<td>v-html</td>
+<td>插入原生html</td>
+</tr>
+<tr>
+<td>v-bind</td>
+<td>对属性绑定值</td>
+</tr>
+<tr>
+<td>v-on</td>
+<td>对组件绑定事件</td>
+</tr>
+<tr>
+<td>v-if</td>
+<td>分支判断功能</td>
+</tr>
+<tr>
+<td>v-show</td>
+<td>切换CSS的display</td>
+</tr>
+<tr>
+<td>v-for</td>
+<td>循环迭代功能</td>
+</tr>
+</tbody>
+</table>
+<p>(2)指令的参数<br>每个指令有不同的功能，而每个功能有不同的小功能，所以可以使用参数来，缩小功能的范围，比如<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- v-bind:参数 --&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 给href绑定一个动态的URL --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">v-bind:href</span>=<span class="string">"url"</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- v-on:参数 --&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 添加一个点击事件行为 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">""</span> <span class="attr">v-on:click</span>=<span class="string">"action"</span> &gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>(3)指令的修饰符<br>这个是来说明以什么样的方式来绑定<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 告诉v-on指令对于触发的事件调用event.preventDefault --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">""</span> <span class="attr">v-on:submit.prevent</span>=<span class="string">"onSubmit"</span>&gt;</span><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>3.缩写</p>
+<ul>
+<li>v-on 缩写成@</li>
+<li>v-bind 缩写成：</li>
+</ul>
+<h4 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h4><p>我们写好了模版，现在要使用 js 来操作这个模版，Vue 已经封装好了一个操作的方法，我们之间实例化就好了<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"example"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>&#123;&#123; msg &#125;&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>&#123;&#123; reversedMsg &#125;&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> Vue(&#123;</span><br><span class="line">    <span class="comment">// 选择结点</span></span><br><span class="line">    el: <span class="string">'#example'</span>,</span><br><span class="line">    <span class="comment">// 数据</span></span><br><span class="line">    data: &#123;</span><br><span class="line">        msg: <span class="string">'suo'</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">// 计算方法</span></span><br><span class="line">    computed: &#123;</span><br><span class="line">        reversedMsg: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>.msg.split(<span class="string">''</span>).reversedMsg().join(<span class="string">''</span>)</span><br><span class="line">        &#125;,</span><br><span class="line">        fullname: &#123;</span><br><span class="line">            get: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">            &#125;,</span><br><span class="line">            set: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">// 通用方法</span></span><br><span class="line">    methods: &#123;</span><br><span class="line"></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">// 侦听方法</span></span><br><span class="line">    watch: &#123;</span><br><span class="line"></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">// 组件列表</span></span><br><span class="line">    components: &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="渲染"><a href="#渲染" class="headerlink" title="渲染"></a>渲染</h4><p>1.属性绑定 v-bind<br>(1)Class<br>动态的操作 class, 可以与普通 class共存<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">:class</span>=<span class="string">"&#123; active: isActive, 'text-danger': hasError&#125;"</span> <span class="attr">class</span>=<span class="string">"static"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> Vue(&#123;</span><br><span class="line">    el: <span class="string">'#example'</span>,</span><br><span class="line">    date: &#123;</span><br><span class="line">        isActive: <span class="literal">true</span>,</span><br><span class="line">        hasError: <span class="literal">false</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>(2)Style<br>动态绑定内联样式<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">:style</span>=<span class="string">"&#123; color: activeColor, fontSize: fontSize + 'px' &#125;"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">data: &#123;</span><br><span class="line">    activeColor: <span class="string">'red'</span>,</span><br><span class="line">    fontSize: <span class="number">30</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>2.条件渲染 v-if 与 v-show<br>简单的判断指令的使用<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">h1</span> <span class="attr">v-if</span>=<span class="string">"name"</span>&gt;</span>suo<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">h1</span> <span class="attr">v-else</span>&gt;</span>yue<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>使用一组元素<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span> <span class="attr">v-if</span>=<span class="string">"ok"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">header</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">h1</span>&gt;</span>what's app?<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">p</span>&gt;</span>author: shaosuo<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">header</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>新增多分支的判断<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">v-if</span>=<span class="string">"type === 'A"</span>&gt;</span>A<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">v-else-if</span>=<span class="string">"type === 'B"</span>&gt;</span>B<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">v-else-if</span>=<span class="string">"type === 'C"</span>&gt;</span>C<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">v-else</span>&gt;</span>Not A/B/C<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>使用 v-show 来控制显示</p>
+<p>3.列表渲染 v-for<br>使用 v-for 指令来循环，减少代码的冗余，每个列表都是一样的，尽量绑定一个id来识别选项<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 模板中使用 v-for，items 数组中，迭代每一项 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">lu</span> <span class="attr">id</span>=<span class="string">"example"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">li</span> <span class="attr">v-for</span>=<span class="string">"item in items"</span> <span class="attr">:key</span>=<span class="string">"item.id"</span>&gt;</span></span><br><span class="line">        &#123;&#123; item.msg &#125;&#125;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">lu</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 只要在 data 中写好数组 item 中的值，模板中就会自动添加进去</span></span><br><span class="line"><span class="keyword">new</span> Vue(&#123;</span><br><span class="line">    el: <span class="string">'#example'</span>,</span><br><span class="line">    data: &#123;</span><br><span class="line">        items: [</span><br><span class="line">            &#123; <span class="attr">msg</span>: <span class="string">'wo'</span>, <span class="attr">id</span>: <span class="number">1</span> &#125;,</span><br><span class="line">            &#123; <span class="attr">msg</span>: <span class="string">'shi'</span>, <span class="attr">id</span>: <span class="number">2</span> &#125;,</span><br><span class="line">            &#123; <span class="attr">msg</span>: <span class="string">'suo'</span>, <span class="attr">id</span>: <span class="number">3</span>&#125;</span><br><span class="line">        ]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>4.事件处理 v-on<br>使用 v-on 给组件绑定事件,可以直接用表达式，但是更多的是，写在js的方法里<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"example"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">"counter += 1"</span>&gt;</span>Add 1<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">"hello"</span>&gt;</span>hello<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>&#123;&#123;counter&#125;&#125;times.<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> Vue(&#123;</span><br><span class="line">    el: <span class="string">'#example'</span>,</span><br><span class="line">    data: &#123;</span><br><span class="line">        greet: <span class="string">'你好啊'</span></span><br><span class="line">    &#125;,</span><br><span class="line">    methods: &#123;</span><br><span class="line">        hello: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">            alert(<span class="keyword">this</span>.greet)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>监听鼠标时，经常会有一些模式，决定事件的触发形式，下面是鼠标修饰符汇总</p>
+<table>
+<thead>
+<tr>
+<th>修饰符</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>stop</td>
+<td>阻止单击事件继续传播</td>
+</tr>
+<tr>
+<td>prevent</td>
+<td>提交事件不再重载页面</td>
+</tr>
+<tr>
+<td>capture</td>
+<td>捕获模式</td>
+</tr>
+<tr>
+<td>self</td>
+<td>事件不是从内部触发</td>
+</tr>
+<tr>
+<td>once</td>
+<td>点击事件只会触发一次</td>
+</tr>
+</tbody>
+</table>
+<p>监听按键事件时，也有一些常见的键值，下面是键值汇总</p>
+<table>
+<thead>
+<tr>
+<th>修饰符</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>enter</td>
+<td>enter键</td>
+</tr>
+<tr>
+<td>tab</td>
+<td>tab键</td>
+</tr>
+<tr>
+<td>delete</td>
+<td>删除键</td>
+</tr>
+<tr>
+<td>esc</td>
+<td>esc键</td>
+</tr>
+<tr>
+<td>space</td>
+<td>空白符键</td>
+</tr>
+<tr>
+<td>up</td>
+<td>上方向键</td>
+</tr>
+<tr>
+<td>down</td>
+<td>下方向键</td>
+</tr>
+<tr>
+<td>left</td>
+<td>左方向键</td>
+</tr>
+<tr>
+<td>right</td>
+<td>右方向键</td>
+</tr>
+<tr>
+<td>ctrl</td>
+<td>ctrl键</td>
+</tr>
+<tr>
+<td>alt</td>
+<td>alt键</td>
+</tr>
+<tr>
+<td>shift</td>
+<td>shift键</td>
+</tr>
+<tr>
+<td>meta</td>
+<td>meta键</td>
+</tr>
+</tbody>
+</table>
+<p>5.输入绑定 v-model<br>使用 v-model 指令在表单控件上实现双向绑定，负责监听输入事件并更新数据</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">v-model</span>=<span class="string">"msg"</span> <span class="attr">placeholder</span>=<span class="string">"edit me"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>&#123;&#123; message &#125;&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>其他的用法差不多，不用细写了</p>
+<h4 id="组件"><a href="#组件" class="headerlink" title="组件"></a>组件</h4><p>为了扩展 HTML 元素，封装可重用的代码。有些情况下，组件也可以表现为 is 特性进行了扩展的原生 HTML 元素<br>1.使用组件<br>(1)全局注册<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"example"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">my-component</span>&gt;</span><span class="tag">&lt;/<span class="name">my-component</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Vue.component(<span class="string">'my-component'</span>, &#123;</span><br><span class="line">    template: <span class="string">'&lt;div&gt; component &lt;/div&gt;'</span>,</span><br><span class="line"></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> Vue(&#123;</span><br><span class="line">    el: <span class="string">'#example'</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>(2)局部注册<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> Child = &#123;</span><br><span class="line">    template: <span class="string">'&lt;div&gt; A custom component!&lt;/div&gt;'</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">new</span> Vue(&#123;</span><br><span class="line">    components: &#123;</span><br><span class="line">        <span class="string">'my-component'</span>: Child</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>(3)模板限制<br>(4)data函数<br>(5)组件组合</p>
+<p>2.Prop<br>(1)传递数据<br>(2)单向数据流<br>(3)prop验证</p>
+<p>3.非Prop特性<br>替换/合并现有特性</p>
+<p>4.自定义事件<br>(1)使用 v-on 绑定自定义事件<br>(2)给组件绑定原生事件<br>(3).sync 修饰符<br>(4)使用自定义事件的表单输入组件<br>(5)自定义组件的 v-model</p>
+<p>5.插槽<br>(1)单插槽<br>(2)具名插槽<br>(3)作用域插槽</p>
+<p>6.动态组件</p>
+<p>7.杂项<br>(1)编写可复用组件<br>(2)子组件引用<br>(3)异步组件<br>(4)高级异步组件<br>(5)组件名约定<br>(6)递归组件<br>(7)组件间的循环引用<br>(8)内联模板<br>(9)X-Template<br>(10)对低开销的静态组件使用 v-once</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/12/vue-note3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="suoyue">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="锁越smile">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/12/12/vue-note3/" itemprop="url">未命名</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-12T16:14:39+08:00">
+                2017-12-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/22/life-note/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -394,671 +1202,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/25/design-mode/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="suoyue">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="锁越smile">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/09/25/design-mode/" itemprop="url">浅析设计模式在web开发中的应用<一>：单一职责</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-25T11:13:05+08:00">
-                2017-09-25
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/web开发/" itemprop="url" rel="index">
-                    <span itemprop="name">web开发</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>经过接近两年的前端知识的学习，多多少少积累了不少知识和经验。一直想着写点东西，由于时间和自己学艺不精的原因，没有太多心思去写博客，现在暂时有点闲功夫了。想着还是写一点东西吧，所以这篇博客出来了。</p>
-<h3 id="单一职责（SRP）"><a href="#单一职责（SRP）" class="headerlink" title="单一职责（SRP）"></a>单一职责（SRP）</h3><h4 id="1-简单举个例子"><a href="#1-简单举个例子" class="headerlink" title="1.简单举个例子"></a>1.简单举个例子</h4><p>一家 2000 人的工厂生产出 1000 辆汽车，如果每 2 个人负责一辆汽车的制造，要完成这个生产任务，可能几十年都完成不了。但是如果把这个任务拆分成一个一个小的任务，这里的每个工人都有自己独有的任务，有着专业的技能，那么每个人的职责是单一的，制作轮子的不必管制作灯泡的。这样效率就大大的提升了。是不是很容易理解呢</p>
-<h4 id="2-在敏捷软件开发中，把“职责”定义为“变化的原因”"><a href="#2-在敏捷软件开发中，把“职责”定义为“变化的原因”" class="headerlink" title="2.在敏捷软件开发中，把“职责”定义为“变化的原因”"></a>2.在敏捷软件开发中，把“职责”定义为“变化的原因”</h4><p>对于一个类而言，应该只有一个引起它变化的原因，这句话怎么理解呢？<br>简单的说：就是一个类只负责一个功能领域里的一个职责，不同变化的原因放在不同的类中。<br>比如说 MVC 框架中，表单插入数据库字段过滤与安全检查应该放在 controller 层还是 model 层？<br>数据库过滤与安全检查是表单插入这一个功能领域里的一个职责，它应该单独封装成类，所以应该放在 model 层。<br>从上面的描述中可以看出，单一职责有 2 层含义：第一是避免相同的职责分散到不同的类中，第二避免一个类承担了太多的职责。</p>
-<h4 id="3-单一职责的好处在于"><a href="#3-单一职责的好处在于" class="headerlink" title="3.单一职责的好处在于:"></a>3.单一职责的好处在于:</h4><ul>
-<li>减少类之间的耦合：需求发生变化时，只修改一个类从而隔离了变化。如果一个类有不同的职责，当这些职责都耦合在一起，当一个职责发生变化时就会影响其他的职责。</li>
-<li>提高类的复用性：当需要修改某个职责时，只需要替换掉这个类，不会影响其他的类的职责。<br>现在流行的组件化开发，就是使用了单一职责这一模式。</li>
-</ul>
-<h4 id="4-单一职责的体现"><a href="#4-单一职责的体现" class="headerlink" title="4.单一职责的体现"></a>4.单一职责的体现</h4><p>(1)工厂模式：负责生产对象，提供不同的参数生产不同的对象<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    <span class="class"><span class="keyword">interface</span> <span class="title">Db_Adapter</span> </span>&#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">connect</span><span class="params">($config)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">query</span><span class="params">($query, $handle)</span></span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 抽象的接口，并未给出具体的实现</span></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Db_Adapter_Mysql</span> <span class="keyword">implements</span> <span class="title">Db_Adapter</span> </span>&#123;</span><br><span class="line">        <span class="keyword">private</span> $_dbLink;</span><br><span class="line">        <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">connect</span><span class="params">($config)</span> </span>&#123;</span><br><span class="line">            <span class="comment">/** code */</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// MySQL的操作类，也可以是SQLite或者Oracle等等</span></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">sqlFactory</span> </span>&#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">function</span> <span class="title">factory</span><span class="params">($type)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">if</span>(<span class="keyword">include_once</span> <span class="string">'Drivers/'</span>.$type.<span class="string">'.php'</span>) &#123;</span><br><span class="line">                $classname = <span class="string">'Db_Adapter_'</span>.$type;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> $classname;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> <span class="keyword">Exception</span>(<span class="string">'Driver not found'</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 工厂模式，生成不同的对象</span></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p><strong>思考：工厂模式与单一职责有什么关系呢？</strong><br>其实有很大关系的，从上面我们可以看出，MySQL 操作，还有 SQLite 等等数据库的操作，都是用单独的类写出来的，这样做的原因就是，避免这些职责耦合到一个功能类里，所以把这些职责用单独的类封装起来了。但是单独封装了就会有个问题，一旦产生了功能变化，就应该可以自由的切换到各自的类中生成不同的对象。所以使用工厂模式来实现这一性质，当功能发生变化时，在执行的时候，传入恰当的参数就可以切换到相应的类生成相应的对象了。</p>
-<p>(2)命令模式<br>命令模式将“命令请求者”和“命令执行者”职责分开，生成单独的职责。<br>举个例子，你去餐馆吃饭，餐馆有员工，厨师等角色，作为顾客，你需要把菜单投递给员工，由员工去通知厨师主管去实现，厨师收到菜单后，就按照菜单上的内容开始做菜。这里命令的请求和实现就完成了解耦。<br>代码模拟这一过程<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">// 模拟厨师</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">cooker</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">meal</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">'meal'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">drink</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">'drink'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">over</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">'ok'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="class"><span class="keyword">interface</span> <span class="title">Command</span> </span>&#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">execute</span><span class="params">()</span></span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">// 模拟员工和厨师,绑定命令接受者</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MealCommand</span> <span class="keyword">implements</span> <span class="title">Command</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">(cooker $cooker)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;cooker = $cooker;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">execute</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;cooker-&gt;meal();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DrinkCommand</span> <span class="keyword">implements</span> <span class="title">Command</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">(cooker $cooker)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;cooker = $cooker;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">execute</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;cooker-&gt;drink();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 模拟员工与顾客</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">cookerControl</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> $mealcommand;</span><br><span class="line">    <span class="keyword">private</span> $drinkcommand;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">addCommand</span><span class="params">(Command $mealcommand, Command $drinkcommand)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;mealcommand = $mealcommand;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;drinkcommand = $drinkcommand;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">calldrink</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;mealcommand-&gt;execute();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">calldrink</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;drinkcommand-&gt;exexute();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 实现命令模式</span></span><br><span class="line">$control = <span class="keyword">new</span> cookControl;</span><br><span class="line">$cooker = <span class="keyword">new</span> cooker;</span><br><span class="line">$mealcommand = <span class="keyword">new</span> MealCommand($cooker);</span><br><span class="line">$drinkcommand = <span class="keyword">new</span> DrinkCommand($cooker);</span><br><span class="line">$control-&gt;addCommand($mealCommand, $drinkcommand);</span><br><span class="line">$control-&gt;callmeal();</span><br><span class="line">$control-&gt;calldrink();</span><br></pre></td></tr></table></figure>
-<p>代码模拟出来了，为啥要这么写呢?当然是解耦啦，但这是怎么个解耦法呢？这样做有好处呢？<br>由上可以看出，第一个好处，厨师的做饭和做喝的是分离的，是两个不同的类，做饭这一职责和做菜这一职责相互独立互不影响。第二个好处，顾客的命令和厨师的执行是分离的，一旦厨师的执行出现了问题，重新执行就可以了，但是如果顾客未与厨师功能分离开来，这整个命令的过程都会受到影响。<br>(3)MVC 模式<br><img src="/images/dm1.png" alt="img"><br>由上图可知，这些业务是非常复杂的，各层之间分层很细，有很多子模块，系统的总体设计的原则是，把复杂的业务逻辑分成各种子模块，子系统。这样的架构更加利用，各个模块之间的解耦和分工合作。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/13/book-jq/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="suoyue">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="锁越smile">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/03/13/book-jq/" itemprop="url">框架初探：jQuery 初体验</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-13T22:34:22+08:00">
-                2017-03-13
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
-                    <span itemprop="name">JavaScript</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>学过一段时间，也用过一段时间 JavaScript，总感觉原生的 JS 需要处理太多的兼容问题。有没有一个好的工具，把这些麻烦事件都给封装起来。当然是有的，自从用了 jQuery， 代码敲得少了，处理的事情却更多。现在写一个入门的博客，以便以后翻阅。</p>
-<h3 id="jQuery-是啥"><a href="#jQuery-是啥" class="headerlink" title="jQuery 是啥"></a>jQuery 是啥</h3><p>jQuery 本身是很小型框架的，这个有点像我们学习 C++ 中的 STL (标准模板库)，简单来说就是大神们帮我们把一些复杂的实现逻辑封装成一个函数或者类直接供我们来用。其中也考虑了健壮性和兼容性以及性能问题，真的是很好很方便的工具。就让我站在巨人们的身上敲代码吧。</p>
-<h3 id="jQuery-原理"><a href="#jQuery-原理" class="headerlink" title="jQuery 原理"></a>jQuery 原理</h3><p>jQuery3.0.0 现在采用的是 ES5 语法并没有采用 ES6 语法的,而且全部采用的是严格模式，我仔细看了下未压缩源码总共有 10038 行，规模还算不小。<br>但是整体的结构的设计变化不大。</p>
-<p>jQuery 的核心是一个 <strong>立即执行的匿名函数</strong>，接收两个参数，一个是 <code>global</code> 对象，一个是 <code>factory</code> 的函数对象。<br>下面是它的核心的源码结构，核心函数是507行完，大部分代码其实是在扩展里面<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">( <span class="function"><span class="keyword">function</span>(<span class="params"> global, factory </span>) </span>&#123;</span><br><span class="line">    <span class="string">"using strict"</span>;</span><br><span class="line">    <span class="keyword">if</span> ( <span class="keyword">typeof</span> <span class="built_in">module</span> === <span class="string">"object"</span> &amp;&amp; <span class="keyword">typeof</span> <span class="built_in">module</span>.exports === <span class="string">"object"</span> ) &#123;</span><br><span class="line">        <span class="comment">// 定义模块对象</span></span><br><span class="line">        <span class="built_in">module</span>.exports = global.document ?</span><br><span class="line">            factory( global, <span class="literal">true</span> ) :</span><br><span class="line">            <span class="function"><span class="keyword">function</span>(<span class="params"> w </span>) </span>&#123;</span><br><span class="line">                <span class="keyword">if</span> ( !w.document ) &#123;</span><br><span class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>( <span class="string">"jQuery requires a window with a document"</span> );</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">return</span> factory( w );</span><br><span class="line">            &#125;;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        factory( global );</span><br><span class="line">    &#125;</span><br><span class="line">&#125; )( <span class="keyword">typeof</span> <span class="built_in">window</span> !== <span class="string">"undefined"</span> ? <span class="built_in">window</span> : <span class="keyword">this</span>, <span class="function"><span class="keyword">function</span>(<span class="params"> window, noGlobal </span>) </span>&#123;</span><br><span class="line">    <span class="string">"using strict"</span>;</span><br><span class="line">    <span class="comment">// 代码</span></span><br><span class="line">&#125; );</span><br></pre></td></tr></table></figure></p>
-<p>这段代码的主要作用是判断 <code>global.document</code> 是否存在，不存在就抛出错误，存在就定义的模块为传进来的 <code>factory</code> 对象。<br>所以其实真正的操作全在 <code>factory</code> 的函数里。<br>比较在意的是 jQuery 的代码风格和我们大多数人平时的风格不一样，松散性太高，有些不习惯</p>
-<p>下面我们看看 factory 函数里到底写了些什么呢<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> (<span class="params"> window, noGlobal </span>) </span>&#123;</span><br><span class="line">    <span class="string">"using strict"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> arr = [];</span><br><span class="line">    <span class="keyword">var</span> <span class="built_in">document</span> = <span class="built_in">window</span>.document;</span><br><span class="line">    <span class="keyword">var</span> getProto = <span class="built_in">Object</span>.getPrototypeOf;</span><br><span class="line">    <span class="keyword">var</span> slice = arr.slice;</span><br><span class="line">    <span class="comment">// code</span></span><br><span class="line">    <span class="comment">// 这里是把一些数组的方法作了简化</span></span><br><span class="line">    <span class="keyword">var</span></span><br><span class="line">        varsion = <span class="string">"3.0.0"</span>,</span><br><span class="line">        jQuery = <span class="function"><span class="keyword">function</span>(<span class="params"> selector, context </span>) </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> jQuery.fn.init( selector, context );</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="comment">// code</span></span><br><span class="line">        fcamelCase = <span class="function"><span class="keyword">function</span>(<span class="params"> all, letter </span>) </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> letter.toUpperCase();</span><br><span class="line">        &#125;;</span><br><span class="line">    jQuery.fn = jQuery.prototype = &#123;</span><br><span class="line">        <span class="comment">// code</span></span><br><span class="line">    &#125;;</span><br><span class="line">    jQuery.extend = jQuery.fn.extend = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="comment">// code</span></span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="comment">// code</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>这 500 多行整体的结构大致就是这样的，学了 ES5 理解这些代码也不难，它首先处理了基本类型数组的一些方法，然后定义了 jQuery 选择器的方法初始化过程，然后定义 jQuery 的核心方法和原型的调用过程，最后增加了 jQuery 的扩展。具体 10000 多行代码也不细说了。下面看看怎么用吧。</p>
-<h3 id="开始用-jQuery"><a href="#开始用-jQuery" class="headerlink" title="开始用 jQuery"></a>开始用 jQuery</h3><p>开始 jQuery 真的很简单</p>
-<h4 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h4><p>两种方式引用<br>1.下载后引用本地库<br>我们到官网下载jQuery的不同版本，然后把文件放到我的项目目录中，供调用<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>jQuery初探测试<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"lib/jquery-3.0.0.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"test.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<p>我下载的是最新的3.0.0版本，在html引用，后写一个js测试一下<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// test.js</span></span><br><span class="line">$(<span class="built_in">document</span>).ready(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"hello world"</span>);</span><br><span class="line">&#125;); <span class="comment">// hello world</span></span><br></pre></td></tr></table></figure></p>
-<p>2.在线直接引用<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>jQuery初探测试<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"https://code.jquery.com/jquery-3.0.0.min.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"test.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<p>测试结果相同<br>说明：中间有个 min 是压缩版，就是生产版本，没有的就是开发版本。不同场景使用不同版本，开发版本可以直接修改内容，生产版本已经压缩好了，一般就是直接用于产品了。</p>
-<h4 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h4><p>选择一个元素或者元素集合，对选中的元素进行操作，比如<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>jQuery初探测试<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"lib/jquery-3.0.0.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"test.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h1</span>&gt;</span>click me<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h2</span>&gt;</span>can't see me<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 正常写法</span></span><br><span class="line">$(<span class="built_in">document</span>).ready(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    $(<span class="string">"h1"</span>).click(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        $(<span class="keyword">this</span>).addClass(<span class="string">"color"</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">    $(<span class="string">"h2"</span>).mouseover(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        $(<span class="keyword">this</span>).hide();</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 简写</span></span><br><span class="line">$(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    $(<span class="string">"h1"</span>).click(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        $(<span class="keyword">this</span>).addClass(<span class="string">"color"</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">    $(<span class="string">"h2"</span>).mouseover(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        $(<span class="keyword">this</span>).hide();</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<p>也可在线测试 <a href="http://runjs.cn/code/agukaw1z" target="_blank" rel="noopener"><strong>jquery在线测试</strong></a></p>
-<h3 id="基本用法-1"><a href="#基本用法-1" class="headerlink" title="基本用法"></a>基本用法</h3><p>具体全面的使用，参照<a href="http://jquery.cuishifeng.cn/" target="_blank" rel="noopener"><strong>API</strong></a>;<br>我现在一个方面实现几个简单的 demo</p>
-<h4 id="模板"><a href="#模板" class="headerlink" title="模板"></a>模板</h4><p>先写一个模板<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">type</span>=<span class="string">"text/css"</span> <span class="attr">href</span>=<span class="string">"dome"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"lib/jquery.3.0.0.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h1</span>&gt;</span>demo1<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 给body添加css</span></span><br><span class="line">$(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    $(<span class="built_in">document</span>.body).css(<span class="string">"color"</span>, <span class="string">"red"</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<h4 id="选择器"><a href="#选择器" class="headerlink" title="选择器"></a>选择器</h4><p><code>$(selector, [context])</code>,第一个参数为选择器，第二个对象是可选项，选择器的当前环境<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 实例1</span></span><br><span class="line">$(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 给div p 增加 css</span></span><br><span class="line">    $(<span class="string">"div p"</span>).addCss(<span class="string">"color"</span>, <span class="string">"red"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 鼠标移动上去就隐藏</span></span><br><span class="line">    $(<span class="string">"div.myclass"</span>).mouseover(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        $(<span class="keyword">this</span>).hide();</span><br><span class="line">    &#125;);</span><br><span class="line">   </span><br><span class="line">    <span class="comment">// 找到页面中的第一个表单，选择里面的input,点击改变值</span></span><br><span class="line">    $(<span class="string">"input"</span>, <span class="built_in">document</span>.forms[<span class="number">0</span>]).click(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        $(<span class="keyword">this</span>).attr(<span class="string">"value"</span>, <span class="string">"出来了"</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
-<h4 id="动态创建"><a href="#动态创建" class="headerlink" title="动态创建"></a>动态创建</h4><p><code>$(html, [ownerdocument])</code>第一个参数为 html 片段，第二个是可选项，为 html 所属文档文档<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建一个hello的div插入到.hide中</span></span><br><span class="line">$(<span class="string">"&lt;div&gt;&lt;p&gt;hello&lt;/p&gt;&lt;/div&gt;"</span>).appendTo(<span class="string">".hide"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 创建div元素并声明对象的属性</span></span><br><span class="line">$(<span class="string">"&lt;div&gt;"</span>, &#123;</span><br><span class="line">    <span class="string">"class"</span>: <span class="string">"test"</span>,</span><br><span class="line">    text: <span class="string">"click me"</span>,</span><br><span class="line">    click: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        $(<span class="keyword">this</span>).toggleClass(<span class="string">'test'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;).appendTo(<span class="string">"body"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 创建一个imput</span></span><br><span class="line">$(<span class="string">"&lt;input&gt;"</span>, &#123;</span><br><span class="line">    type: <span class="string">"text"</span>,</span><br><span class="line">    val: <span class="string">"Test"</span>,</span><br><span class="line">    focusin: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        $(<span class="keyword">this</span>).addClass(<span class="string">"active"</span>);</span><br><span class="line">    &#125;,</span><br><span class="line">    focusout: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        $(<span class="keyword">this</span>).removeClass(<span class="string">"active"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;).appendTo(<span class="string">"form"</span>);</span><br></pre></td></tr></table></figure></p>
-<h4 id="AJAX"><a href="#AJAX" class="headerlink" title="AJAX"></a>AJAX</h4><p>简单的使用，jQuery.ajax(url, [setting])<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">  <span class="comment">// 发送一个ajax请求</span></span><br><span class="line"><span class="comment">// Ajax</span></span><br><span class="line">  <span class="keyword">var</span> data = $.ajax(&#123;</span><br><span class="line">      type: <span class="string">"get"</span>,</span><br><span class="line">      url: <span class="string">"demo1.php"</span>,</span><br><span class="line">      data: <span class="string">"name=suo&amp;gender=male"</span>,</span><br><span class="line">      asyns: <span class="literal">true</span>,</span><br><span class="line">      cache: <span class="literal">false</span>,</span><br><span class="line">      success: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">          <span class="built_in">console</span>.log(<span class="string">"good"</span>);</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;).reponseText;</span><br><span class="line">  <span class="built_in">console</span>.log(data);</span><br></pre></td></tr></table></figure></p>
-<p>使用AJAX进行跨域请求<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"> $(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    $(<span class="string">"input[name='username']"</span>).keyup(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> username = $(<span class="keyword">this</span>).val();</span><br><span class="line">        $.ajax(&#123;</span><br><span class="line">            url: <span class="string">"http://101.132.34.184/demo/demo1.php"</span>,</span><br><span class="line">            dataType: <span class="string">"json"</span>,</span><br><span class="line">            type: <span class="string">"post"</span>,</span><br><span class="line">            data: &#123; <span class="string">"username"</span>: username &#125;,</span><br><span class="line">            crossDomain: <span class="literal">true</span>,</span><br><span class="line">            success: <span class="function"><span class="keyword">function</span>(<span class="params">data</span>) </span>&#123;</span><br><span class="line">                <span class="built_in">console</span>.log(data);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//demo/demo1.php</span></span><br><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    <span class="comment">// 允许跨域</span></span><br><span class="line">    header(<span class="string">"Access-Control-Allow-Origin:*"</span>);</span><br><span class="line">    $userDB = [<span class="string">"shaosuo"</span>, <span class="string">"suoyue"</span>, <span class="string">"yue"</span>];</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">isset</span>($_POST[<span class="string">"username"</span>])) &#123;</span><br><span class="line">        <span class="keyword">if</span>(in_array($_POST[<span class="string">"username"</span>], $userDB)) &#123;</span><br><span class="line">            <span class="keyword">echo</span> <span class="number">0</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">echo</span> <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">php<span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p><em>还有一些用法，这里不一一测试了，做到这些也算是入门了，多查文档多熟悉语法，jQuery 用熟练了才算真正的好用</em></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/09/15/es6_2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="suoyue">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="锁越smile">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2016/09/15/es6_2/" itemprop="url">ECMAScript 6 之 Module</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-15T19:25:23+08:00">
-                2016-09-15
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
-                    <span itemprop="name">JavaScript</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="Module"><a href="#Module" class="headerlink" title="Module"></a>Module</h4><p>在 ES6 以前，JavaScript 始终没有模块体系，无法将一个大程序拆分成相互依赖的小程序，再用简单的方法拼装起来。而其它语言却都有这样的功能。如 Ruby的<code>require</code>,Python的<code>import</code>,甚至 css 都有<code>@import</code>。因此社区制定了一些模块加载方案，主要有 CommonJS 和 AMD 两种，前者用于服务器，后者用于浏览器。 ES6 在语言标准层面上，实现了模块功能，而且相当简单，完全可以替代 CommonJS 和 AMD 规范，成为浏览器和服务器通用的模块解决方案。</p>
-<h4 id="ES6-模块设计思想"><a href="#ES6-模块设计思想" class="headerlink" title="ES6 模块设计思想"></a>ES6 模块设计思想</h4><p>是尽量的静态化，使得编译时就能确定模块之间的依赖关系，以及输入和输出的变量。CommonJS 和 AMD 模块只能在运行时确定这些东西。比如，CommonJS 模块就是对象，输入时必须查找对象属性。</p>
-<p>CommonJS 写法<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> &#123; stat, exist, readFile &#125; = <span class="built_in">require</span>(<span class="string">'fs'</span>);</span><br><span class="line"><span class="comment">// 等同于</span></span><br><span class="line"><span class="keyword">let</span> _fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</span><br><span class="line"><span class="keyword">let</span> stat = _fs.stat;</span><br><span class="line"><span class="keyword">let</span> exist = _fs.exist;</span><br><span class="line"><span class="keyword">let</span> readFile = _fs.readFile;</span><br></pre></td></tr></table></figure></p>
-<p>ES6 模块写法<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; stat, exist, readFile &#125; <span class="keyword">from</span> <span class="string">'fs'</span>;</span><br></pre></td></tr></table></figure></p>
-<p>编译时加载方法，使得静态分析成为可能，效率也更高<br>它的好处</p>
-<ul>
-<li>不需要 UMD 模块格式，将来服务器和浏览器都会支持</li>
-<li>将来浏览器的新 API 就能用模块格式来提供</li>
-<li>不再需要对象作为命令空间</li>
-</ul>
-<h4 id="严格模式"><a href="#严格模式" class="headerlink" title="严格模式"></a>严格模式</h4><p>ES6 模块自动采用严格模式</p>
-<ul>
-<li>变量必须声明后使用</li>
-<li>函数参数不能同名</li>
-<li>不能使用<code>with</code></li>
-<li>不能对<code>const</code>变量赋值</li>
-<li>不能用<code>0</code>表示八进制</li>
-<li>不能删除不可删除属性</li>
-<li><code>eval</code>不会在外层作用域引入变量</li>
-<li><code>eval</code>和<code>agrgument</code>不能重新赋值</li>
-<li>不能使用<code>arguments.callee</code></li>
-<li>不能使用<code>arguments.caller</code></li>
-<li>禁止<code>this</code>指向全局变量</li>
-<li>增加保留字<code>protected</code>, <code>static</code>, <code>interface</code></li>
-</ul>
-<h4 id="import与export-命令"><a href="#import与export-命令" class="headerlink" title="import与export 命令"></a>import与export 命令</h4><p><code>import</code>和<code>export</code>构成模块的对外接口</p>
-<p><strong>1.import</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// mian.js</span></span><br><span class="line"><span class="keyword">import</span> &#123;name, gender, age&#125; <span class="keyword">from</span> <span class="string">'./person'</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getName</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> name;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 重命名</span></span><br><span class="line"><span class="keyword">import</span> &#123;name <span class="keyword">as</span> n&#125; <span class="keyword">from</span> <span class="string">'./person'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 只加载不输入</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">'./person'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 模块整体加载</span></span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> person <span class="keyword">from</span> <span class="string">'./person'</span>;</span><br></pre></td></tr></table></figure></p>
-<p>注意：</p>
-<ul>
-<li>不能使用表达式，静态效果</li>
-<li>可以提升到头部</li>
-<li>加载两次同样的模块，只执行一次</li>
-</ul>
-<p><strong>2.export</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 单次定义</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">var</span> name = <span class="string">"suo"</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">var</span> gender = <span class="string">"male"</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">var</span> age = <span class="number">10</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 批量定义</span></span><br><span class="line"><span class="keyword">var</span> name = <span class="string">'suo'</span>;</span><br><span class="line"><span class="keyword">var</span> gender = <span class="string">"male"</span>;</span><br><span class="line"><span class="keyword">var</span> age = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">export</span> &#123;name, gender, age&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 重命名</span></span><br><span class="line"><span class="keyword">export</span> &#123;</span><br><span class="line">    name <span class="keyword">as</span> n,</span><br><span class="line">    gender <span class="keyword">as</span> g,</span><br><span class="line">    age <span class="keyword">as</span> a</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 函数</span></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">sum</span>(<span class="params">x, y</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> x + y;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sum</span>(<span class="params">x, y</span>) </span>&#123; <span class="keyword">return</span> x + y; &#125;</span><br><span class="line"><span class="keyword">export</span> &#123; sum &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> &#123;</span><br><span class="line">    sum <span class="keyword">as</span> s;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 默认输出</span></span><br><span class="line"><span class="comment">// export-default.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"ok"</span>);</span><br><span class="line">&#125; <span class="comment">// 非匿名也可以</span></span><br><span class="line"><span class="keyword">import</span> foo <span class="keyword">from</span> <span class="string">'./export-default'</span>;</span><br><span class="line">foo(); <span class="comment">// ok</span></span><br></pre></td></tr></table></figure></p>
-<p>注意：后两种就算只有一个变量或者函数也要花括号</p>
-<p><strong>3.复合写法</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> &#123;name, gender&#125; <span class="keyword">from</span> <span class="string">'person'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 等同于</span></span><br><span class="line"><span class="keyword">import</span> &#123;name, gender&#125; <span class="keyword">from</span> <span class="string">'person'</span>;</span><br><span class="line"><span class="keyword">export</span> &#123;name, gender&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 重命名</span></span><br><span class="line"><span class="keyword">export</span> &#123;name <span class="keyword">as</span> n&#125; <span class="keyword">from</span> <span class="string">'person'</span>;</span><br><span class="line"><span class="comment">// 整体</span></span><br><span class="line"><span class="keyword">export</span> * <span class="keyword">from</span> <span class="string">'person'</span>;</span><br><span class="line"><span class="comment">// 默认</span></span><br><span class="line"><span class="keyword">export</span> &#123;<span class="keyword">default</span>&#125; <span class="keyword">from</span> <span class="string">'person'</span>;</span><br><span class="line"><span class="comment">// 具名改默认</span></span><br><span class="line"><span class="keyword">export</span> &#123;name <span class="keyword">as</span> <span class="keyword">default</span>&#125; <span class="keyword">from</span> <span class="string">'person'</span>;</span><br><span class="line"><span class="comment">// 默认改具名</span></span><br><span class="line"><span class="keyword">export</span> &#123;<span class="keyword">default</span> <span class="keyword">as</span> name&#125; <span class="keyword">from</span> <span class="string">'person'</span>;</span><br></pre></td></tr></table></figure></p>
-<h4 id="模块的继承"><a href="#模块的继承" class="headerlink" title="模块的继承"></a>模块的继承</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> &#123;getName <span class="keyword">as</span> personName&#125; <span class="keyword">from</span> <span class="string">'person'</span>;</span><br><span class="line"><span class="comment">// 输出其中的一部分，并改名</span></span><br></pre></td></tr></table></figure>
-<h4 id="跨模块常量"><a href="#跨模块常量" class="headerlink" title="跨模块常量"></a>跨模块常量</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// main.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> A = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> B = <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// test1.js</span></span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">from</span> <span class="string">'main'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// test2.js</span></span><br><span class="line"><span class="keyword">import</span> &#123;A, B&#125; <span class="keyword">from</span> <span class="string">'main'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// db.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> db = &#123;</span><br><span class="line">    name: <span class="string">"suo"</span>,</span><br><span class="line">    paw: <span class="string">"suoyue"</span>,</span><br><span class="line">    info: <span class="string">"ok"</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// user.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> user = [<span class="string">'suo'</span>, <span class="string">'yue'</span>, <span class="string">'smile'</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> &#123;db&#125; <span class="keyword">from</span> <span class="string">'db'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123;user&#125; <span class="keyword">from</span> <span class="string">'user'</span>;</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/09/10/es6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="suoyue">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="锁越smile">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2016/09/10/es6/" itemprop="url">ECMAScript 6 之 let 和 const 命令</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-10T19:25:23+08:00">
-                2016-09-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
-                    <span itemprop="name">JavaScript</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>学习前端有一段时间了，ECMAScript5 也算是掌握的差不多了。经过了这段时间的实践，也从中发现ECMAScript5 有很多不方便的地方。比如只有函数作用域，块级作用域需要模拟，还有面向对象也是不足够的，等等。后来我接触到了 ECMAScript6 果然在这个新版本中，很多 ES5 的遗留问题都得到改善。所以我近期找了一些 ES6 的资料书来学习。其中入门最佳的书籍，要推阮一峰老师的 《ECMAScript 6入门》 了。感谢一峰老师的知识的整理，提升了我学习 ES6 的效率。</p>
-<h3 id="let命令"><a href="#let命令" class="headerlink" title="let命令"></a>let命令</h3><p>类似于<code>var</code>，<strong>只在块中有效。变相的新增了块级作用域有没有</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="keyword">let</span> name = <span class="string">"suo"</span>;</span><br><span class="line">    <span class="keyword">var</span> gender = <span class="string">"male"</span>;</span><br><span class="line">    <span class="built_in">console</span>.log(name); <span class="comment">// suo</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(name); <span class="comment">//</span></span><br><span class="line"><span class="built_in">console</span>.log(gender); <span class="comment">// yue</span></span><br></pre></td></tr></table></figure></p>
-<p><strong>1.适合使用for循环</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++) &#123;</span><br><span class="line">    <span class="keyword">let</span> i = <span class="string">"suo"</span>;</span><br><span class="line">    <span class="built_in">console</span>.log(i);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// suo suo suo</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 2.</span></span><br></pre></td></tr></table></figure></p>
-<p>知道注意的地方是，<code>let</code>用在<code>for</code>循环中是输出了三次<code>suo</code>，说明<code>for</code>中的两个<code>let</code>的作用域也不一样</p>
-<p><strong>2.不存在变量声明提升</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(name);</span><br><span class="line"><span class="keyword">let</span> name = <span class="string">"suo"</span>;</span><br><span class="line"><span class="comment">// Uncaught ReferenceError: name is not defined</span></span><br></pre></td></tr></table></figure></p>
-<p>变量使用一定要在声明后使用，否则报错</p>
-<p><strong>3.暂时性死区</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> name = <span class="string">"suo"</span>;</span><br><span class="line">&#123;</span><br><span class="line">    name =<span class="string">"yue"</span>;</span><br><span class="line">    <span class="keyword">let</span> name = <span class="string">"suo yue"</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// Uncaught ReferenceError: name is not defined</span></span><br></pre></td></tr></table></figure></p>
-<p>一旦块中有<code>let</code>声明的变量，该变量即与块绑定，不受外界变量干扰</p>
-<p><strong>4.不允许重复声明</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="keyword">let</span> name = <span class="string">"suo"</span>;</span><br><span class="line">    <span class="keyword">let</span> name = <span class="string">"yue"</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// Uncaught SyntaxError: Identifier 'name' has already been declared</span></span><br></pre></td></tr></table></figure></p>
-<h3 id="块级作用域"><a href="#块级作用域" class="headerlink" title="块级作用域"></a>块级作用域</h3><p>let 实际是给 JavaScript 新增了块级作用域<br><strong>1.作用域嵌套</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="keyword">let</span> name = <span class="string">"suo"</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">let</span> name =<span class="string">"yue"</span>;</span><br><span class="line">        <span class="built_in">console</span>.log(name); <span class="comment">// yue</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">console</span>.log(name); <span class="comment">// yue</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>作用域之间任意嵌套互不影响</p>
-<p><strong>2.块级作用域域函数声明</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"suo"</span>);</span><br><span class="line">&#125;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">"yue"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    foo(); <span class="comment">// suo</span></span><br><span class="line">&#125;</span><br><span class="line">foo(); <span class="comment">// suo</span></span><br></pre></td></tr></table></figure></p>
-<p>函数声明互不影响，不同环境运行不一样。避免使用函数声明，用函数表达式替代</p>
-<p><strong>3.do表达式(提案)</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> x = <span class="keyword">do</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> a = <span class="number">1</span>;</span><br><span class="line">    a = a + <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(x); <span class="comment">// Uncaught SyntaxError: Unexpected token do</span></span><br></pre></td></tr></table></figure></p>
-<h3 id="const-命令"><a href="#const-命令" class="headerlink" title="const 命令"></a>const 命令</h3><p>与 c++ 类似，const 声明一个只读常量，一旦声明不可改变，同时也意味着声明必须初始化<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> PI = <span class="number">3.1415926</span>;</span><br><span class="line">PI = <span class="number">3</span>; <span class="comment">//Assignment to constant variable</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> LENGTH; </span><br><span class="line"><span class="comment">// Uncaught SyntaxError: Missing initializer in const declaration</span></span><br></pre></td></tr></table></figure></p>
-<p><strong>1.只在声明所在的块级作用域内有效</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="keyword">const</span> PI = <span class="number">3.14</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(PI); <span class="comment">// VM143:4 Uncaught ReferenceError: PI is not defined</span></span><br></pre></td></tr></table></figure></p>
-<p><strong>2.不可重复声明</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> PI = <span class="number">3.14</span>;</span><br><span class="line"><span class="keyword">const</span> PI = <span class="number">3</span>;</span><br><span class="line"><span class="comment">// Uncaught SyntaxError: Identifier 'PI' has already been declared</span></span><br></pre></td></tr></table></figure></p>
-<p><strong>3.const的本质</strong><br><code>const</code>保证的是变量指向的内存地址不改变。对于引用类型来说，变量名本身就是一个指向实际的内存指针。所以总结来说<code>const</code>是让变量名与它指向的内存的地址，这一关系不变。相当于 C 语言中的指针常量而不是常量指针。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> person = &#123;</span><br><span class="line">    name: <span class="string">"suo"</span>,</span><br><span class="line">    gender: <span class="string">"male"</span></span><br><span class="line">&#125;;</span><br><span class="line">person.name = <span class="string">"yue"</span>;</span><br><span class="line"><span class="built_in">console</span>.log(person.name); <span class="comment">// yue</span></span><br><span class="line"></span><br><span class="line">person1 = &#123;</span><br><span class="line">    name: <span class="string">"yue"</span>,</span><br><span class="line">    gender: <span class="string">"female"</span></span><br><span class="line">&#125;;</span><br><span class="line">person = person1; </span><br><span class="line"><span class="comment">// Uncaught TypeError: Assignment to constant variable</span></span><br></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1104,7 +1252,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-count">46</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1115,7 +1263,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -1126,7 +1274,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-count">21</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -1165,7 +1313,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

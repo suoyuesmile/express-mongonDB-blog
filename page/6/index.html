@@ -272,6 +272,624 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/11/27/book-note/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="suoyue">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="锁越smile">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2015/11/27/book-note/" itemprop="url">《JavaScript高级程序设计》读后记<一>：数据类型</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-11-27T08:25:46+08:00">
+                2015-11-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScript</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>经过一段时间的学习，深感 JavaScript 知识点还是挺多。之前一直是看视频教程和博客学习 JavaScript 。但是总觉得缺点什么，不管是视频还是博客，它们强调的始终是单一的知识或者是技术点。并没有对整个语言有一个更加全面的概述。基于这些学习上的不足，我向师哥师姐们询问到了这方面的问题，于是乎他们向我推荐了这本书，《JavaScript高级程序设计》第三版。无奈由于时间原因，一直放在书桌上搁置了好一段时间。就在近几天我终于有机会专心看这本书了。经过一个星期的学习，感觉大有收获，所以写下这篇博客，记录学习中的偏向于重点知识的理解和体会。</p>
+<h3 id="理解变量与数据类型"><a href="#理解变量与数据类型" class="headerlink" title="理解变量与数据类型"></a>理解变量与数据类型</h3><p><strong>1.ES的变量是松散变量</strong>，也就是说每一个变量仅仅是用于保存一个值的占位符，它可以保存任何值。变量未声明或未初始化之前的值是<code>undefined</code>,定义之后的值是赋给它的任何值。到这里就一个小疑问，通常我们学习其他语言都会有，一个值和类型相对应，那么问题来了，<code>undefind</code>是值那么它的类型又是啥呢？做个简单的例子测试一下看看<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a; </span><br><span class="line">alert(a); <span class="comment">// undefined</span></span><br><span class="line">alert(<span class="keyword">typeof</span> a); <span class="comment">// undefined</span></span><br></pre></td></tr></table></figure></p>
+<p>原来值为<code>undefined</code>的类型也是<code>undefined</code>。<br>由此我们可能会想到另外一个值，那就是<code>null</code>,是不是<code>nUll</code>的类型也是<code>null</code>呢？<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="literal">null</span>; <span class="comment">// null</span></span><br><span class="line">alert(a); <span class="comment">// object</span></span><br><span class="line">alert(<span class="keyword">typeof</span> a);</span><br></pre></td></tr></table></figure></p>
+<p><code>null</code>的类型竟然是<code>object</code>，估计有不少人会大跌眼镜吧，为啥会这样？凭什么？<br>其实这是正确的，<code>JavaScript</code>的<code>null</code>被认为是空对象的引用<br>这里还要解释下什么是空对象的引用？简单的说就是一个变量本该保存一个对象，但是还没有保存对象，这个时候就应该把这个变量来保存<code>null</code>，显示的表示这个变量是一个空对象的变量。</p>
+<p><strong>2.<code>undefined</code>和<code>null</code>又有哪些区别和联系呢？</strong><br>首先说联系<code>undefined</code>其实是<code>null</code>派生出来的，在代码层上表现为<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">alert(<span class="literal">undefined</span> == <span class="literal">null</span>); <span class="comment">// true</span></span><br><span class="line">alert(<span class="literal">undefined</span> === <span class="literal">null</span>); <span class="comment">// false</span></span><br></pre></td></tr></table></figure></p>
+<p>第<code>2</code>个为<code>false</code>好说，至少是他们类型是不一致的。第一个为什么为<code>true</code>呢？<br>原来这个<code>==</code>符是类似相等符，不是绝对相等，<code>null</code>和u<code>ndefined</code>的值是类似的。<br>区别上面也很容易看出来</p>
+<ul>
+<li>用途不一致：<code>null</code>用于空对象指针，给还没对象的变量赋值。<code>undefined</code>是来区别变量的未初始化或声明的。</li>
+<li>常用于：<code>null</code>常用与显示的赋值变量，<code>undefined</code>不会这么做.</li>
+</ul>
+<p><strong>3.基本类型</strong><br>ES 中有 5 种简单数据类型和一种复杂数据类型，分别为<code>undefined</code>，<code>null</code>，<code>boolean</code>，<code>number</code>，<code>string</code>，<code>object</code>。其中<code>object</code>实质是一组无序名值对组成的。<br>具体理解的是<code>object</code>这一类型。通过执行<code>new</code>来创建对象<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> o = <span class="keyword">new</span> <span class="built_in">Object</span>();</span><br><span class="line"><span class="keyword">var</span> o = <span class="keyword">new</span> <span class="built_in">Object</span>; <span class="comment">// 都可以</span></span><br></pre></td></tr></table></figure></p>
+<p><code>object</code>的每一个实例下面都有属性和方法</p>
+<ul>
+<li><code>constructor</code>:创建当前对象的函数，对于上面就是<code>Object()</code>这个构造函数</li>
+<li><code>hasOwnProperty(propertyName)</code>:检查属性在当前对象中是否存在</li>
+<li><code>isProtptypeOf(object)</code>:检查属性是否是当前对象原型</li>
+<li><code>propertIsEnumerable(propertypeName)</code>:检查对象是否可以用<code>for-in</code>来枚举</li>
+<li><code>toLocaleString()</code>:返回对象字符串表示，与执行环境对应</li>
+<li><code>toString()</code>:返回对象字符串表示</li>
+<li><code>valueOf()</code>:返回对象的字符串，数值，布尔值表示<br>要具体理解这些函数和属性，需要后面面向对象的思想做铺垫。<br>ES 中 Object 是所有对象的基础。因此所有对象都具有这些基本的属性和方法。</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/10/25/css-demo/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="suoyue">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="锁越smile">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2015/10/25/css-demo/" itemprop="url">CSS 水平垂直居中的6种常用方法</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-10-25T18:25:43+08:00">
+                2015-10-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CSS/" itemprop="url" rel="index">
+                    <span itemprop="name">CSS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>学了前端之后，也应该有一些收获了，现在写一些简单 demo， 练下手</p>
+<p>前端布局中最常见的就是居中问题，由于浏览器的兼容性不一致，单一的居中方法会有很多缺陷<br>即使如此，还是有方法解决这些问题的。这里我总结了最常见的 6 种居中的方法，每种方法都在不同的浏览器下测试过。下面给出具体的代码。</p>
+<h3 id="水平垂直居中的-6-种常用方法"><a href="#水平垂直居中的-6-种常用方法" class="headerlink" title="水平垂直居中的 6 种常用方法"></a>水平垂直居中的 6 种常用方法</h3><h4 id="HTML-模板"><a href="#HTML-模板" class="headerlink" title="HTML 模板"></a>HTML 模板</h4><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>水平垂直居中<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">type</span>=<span class="string">"text/css"</span> <span class="attr">href</span>=<span class="string">"center.css"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 绝对定位法 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"demo1"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"absolute-center"</span>&gt;</span>demo1<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 负外边距法 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"demo2"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"negative-center"</span>&gt;</span>demo2<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- transform法 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"demo3"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"transform-center"</span>&gt;</span>demo3<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- table-cell --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"demo4"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"table-cell"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"block-center"</span>&gt;</span></span><br><span class="line">            demo4</span><br><span class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- inline-block法 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"demo5"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"inline-center"</span>&gt;</span></span><br><span class="line">        demo5</span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- flexbox法 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"demo6"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"flexbox-center"</span>&gt;</span></span><br><span class="line">        demo6</span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="CSS-布局"><a href="#CSS-布局" class="headerlink" title="CSS 布局"></a>CSS 布局</h4><p>先写一个基本的样式<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*容器*/</span></span><br><span class="line"><span class="selector-class">.demo1</span>, <span class="selector-class">.demo2</span>, <span class="selector-class">.demo3</span>, <span class="selector-class">.demo4</span>, <span class="selector-class">.demo5</span>, <span class="selector-class">.demo6</span> &#123;</span><br><span class="line">    <span class="attribute">margin</span>: <span class="number">0</span> auto;</span><br><span class="line">    <span class="attribute">position</span>: relative;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">500px</span>;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">500px</span>;</span><br><span class="line">    <span class="attribute">border</span>: <span class="number">1px</span> black solid;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*样式*/</span></span><br><span class="line"><span class="selector-class">.absolute-center</span>, <span class="selector-class">.negative-center</span>, <span class="selector-class">.transform-center</span>, <span class="selector-class">.block-center</span>, <span class="selector-class">.inline-center</span>, <span class="selector-class">.flexbox-center</span> &#123;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">200px</span>;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">200px</span>;</span><br><span class="line">    <span class="attribute">padding</span>: <span class="number">20px</span>;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#eee</span>;</span><br><span class="line">    <span class="attribute">line-height</span>: <span class="number">200px</span>;</span><br><span class="line">    <span class="attribute">text-align</span>: center;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>1.绝对定位法<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*绝对定位法*/</span></span><br><span class="line"><span class="selector-class">.absolute-center</span> &#123;</span><br><span class="line">    <span class="attribute">position</span>: absolute;</span><br><span class="line">    <span class="attribute">margin</span>: auto;</span><br><span class="line">    <span class="attribute">overflow</span>: auto;</span><br><span class="line">    <span class="attribute">top</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">right</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">bottom</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">left</span>: <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>2.负外边距法<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*负外边距*/</span></span><br><span class="line"><span class="selector-class">.negative-center</span> &#123;</span><br><span class="line">    <span class="attribute">position</span>: absolute;</span><br><span class="line">    <span class="attribute">top</span>: <span class="number">50%</span>;</span><br><span class="line">    <span class="attribute">left</span>: <span class="number">50%</span>;</span><br><span class="line">    <span class="attribute">margin-left</span>: -<span class="number">110px</span>;</span><br><span class="line">    <span class="attribute">margin-top</span>: -<span class="number">110px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>3.tranfrom法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">/*tranfrom法*/</span><br><span class="line">.transform-center &#123;</span><br><span class="line">    position: absolute;</span><br><span class="line">    margin: auto;</span><br><span class="line">    top: 50%;</span><br><span class="line">    left: 50%;</span><br><span class="line">    -webkit-transform: translate(-50%, -50%);</span><br><span class="line">        -ms-transform: translate(-50%, -50%);</span><br><span class="line">            transform: translate(-50%, -50%);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>4.table-cess法<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*table-cell*/</span></span><br><span class="line"><span class="selector-class">.demo4</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: table;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.table-cell</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: table-cell;</span><br><span class="line">    <span class="attribute">vertical-align</span>: middle;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.block-center</span> &#123;</span><br><span class="line">    <span class="attribute">margin</span>: <span class="number">0</span> auto;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>5.inline-block法<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*inline-block*/</span></span><br><span class="line"><span class="selector-class">.demo5</span> &#123;</span><br><span class="line">    <span class="attribute">text-align</span>: center;</span><br><span class="line">    <span class="attribute">overflow</span>: auto;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.demo5</span><span class="selector-pseudo">:after</span>, <span class="selector-class">.inline-center</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: inline-block;</span><br><span class="line">    <span class="attribute">verticel</span>: middle;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.demo5</span><span class="selector-pseudo">:after</span> &#123;</span><br><span class="line">    <span class="attribute">content</span>: <span class="string">''</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">50%</span>;</span><br><span class="line">    <span class="attribute">margin-left</span>: -<span class="number">0.25em</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.inline-center</span> &#123;</span><br><span class="line">    <span class="attribute">max-width</span>: <span class="number">99%</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>6.flexbox法<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*flexbox法*/</span></span><br><span class="line"><span class="selector-class">.demo6</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: -webkit-box;   <span class="comment">/* OLD:   */</span></span><br><span class="line">    <span class="attribute">display</span>: -moz-box;      <span class="comment">/* OLD: Firefox (buggy) */</span></span><br><span class="line">    <span class="attribute">display</span>: -ms-flexbox;   <span class="comment">/* MID: IE 10 */</span></span><br><span class="line">    <span class="attribute">display</span>: -webkit-flex;  <span class="comment">/* NEW, Chrome 21–28, Safari 6.1+ */</span></span><br><span class="line">    <span class="attribute">display</span>: flex;          <span class="comment">/* NEW: IE11,  */</span></span><br><span class="line"></span><br><span class="line">    <span class="attribute">-webkit-box-align</span>: center; </span><br><span class="line">        <span class="attribute">-moz-box-align</span>: center; <span class="comment">/* OLD… */</span></span><br><span class="line">        <span class="attribute">-ms-flex-align</span>: center; <span class="comment">/* You know the drill now… */</span></span><br><span class="line">    <span class="attribute">-webkit-align-items</span>: center;</span><br><span class="line">            <span class="attribute">align-items</span>: center;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">-webkit-box-pack</span>: center; </span><br><span class="line">        <span class="attribute">-moz-box-pack</span>: center;</span><br><span class="line">        <span class="attribute">-ms-flex-pack</span>: center;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">-webkit-justify-content</span>: center;</span><br><span class="line">            <span class="attribute">justify-content</span>: center;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.flexbox</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: -webkit-box; <span class="attribute">display</span>: -moz-box;</span><br><span class="line">    <span class="attribute">display</span>: -ms-flexbox;</span><br><span class="line">    <span class="attribute">display</span>: -webkit-flex;</span><br><span class="line">    <span class="attribute">display</span>: flex;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">-webkit-box-align</span>: center; <span class="attribute">-moz-box-align</span>: center;</span><br><span class="line">    <span class="attribute">-ms-flex-align</span>: center;</span><br><span class="line">    <span class="attribute">-webkit-align-items</span>: center;</span><br><span class="line">            <span class="attribute">align-items</span>: center;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/10/23/css-zn3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="suoyue">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="锁越smile">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2015/10/23/css-zn3/" itemprop="url">《CSS权威指南》读后记<三>：浮动与定位</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-10-23T19:55:47+08:00">
+                2015-10-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CSS/" itemprop="url" rel="index">
+                    <span itemprop="name">CSS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>上一段时间学了盒子模型，盒子模型虽然弄清楚了，对于制作页面来说还是一点小懵懂的地方，那就是布局。怎样布局才算是好的布局，才能轻松的高效的还原设计稿。学了这章后，对于一般页面的布局没什么太大问题了。现在记下一点笔记，以后查漏补缺。</p>
+<h3 id="浮动（float）"><a href="#浮动（float）" class="headerlink" title="浮动（float）"></a>浮动（float）</h3><h4 id="浮动元素"><a href="#浮动元素" class="headerlink" title="浮动元素"></a>浮动元素</h4><p>脱离了文档流，浮动元素与周围外边距不会合并。浮动元素会生成一个块框<br>1.浮动规则</p>
+<ul>
+<li>左右不能超过父级块边界</li>
+<li>浮同一父元素下的浮动动元素之间不能相互覆盖</li>
+<li>顶端不能超过父元素顶端</li>
+<li>顶端不能比之前所有元素顶端高</li>
+<li>空间不足，浮动元素将被挤到新行</li>
+<li>负外边距可以使浮动元素跑到父元素外边</li>
+</ul>
+<p>2.重叠规则</p>
+<ul>
+<li>行内框重叠时，边框，背景，内容显示在浮动元素之上</li>
+<li>块框重叠时，显示在浮动元素之下</li>
+</ul>
+<h4 id="实现浮动"><a href="#实现浮动" class="headerlink" title="实现浮动"></a>实现浮动</h4><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">p</span> &#123;<span class="attribute">float</span>: left;&#125;</span><br><span class="line"><span class="selector-class">.slect</span> &#123;<span class="attribute">float</span>: right;&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="清除浮动"><a href="#清除浮动" class="headerlink" title="清除浮动"></a>清除浮动</h4><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;!<span class="selector-tag">--</span> 清除<span class="selector-tag">h1</span>左边的浮动 <span class="selector-tag">--</span>&gt;</span><br><span class="line"><span class="selector-tag">h1</span> &#123;<span class="attribute">clear</span>: left;&#125;</span><br><span class="line">&lt;!<span class="selector-tag">--</span> 清除两边的浮动 <span class="selector-tag">--</span>&gt;</span><br><span class="line"><span class="selector-tag">h1</span> &#123;<span class="attribute">clear</span>: both;&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="定位（position"><a href="#定位（position" class="headerlink" title="定位（position)"></a>定位（position)</h3><h4 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h4><h4 id="偏移"><a href="#偏移" class="headerlink" title="偏移"></a>偏移</h4><h4 id="高度宽度"><a href="#高度宽度" class="headerlink" title="高度宽度"></a>高度宽度</h4><h4 id="溢出剪裁"><a href="#溢出剪裁" class="headerlink" title="溢出剪裁"></a>溢出剪裁</h4><h4 id="可见性"><a href="#可见性" class="headerlink" title="可见性"></a>可见性</h4><h4 id="绝对定位"><a href="#绝对定位" class="headerlink" title="绝对定位"></a>绝对定位</h4><h4 id="Z轴放置"><a href="#Z轴放置" class="headerlink" title="Z轴放置"></a>Z轴放置</h4><h4 id="固定定位"><a href="#固定定位" class="headerlink" title="固定定位"></a>固定定位</h4><h4 id="相对定位"><a href="#相对定位" class="headerlink" title="相对定位"></a>相对定位</h4>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/10/20/css-zn2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="suoyue">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="锁越smile">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2015/10/20/css-zn2/" itemprop="url">《CSS权威指南》读后记<二>：盒子模型</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-10-20T20:06:44+08:00">
+                2015-10-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CSS/" itemprop="url" rel="index">
+                    <span itemprop="name">CSS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>之前一直在使用 height 和 width，但是经常会遇到问题。在看了 <strong>盒子模型</strong>这一章后，很多东西迎刃而解了。现在详细的记录这些知识点。</p>
+<h3 id="盒子模型"><a href="#盒子模型" class="headerlink" title="盒子模型"></a>盒子模型</h3><p>由四个部分组成，如下图<br><a href="/images/ds7.png">img</a></p>
+<h4 id="内容"><a href="#内容" class="headerlink" title="内容"></a>内容</h4><p>高度与宽度决定内容大小<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">p</span> &#123;<span class="attribute">height</span>: <span class="number">100px</span>; <span class="attribute">width</span>: <span class="number">100px</span>;&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="外边距"><a href="#外边距" class="headerlink" title="外边距"></a>外边距</h4><p>边框外部<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">h1</span> &#123;<span class="attribute">margin</span>: <span class="number">0.25in</span>; <span class="attribute">background-color</span>: red;&#125;</span><br><span class="line">&lt;!<span class="selector-tag">--</span> 可以接受<span class="selector-tag">px</span>,<span class="selector-tag">em</span>,<span class="selector-tag">cm</span>单位 <span class="selector-tag">--</span>&gt;</span><br><span class="line"></span><br><span class="line">&lt;!<span class="selector-tag">--</span> 单独设置 <span class="selector-tag">--</span>&gt;</span><br><span class="line"><span class="selector-tag">h1</span> &#123;<span class="attribute">margin</span>: <span class="number">10px</span> <span class="number">20px</span> <span class="number">15px</span> <span class="number">10px</span>;&#125;</span><br><span class="line">&lt;!<span class="selector-tag">--</span> <span class="selector-tag">top</span> <span class="selector-tag">right</span> <span class="selector-tag">bottom</span> <span class="selector-tag">left</span> 可以混合单位<span class="selector-tag">--</span>&gt;</span><br><span class="line"></span><br><span class="line">&lt;!<span class="selector-tag">--</span> 缺值规则 <span class="selector-tag">--</span>&gt;</span><br><span class="line">&lt;!<span class="selector-tag">--</span> 缺左外，使用右外，缺下使用上，缺右使用上 <span class="selector-tag">--</span>&gt;</span><br><span class="line"><span class="selector-tag">h1</span> &#123;<span class="attribute">margin</span>: <span class="number">10px</span> <span class="number">0</span>;&#125;</span><br><span class="line">&lt;!<span class="selector-tag">--</span> 10<span class="selector-tag">px</span> 0 10<span class="selector-tag">px</span> 0 <span class="selector-tag">--</span>&gt;</span><br><span class="line"></span><br><span class="line">&lt;!<span class="selector-tag">--</span> 单边外设置 <span class="selector-tag">--</span>&gt;</span><br><span class="line"><span class="selector-tag">h1</span> &#123;<span class="attribute">margin-lelf</span>: <span class="number">10px</span>;&#125;</span><br><span class="line"></span><br><span class="line">&lt;!<span class="selector-tag">--</span> 负外边距 <span class="selector-tag">--</span>&gt;</span><br><span class="line"><span class="selector-tag">h1</span> &#123;<span class="attribute">margin-left</span>: -<span class="number">10px</span>;&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="边框"><a href="#边框" class="headerlink" title="边框"></a>边框</h4><p>外边距与内边距之间<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&lt;!<span class="selector-tag">--</span> 默认为<span class="selector-tag">none</span> <span class="selector-tag">--</span>&gt;</span><br><span class="line">&lt;!<span class="selector-tag">--</span> <span class="selector-tag">border-style</span>的值很多 <span class="selector-tag">--</span>&gt;</span><br><span class="line">&lt;!<span class="selector-tag">--</span> <span class="selector-tag">none</span>,<span class="selector-tag">hidden</span>,<span class="selector-tag">dotted</span>,<span class="selector-tag">dashed</span>,<span class="selector-tag">solid</span>,<span class="selector-tag">double</span>,<span class="selector-tag">groove</span>,<span class="selector-tag">ridge</span>,... <span class="selector-tag">--</span>&gt;</span><br><span class="line"></span><br><span class="line">&lt;!<span class="selector-tag">--</span> 可以定义多样式 <span class="selector-tag">--</span>&gt;</span><br><span class="line"><span class="selector-tag">p</span><span class="selector-class">.new</span> &#123;<span class="attribute">border-style</span>: solid;&#125;</span><br><span class="line"><span class="selector-tag">p</span><span class="selector-class">.new</span> &#123;<span class="attribute">border-top-style</span>: solid;&#125;</span><br><span class="line"><span class="selector-tag">p</span><span class="selector-class">.new</span> &#123;<span class="attribute">border-style</span>: solid dashed none;&#125;</span><br><span class="line"></span><br><span class="line">&lt;!<span class="selector-tag">--</span> 边框宽度 <span class="selector-tag">--</span>&gt;</span><br><span class="line"><span class="selector-tag">p</span><span class="selector-class">.new</span> &#123;<span class="attribute">border-width</span>: <span class="number">1px</span>;&#125;</span><br><span class="line"><span class="selector-tag">p</span><span class="selector-class">.new</span> &#123;<span class="attribute">border-top-width</span>: <span class="number">2px</span>;&#125;</span><br><span class="line"><span class="selector-tag">p</span><span class="selector-class">.new</span> &#123;<span class="attribute">border-width</span>: <span class="number">2px</span> <span class="number">1px</span> <span class="number">3px</span> <span class="number">2px</span>;&#125;</span><br><span class="line"></span><br><span class="line">&lt;!<span class="selector-tag">--</span> 边框颜色 <span class="selector-tag">--</span>&gt;</span><br><span class="line"><span class="selector-tag">p</span><span class="selector-class">.new</span> &#123;<span class="attribute">border-color</span>: <span class="number">#666</span>;&#125;</span><br><span class="line"><span class="selector-tag">p</span><span class="selector-class">.new</span> &#123;<span class="attribute">border-top-color</span>: <span class="number">#666</span>;&#125;</span><br><span class="line"><span class="selector-tag">p</span><span class="selector-class">.new</span> &#123;<span class="attribute">border-color</span>: <span class="number">#666</span> <span class="number">#344</span> <span class="number">#333</span> <span class="number">#455</span>;&#125;</span><br><span class="line"></span><br><span class="line">&lt;!<span class="selector-tag">--</span> 简写属性 <span class="selector-tag">--</span>&gt;</span><br><span class="line"><span class="selector-tag">p</span><span class="selector-class">.new</span> &#123;<span class="attribute">border</span>: <span class="number">3px</span> solid <span class="number">#666</span>&#125;</span><br><span class="line">&lt;!<span class="selector-tag">--</span> 顺序不重要 <span class="selector-tag">--</span>&gt;</span><br></pre></td></tr></table></figure></p>
+<h4 id="内边距"><a href="#内边距" class="headerlink" title="内边距"></a>内边距</h4><p>边框与内容之间<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;!<span class="selector-tag">--</span> 同理<span class="selector-tag">margin</span> <span class="selector-tag">--</span>&gt;</span><br><span class="line"><span class="selector-tag">p</span><span class="selector-class">.new</span> &#123;<span class="attribute">padding</span>: <span class="number">10px</span>;&#125;</span><br><span class="line"><span class="selector-tag">p</span><span class="selector-class">.new</span> &#123;<span class="attribute">padding-top</span>: <span class="number">20px</span>;&#125;</span><br><span class="line"><span class="selector-tag">p</span><span class="selector-class">.new</span> &#123;<span class="attribute">padding</span>: <span class="number">10px</span> <span class="number">20px</span> <span class="number">30px</span> <span class="number">40px</span>;&#125;</span><br></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/10/15/css-zn/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -431,956 +1049,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/10/10/ds10/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="suoyue">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="锁越smile">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2015/10/10/ds10/" itemprop="url">《数据结构》笔记：归纳</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-10-10T22:22:06+08:00">
-                2015-10-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/编程基础/" itemprop="url" rel="index">
-                    <span itemprop="name">编程基础</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="数据结构-Data-Structure"><a href="#数据结构-Data-Structure" class="headerlink" title="数据结构(Data Structure)"></a>数据结构(Data Structure)</h3><ul>
-<li>数组(Array)：物理上紧邻的定长线性序列（元素为数）</li>
-<li>向量(Vector)：物理上紧邻的一组不定长线性序列（元素不限）</li>
-<li>列表(List)：逻辑上紧邻的一组线性序列</li>
-<li>栈(Stack)：受限的列表（一端出入）</li>
-<li>队列(Queue)：受限的列表（一端出一端入）</li>
-<li>树(Tree)：成树结构的半线性序列</li>
-<li>图(Graph)：成图结构的非线性序列</li>
-</ul>
-<h3 id="STL序列容器-Sequence-Contains"><a href="#STL序列容器-Sequence-Contains" class="headerlink" title="STL序列容器(Sequence Contains)"></a>STL序列容器(Sequence Contains)</h3><ul>
-<li>定长数组(Array)</li>
-<li>向量(Vector)</li>
-<li>列表(双向链表)(List)</li>
-<li><ul>
-<li>单链表(sList)：非标准STL</li>
-</ul>
-</li>
-<li>双端队列(Deque)</li>
-<li><ul>
-<li>栈(Stack)</li>
-</ul>
-</li>
-<li><ul>
-<li>队列(Queue)</li>
-</ul>
-</li>
-</ul>
-<h3 id="STL关联容器-Associative-Contains"><a href="#STL关联容器-Associative-Contains" class="headerlink" title="STL关联容器(Associative Contains)"></a>STL关联容器(Associative Contains)</h3><ul>
-<li>红黑树(Red-Black Tree)</li>
-<li><ul>
-<li>集合(Set)</li>
-</ul>
-</li>
-<li><ul>
-<li>映射(Map)</li>
-</ul>
-</li>
-<li><ul>
-<li>扩展集合(mutiMap)</li>
-</ul>
-</li>
-<li><ul>
-<li>扩展映射(mutiSet)</li>
-</ul>
-</li>
-<li>哈希表(HashTable)</li>
-<li><ul>
-<li>哈希集合(HashSet)</li>
-</ul>
-</li>
-<li><ul>
-<li>哈希映射(HashMap)</li>
-</ul>
-</li>
-<li><ul>
-<li>哈希集合扩展(mutiHashSet)</li>
-</ul>
-</li>
-<li><ul>
-<li>哈希映射扩展(mutiHashMap)</li>
-</ul>
-</li>
-</ul>
-<h3 id="排序查找搜索"><a href="#排序查找搜索" class="headerlink" title="排序查找搜索"></a>排序查找搜索</h3><ul>
-<li>排序(Sort)</li>
-<li><ul>
-<li>起泡排序</li>
-</ul>
-</li>
-<li><ul>
-<li>选择排序</li>
-</ul>
-</li>
-<li><ul>
-<li>归并排序</li>
-</ul>
-</li>
-<li><ul>
-<li>插入排序</li>
-</ul>
-</li>
-<li><ul>
-<li>堆排序</li>
-</ul>
-</li>
-<li><ul>
-<li>桶排序</li>
-</ul>
-</li>
-<li><ul>
-<li>基数排序</li>
-</ul>
-</li>
-<li><ul>
-<li>快速排序</li>
-</ul>
-</li>
-<li><ul>
-<li>希尔排序</li>
-</ul>
-</li>
-<li>查找(Find)</li>
-<li><ul>
-<li>扫描查找</li>
-</ul>
-</li>
-<li><ul>
-<li>二分查找</li>
-</ul>
-</li>
-<li><ul>
-<li>fib查找</li>
-</ul>
-</li>
-<li>搜索(Search)</li>
-<li><ul>
-<li>广度搜索</li>
-</ul>
-</li>
-<li><ul>
-<li>深度搜索</li>
-</ul>
-</li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/09/18/ds9/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="suoyue">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="锁越smile">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2015/09/18/ds9/" itemprop="url">《数据结构》笔记：排序</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-09-18T11:53:01+08:00">
-                2015-09-18
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/编程基础/" itemprop="url" rel="index">
-                    <span itemprop="name">编程基础</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="快速排序-QuickSort"><a href="#快速排序-QuickSort" class="headerlink" title="快速排序(QuickSort)"></a>快速排序(QuickSort)</h3><ul>
-<li>分而治之</li>
-<li><ul>
-<li>将序列分为2个子序列:S = Sl = Sr //O(n)</li>
-</ul>
-</li>
-<li><ul>
-<li>规模独立：max { |Sl| , |Sr| } &lt; n</li>
-</ul>
-</li>
-<li><ul>
-<li>彼此独立：max( Sl ) &lt;= min( Sr )</li>
-</ul>
-</li>
-<li><ul>
-<li>在子序列分别递归底排序之后，原序列自然有序sorted(S) = sorted(Sl) + sorted(Sr)</li>
-</ul>
-</li>
-<li><ul>
-<li>平凡解：只剩单个元素时，本身就是解</li>
-</ul>
-</li>
-<li><ul>
-<li>归并排序在于合，quicksort在于分</li>
-</ul>
-</li>
-<li>轴点(pivot)</li>
-<li><ul>
-<li>左/右侧的元素，均不比它更大/小</li>
-</ul>
-</li>
-<li><ul>
-<li>以轴点为届，原序列的划分自然实现：[lo, hi) = [lo,mi) + [mi] + (mi,hi)</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">void</span> Verctor&lt;T&gt;::quickSort( Rank lo, Rank hi) &#123;</span><br><span class="line">    <span class="keyword">if</span>( hi - lo &lt; <span class="number">2</span>) <span class="keyword">return</span> <span class="number">0</span>; <span class="comment">//平凡解</span></span><br><span class="line">    Rank mi = partition( lo, hi<span class="number">-1</span> ); <span class="comment">//先构造轴点</span></span><br><span class="line">    quickSort(lo, mi); <span class="comment">//前缀排序</span></span><br><span class="line">    quickSort(mi+<span class="number">1</span>, hi); <span class="comment">//后缀排序</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li><ul>
-<li>坏消息：在原始序列中，轴点未必存在</li>
-</ul>
-</li>
-<li><ul>
-<li>必要条件：轴点必然已然就位</li>
-</ul>
-</li>
-<li><ul>
-<li>特别的：在有序序列中，所有元素逐个转换成轴00点2</li>
-</ul>
-</li>
-<li><ul>
-<li>不变性与单调性：L &lt;= pivot &lt;= G; U = [lo, hi],[lo]和[hi]交替空闲</li>
-</ul>
-</li>
-<li>实例：</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">轴点为6</span><br><span class="line">6 3 8 2 5 9 4 5 1 7</span><br><span class="line">x 3 8 2 5 9 4 5 1 7</span><br><span class="line">1 3 8 2 5 9 4 5 x 7</span><br><span class="line">1 3 x 2 5 9 4 5 8 7</span><br><span class="line">1 3 5 2 5 9 4 x 8 7</span><br><span class="line">1 3 5 2 5 x 4 9 8 7</span><br><span class="line">1 3 5 2 5 4 x 9 8 7</span><br><span class="line">1 3 5 2 5 4 6 9 8 7</span><br></pre></td></tr></table></figure>
-<ul>
-<li>性能</li>
-<li><ul>
-<li>不稳定</li>
-</ul>
-</li>
-<li><ul>
-<li>空间：只需要O(1)</li>
-</ul>
-</li>
-<li><ul>
-<li>时间：不能保证划分的均衡性，最好O(nlogn)，最坏O(n^2)</li>
-</ul>
-</li>
-<li><ul>
-<li>采取随机选取，三者取中，只能降低最坏的情况，而无法根本的杜绝</li>
-</ul>
-</li>
-<li><ul>
-<li>总结：平均性能O(nlogn),根据均匀独立分布为例，准确的1.39logn</li>
-</ul>
-</li>
-</ul>
-<h3 id="快排变种"><a href="#快排变种" class="headerlink" title="快排变种"></a>快排变种</h3><ul>
-<li>不变性：四个部分S = [lo] + L(lo, mi] + G(mi, k) + U[k, hi], L &lt; pivot &lt;= G</li>
-<li>单调性：K不小于轴 ? 直接拓展G ： G滚动后移，L拓展 pivot &lt;= S[k] ? k++ : swap(S[++mi], S[k++])</li>
-<li>代码</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; Rank Vector&lt;T&gt;::partition( Rank lo, Rank hi) &#123;</span><br><span class="line">    swap( _elem[ lo ], _elem[ lo + rand() % ( hi - lo + <span class="number">1</span> ) ] );<span class="comment">//随机交换</span></span><br><span class="line">    T pivot = _elem[ lo ];</span><br><span class="line">    <span class="keyword">int</span> mi = lo;</span><br><span class="line">    <span class="keyword">for</span> ( <span class="keyword">int</span> k = lo + <span class="number">1</span>; k &lt;= hi; k++ ) <span class="comment">//自左向右考查每个[k]</span></span><br><span class="line">        <span class="keyword">if</span>( _elem[ k ] &lt; pivot ) <span class="comment">//若k小于轴点，则将其与[mi]交换，L向右扩展</span></span><br><span class="line">            swap( _elem[ ++mi ], _elem[ k ]);</span><br><span class="line">    swap( _elem[ lo ], _elem[ mi ] ); <span class="comment">//候选抽点归位</span></span><br><span class="line">    <span class="keyword">return</span> mi;<span class="comment">//返回轴点的秩</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>实例<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">6  3  8 1 5 9 8 4 5 7 2</span><br><span class="line">6 3  8  1 5 9 8 4 5 7 2</span><br><span class="line">6 3 1 5  8  9 8 4 5 7 2</span><br><span class="line">6 3 1 5  8 9  8 4 5 7 2</span><br><span class="line">6 3 1 5  8 9 8  4 5 7 2</span><br><span class="line">6 3 1 5 4  9 8 8  5 7 2</span><br><span class="line">6 3 1 5 4 5  9 8 8  7 2</span><br><span class="line">6 3 1 5 4 5  9 8 8 7  2</span><br><span class="line">6 3 1 5 4 5 2   8 9 7 8</span><br><span class="line">2 3  1 5 4 5 6  8 9 7 8</span><br><span class="line">//时间O(n)</span><br><span class="line">//空间O(1)</span><br><span class="line">//不稳定</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h3 id="选取"><a href="#选取" class="headerlink" title="选取"></a>选取</h3><ul>
-<li>k-selection：在任意大小的元素中，如何由小到大，找到次序为k者，亦即</li>
-<li>median：长度为n中选择位于中间的那个数</li>
-<li>majoerity：无序向量，若有一半以上元素同为m，称之为众数</li>
-<li>平凡算法 排序+扫描，必要性，众数存在必为中位数</li>
-<li>事实上，只要能够找到中位数，就能判断是否为众数</li>
-<li>众数若存在，则必为频繁数</li>
-<li>策略：减而治之</li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/09/15/ds8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="suoyue">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="锁越smile">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2015/09/15/ds8/" itemprop="url">《数据结构》笔记：词典</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-09-15T10:52:04+08:00">
-                2015-09-15
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/编程基础/" itemprop="url" rel="index">
-                    <span itemprop="name">编程基础</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="散列-Hash"><a href="#散列-Hash" class="headerlink" title="散列(Hash)"></a>散列(Hash)</h3><blockquote>
-<p>新的访问方式   </p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">寻秩访问：向量</span><br><span class="line">寻位置：列表</span><br><span class="line">寻关键码：BST</span><br></pre></td></tr></table></figure>
-<ul>
-<li>访问方式：寻值访问</li>
-<li>电话</li>
-</ul>
-<h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><ul>
-<li>桶Bucket：直接存放或者间接指向一个词条</li>
-<li>桶数组Bucket array/散列表 Hash Table 容量为M</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">N &lt; M &lt;&lt; R 空间 = O(N + M) = O(n)</span><br></pre></td></tr></table></figure>
-<ul>
-<li>定址/杂凑/散列：根据Key直接确定散列表入口</li>
-<li>散列函数：hash() : key -&gt; &amp; entry</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">hash(key) = key % M</span><br><span class="line"></span><br><span class="line">25K / 90K &gt; 25% 节约了较大空间</span><br><span class="line">装填因子 N / M </span><br><span class="line"></span><br><span class="line">6278 5001                54304          39514</span><br><span class="line">6277 0211    % 90001     39514          51304</span><br><span class="line">5154 1876                51304          54304</span><br></pre></td></tr></table></figure>
-<ul>
-<li>冲突：不同关键码，被映射到同一实体上</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">5153 1976    % 90001     51304</span><br><span class="line">6278 2001</span><br><span class="line">理论上无法彻底避免，只能根据策略减少冲突</span><br><span class="line">hash 不可能是单射</span><br></pre></td></tr></table></figure>
-<ul>
-<li>散列策略：近似的单射，往往可行</li>
-<li><ul>
-<li>精心设计散列表和散列函数，尽可能降低冲突的概率</li>
-</ul>
-</li>
-<li><ul>
-<li>制定可行的预案，以便排解</li>
-</ul>
-</li>
-</ul>
-<h3 id="散列函数"><a href="#散列函数" class="headerlink" title="散列函数"></a>散列函数</h3><ul>
-<li>评价标准：什么样hash()更好</li>
-<li><ul>
-<li>确定determinism：同一关键码总是被映射至同一地址</li>
-</ul>
-</li>
-<li><ul>
-<li>快速efficency：expected-O(1)</li>
-</ul>
-</li>
-<li><ul>
-<li>满射surjection:尽可能充分的覆盖整个散列空间</li>
-</ul>
-</li>
-<li><ul>
-<li>均匀uniformity：关键码映射到散列表各位置的概率尽量接近可有效避免聚集clustering现象</li>
-</ul>
-</li>
-<li>除余法</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hash(key) = key % M</span><br></pre></td></tr></table></figure>
-<ul>
-<li><ul>
-<li>表长为素数时，分布更均匀，更全面</li>
-</ul>
-</li>
-<li><ul>
-<li>gcd(S, M) = G ，M取素数</li>
-</ul>
-</li>
-<li><ul>
-<li>缺陷：不动点hash(0) = 0，零阶均匀，相邻关键码散列地址必相邻</li>
-</ul>
-</li>
-<li>MAD法：</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">M为素数，a &gt; 0, b &gt; 0, a % M !=0</span><br><span class="line">hash( key ) = ( a * key + b ) % M</span><br></pre></td></tr></table></figure>
-<ul>
-<li>数字分析法</li>
-<li>平方取中法：平方后取中间数</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hash( key ) = key^2 取中间位数</span><br></pre></td></tr></table></figure>
-<ul>
-<li>折叠法：将key分隔为等宽的若干端，取其总和作为地址</li>
-<li>位异或法。。。。</li>
-<li>总结：越是随机越是没有规律越好</li>
-<li><p>伪随机数法：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">随机数发生器</span><br><span class="line">循环 rand( x + 1 ) = a * rand( x ) % M</span><br><span class="line">x = time()</span><br><span class="line">伪随机数法</span><br><span class="line">hash( key ) = rand( key ) = [ rand(0) * a^key ] % M</span><br><span class="line">种子 rand(0)</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>多项式法：</p>
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hash( s = X0X1X2...Xn-1) = X0a^n-1 + X1a^n-2+... Xn-1</span><br></pre></td></tr></table></figure>
-<h3 id="排解冲突"><a href="#排解冲突" class="headerlink" title="排解冲突"></a>排解冲突</h3>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/09/10/ds7/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="suoyue">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="锁越smile">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2015/09/10/ds7/" itemprop="url">《数据结构》笔记：二叉搜索树</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-09-10T09:13:04+08:00">
-                2015-09-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/编程基础/" itemprop="url" rel="index">
-                    <span itemprop="name">编程基础</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><ul>
-<li>循关键码访问call by key： 关键码之间可以比较，比对</li>
-<li>词条entity： key - value</li>
-<li>比较器：重载操纵符实现</li>
-<li>判等器：重载操纵符实现</li>
-<li>Binary Search Tree: 节点 ~ 词条 ~ 关键码， 处处满足顺序性</li>
-<li>顺序性：任意节点均不小于左后代，不大于右后代</li>
-<li>单调性：中序遍历，必然单调非降，充要性</li>
-<li>宏微观：微观满足顺序性，宏观满足单调性</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="class"><span class="keyword">class</span> <span class="title">BST</span>:</span> <span class="keyword">public</span> <span class="keyword">public</span> BinTree&lt;T&gt; &#123;</span><br><span class="line">    <span class="keyword">public</span>: <span class="comment">//二叉树派生</span></span><br><span class="line">        <span class="function"><span class="keyword">virtual</span> <span class="title">BinNodePosi</span><span class="params">(T)</span> &amp; <span class="title">search</span><span class="params">( <span class="keyword">const</span> T &amp;)</span> </span>; <span class="comment">//查找</span></span><br><span class="line">        <span class="function"><span class="keyword">virtual</span> <span class="title">BinNodePosi</span><span class="params">(T)</span>  <span class="title">insert</span><span class="params">( <span class="keyword">const</span> T &amp;)</span> </span>;  <span class="comment">//插入</span></span><br><span class="line">        <span class="function"><span class="keyword">virtual</span> <span class="keyword">bool</span>  <span class="title">remove</span><span class="params">( <span class="keyword">const</span> T &amp;)</span> </span>;            <span class="comment">//删除</span></span><br><span class="line">    <span class="keyword">protected</span>:</span><br><span class="line">        BinNodePosi(T) _hot; <span class="comment">//命中节点的父亲</span></span><br><span class="line">        BinNodePosi(T) connect34(BinNodePosi(T), BinNodePosi(T),  <span class="comment">//3+4重构</span></span><br><span class="line">            BinNodePosi(T), BinNodePosi(T), BinNodePosi(T), </span><br><span class="line">            BinNodePosi(T), BinNodePosi(T));</span><br><span class="line">        BinNodePosi(T) rotateAt( BinNodePosi(T) ); <span class="comment">//旋转</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="查找"><a href="#查找" class="headerlink" title="查找"></a>查找</h3><ul>
-<li>策略：减而治之，仿照二分查找策略</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; BinNodePosi(T) &amp; BST&lt;T&gt;::search(<span class="keyword">const</span> T &amp; e) &#123;</span><br><span class="line">    <span class="keyword">return</span> searchIn( _root, e, _hot = <span class="literal">NULL</span>) ;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//典型的尾递归，当前树根目标关键码，记忆热点</span></span><br><span class="line">static BinNodePosi(T) &amp;  searchIn(BinNodePosi(T) &amp; v,  const T &amp; e, BinNodePosi(T) &amp; hot ) &#123;</span><br><span class="line">    <span class="keyword">if</span>( !v || (e == v-&gt;data) ) <span class="comment">//确定失败，成功，或者</span></span><br><span class="line">        <span class="keyword">return</span> v;</span><br><span class="line">    hot = v; <span class="comment">//记下当前节点，然后。。</span></span><br><span class="line">    <span class="keyword">return</span> searchIn( ( (e &lt; v-&gt;data ) ? v-&gt;lchild : v-&gt;rchild ) , e, hot);</span><br><span class="line">&#125; <span class="comment">//运行时间正比于返回节点的深度</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>接口语义：返回值的引用值</li>
-<li><ul>
-<li>成功时，指向一个关键码为e且真实存在的节点, 失败时，指向试图转向的空节点NULL</li>
-</ul>
-</li>
-<li><ul>
-<li>增加哨兵，失败时，将此空节点转换为一个关键码为e且真实存在的节点</li>
-</ul>
-</li>
-</ul>
-<h3 id="插入"><a href="#插入" class="headerlink" title="插入"></a>插入</h3><ul>
-<li>策略：在查找的基础上替换失败的空节点</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//BST插入</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; BinNodePosi(T) BST&lt;T&gt;:: insert(<span class="keyword">const</span> T &amp; e) &#123;</span><br><span class="line">    BinNodePosi(T) &amp; x = search( e ); <span class="comment">//查找目标</span></span><br><span class="line">    <span class="keyword">if</span>( !x ) &#123; <span class="comment">//禁止雷同，失败时才插入操作</span></span><br><span class="line">        x = <span class="keyword">new</span> BinNode&lt;T&gt;(e, _hot); <span class="comment">//创建新节点以hot为父亲</span></span><br><span class="line">        _size++;</span><br><span class="line">        updataHeightAbove(x); <span class="comment">//更新全树规模，并更新历代祖先规模</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> x; <span class="comment">//无论e是否存在原树中，总有x-&gt;data == e</span></span><br><span class="line">&#125; <span class="comment">//总体复杂度O(h)</span></span><br></pre></td></tr></table></figure>
-<h3 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h3><ul>
-<li><p>策略：先确认目标再删除</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">bool</span> BST&lt;T&gt;:: remove( <span class="keyword">const</span> T &amp; e) &#123;</span><br><span class="line">    BinNodePosi(T) &amp; x = search( e ); <span class="comment">//定位目标</span></span><br><span class="line">    <span class="keyword">if</span>(!x) <span class="keyword">return</span> <span class="literal">false</span>; <span class="comment">//确认目标存在</span></span><br><span class="line">    removeAt(x , _hot); <span class="comment">//分两大类实施 删除</span></span><br><span class="line">    _size--; <span class="comment">//更新规模</span></span><br><span class="line">    updataHeightAbove( _hot );</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125; <span class="comment">//复杂度O(h)</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>情况一</p>
-</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">template &lt;typename T&gt; static BinNodePosi(T) removeAt(BinNodePosi(T) &amp; x, BinNodePosi(T) &amp; hot)&#123;</span><br><span class="line">    BinNodePosi(T) w = x; <span class="comment">//实际被摘除的节点</span></span><br><span class="line">    BinNodePosi(T) succ = <span class="literal">NULL</span>; <span class="comment">//实际被删除的节点的接替者</span></span><br><span class="line">    <span class="keyword">if</span>( ! HasLchild(*x) ) succ = x = x-&gt;rchild; <span class="comment">//左子树为空</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>( ! HasRchild(*x) ) succ = x = x-&gt;lchild; <span class="comment">//右子树为空</span></span><br><span class="line">    <span class="keyword">else</span> &#123; <span class="comment">//左右并存的状况</span></span><br><span class="line">        hot = w-&gt;parent;</span><br><span class="line">        <span class="keyword">if</span>( succ ) succ-&gt;parent = hot;</span><br><span class="line">        release( w-&gt;data ); <span class="comment">//释放被摘除的节点</span></span><br><span class="line">        release( w );</span><br><span class="line">        <span class="keyword">return</span> succ; 返回接替者</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>情况二</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">template &lt;typename T&gt; static BinNodePosi(T) removeAt( BinNodePosi(T) &amp;x, BinNodePosi(T) &amp; hot ) &#123;</span><br><span class="line">    BinNodePosi(T) w = x; <span class="comment">//实际被摘除的节点</span></span><br><span class="line">    BinNodePosi(T) succ = <span class="literal">NULL</span>; <span class="comment">//实际被删除的节点的接替者</span></span><br><span class="line">    <span class="keyword">if</span>( ! HasLchild(*x) ) succ = x = x-&gt;rchild; <span class="comment">//左子树为空</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>( ! HasRchild(*x) ) succ = x = x-&gt;lchild; <span class="comment">//右子树为空</span></span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        w = w-&gt;succ;</span><br><span class="line">        swap( x-&gt;data, w-&gt;data);</span><br><span class="line">        BinNodePosi(T) u = w-&gt;parent;</span><br><span class="line">        ( u == x ? u-&gt;rChild : u-&gt;lChild ) = succ = w-&gt;rChild;</span><br><span class="line">    &#125;<span class="comment">//O(h)</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="平衡与等价"><a href="#平衡与等价" class="headerlink" title="平衡与等价"></a>平衡与等价</h3><blockquote>
-<p>BST的查找，插入，删除复杂度都为O(h)，但是高度不能很好控制，效率并不理想</p>
-</blockquote>
-<ul>
-<li>生成BST：随机生成的高度为O(logn)，有重复的组合，随机组合的BST生成的O(n^1/2)</li>
-<li>理想平衡：节点数固定，兄弟子树高度越接近(平衡)，全树倾向更低</li>
-<li>由n个节点组成的二叉树，高度不低于logn时—–恰为logn为理想平衡树，概率低，适当降低标准</li>
-<li>退一步海阔天空：高度渐进不超过O(logn)</li>
-<li><p>适度平衡的二叉树，称平衡二叉树BBST</p>
-</li>
-<li><p>非平衡二叉树等价平衡二叉树</p>
-</li>
-<li>中序遍历的歧义性：拓扑结构不同，中序遍历相同</li>
-<li>等价BST：3个规律，上下可变，左右不能乱，旋转变换</li>
-<li>zig变换（旋转调整）</li>
-<li>准则：局部性（常数节点数），操作数至多O(logn)</li>
-</ul>
-<h3 id="AVL树-适度平衡搜索二叉树"><a href="#AVL树-适度平衡搜索二叉树" class="headerlink" title="AVL树(适度平衡搜索二叉树)"></a>AVL树(适度平衡搜索二叉树)</h3><ul>
-<li>平衡因子：balFac(V) = height( lc(v) ) - height( rc(v) )</li>
-<li>G.Adelson-Velsky &amp; E.Landis (1962) 所有 | balFac | &lt;= 1</li>
-<li>AVL = 适度平衡：高度为h的AVL树，至少包含S(h) = fib(h+3) -1个节点</li>
-<li><p>接口：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> Balance(x) ( stature( (x).lChild ) == stature( (x).rChild ) )</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> BalFac(x) ( stature( (x).lChild ) - stature( (x).rChild ) )</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> AvlBalanced(x) ( ( -2 &lt; BalFac(x) ) &amp;&amp; ( BalFac(x) &lt; 2 ) )</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="class"><span class="keyword">class</span> <span class="title">AVL</span>:</span> <span class="keyword">public</span> BST&lt;T&gt; &#123;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">        BinNodePosi(T) insert( <span class="keyword">const</span> T &amp;); <span class="comment">//插入重写</span></span><br><span class="line">        <span class="function"><span class="keyword">bool</span> <span class="title">remove</span><span class="params">( <span class="keyword">const</span> T &amp;)</span></span>; <span class="comment">//删除重写</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>插入节点会导致祖先发生失衡，删除后只有一个节点失衡，相反插入操作更简单</p>
-</li>
-<li>插入：单旋 ，g经过单旋后复衡，子树高度复原，更高祖先也必平衡，全树复衡</li>
-<li>时间：旋转O(1) 一致向右zagzag，一致向左zigzig，双旋，zigzag和zagzig情况</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//插入</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; BinNodePosi(T) AVL&lt;T&gt;::insert( <span class="keyword">const</span> T &amp; e) &#123;</span><br><span class="line">    BinNodePosi(T) &amp; x = search( e ); </span><br><span class="line">    <span class="keyword">if</span>( x ) <span class="keyword">return</span> x;</span><br><span class="line">    x = <span class="keyword">new</span> BinNode&lt;T&gt;( e, _hot );</span><br><span class="line">    _size++;</span><br><span class="line">    BinNodePosi(T) xx = x;</span><br><span class="line">    <span class="keyword">for</span> ( BinNodePosi(T) g = x-&gt;parenr; g; g = g-&gt;parent )</span><br><span class="line">        <span class="keyword">if</span> ( !AvlBalanced( *g ) ) &#123;</span><br><span class="line">            FromParentIo( *g ) = rotateAt( tallerChild( tallerChild(g) ) );</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span></span><br><span class="line">        updateHeight( g );</span><br><span class="line">    <span class="keyword">return</span> xx;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1426,7 +1099,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-count">46</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1437,7 +1110,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -1448,7 +1121,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-count">21</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -1487,7 +1160,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

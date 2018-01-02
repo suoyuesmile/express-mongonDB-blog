@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="保持乐观，保持谦虚">
+<meta property="og:type" content="website">
+<meta property="og:title" content="锁越smile">
+<meta property="og:url" content="http://yoursite.com/page/10/index.html">
+<meta property="og:site_name" content="锁越smile">
+<meta property="og:description" content="保持乐观，保持谦虚">
+<meta property="og:locale" content="zh-Hans">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="锁越smile">
+<meta name="twitter:description" content="保持乐观，保持谦虚">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/page/10/"/>
+
+
+
+
+
+  <title>锁越smile</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left 
+  page-home">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">锁越smile</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">邵锁的博客</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+  <section id="posts" class="posts-expand">
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/07/01/c1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="suoyue">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="锁越smile">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2015/07/01/c1/" itemprop="url">《C primer plus》笔记：C与数据</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-07-01T21:48:04+08:00">
+                2015-07-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="C与数据"><a href="#C与数据" class="headerlink" title="C与数据"></a>C与数据</h1><h3 id="11种数据类型"><a href="#11种数据类型" class="headerlink" title="11种数据类型"></a>11种数据类型</h3><ul>
+<li>整型类：int，short（短整型），long（长整型），unsigned（无符号），char（字符整型）</li>
+<li>浮点类：float（单精度），double（双精度）</li>
+<li>C90新增：signed（有符号），void（空）</li>
+<li>C99新增：<em>_Boo</em>l（布尔指）<em>，_Complex</em>（复数），<em>_Imaginary</em>（虚数）</li>
+</ul>
+<h3 id="存储单元"><a href="#存储单元" class="headerlink" title="存储单元"></a>存储单元</h3><ul>
+<li>位：最小的存储单元，存储0或1</li>
+<li>字节：常用存储单位，几乎所有机器有1字节等于8位，即1字节可以表示0-255之间的整数</li>
+<li>字：自然存储单位：8位的微型计算机一字为8位，16，32位的为即一字为16位或32位</li>
+</ul>
+<h3 id="基本整型类型"><a href="#基本整型类型" class="headerlink" title="基本整型类型"></a>基本整型类型</h3><ol>
+<li>int型：储存要占1个机器字长，16位机器，范围-32768 ~ 32767目前大多数机器32位，即占4个字节，存储数字范围为：-2147483648 ~ 2147483647</li>
+<li>short型：存储小于等于int，-32768 ~ 32767</li>
+<li>long型：储存大于等于int，-2147483648 ~ 2147483647</li>
+<li>long long型：存储至少64位，即8个字节</li>
+<li>unsigned型：无符号，只能存储正整数，能存储比signed更大的整数</li>
+<li>目前普遍设置：long long 64位8字节，long 32位4字节，short 16位2字节，int 16/32位 2/4字节</li>
+<li>常量：超出int范围，视为long，超出long范围，视为unsigned long，继续long long, unsigned long long</li>
+<li>用H/h作为short，用L/l作为long， 用LL/ll作为long long，用U/u作为unsigned，例如343H，3234L，35455LL，435345U，534546467ULL</li>
+<li>char型：一个字节，-128 ~ 127，ASCII编码0~127,存储绰绰有余，C语言将字符常量视为int型非char型，是否有符号看编译器</li>
+<li>整型可以表示10，8，16进制，如32，032，0x32/0X32</li>
+</ol>
+<h3 id="基本浮点类型"><a href="#基本浮点类型" class="headerlink" title="基本浮点类型"></a>基本浮点类型</h3><ul>
+<li>float：至少6位有效数字，取值至少10的-37到+37次方。通常浮点占32位，8位指数的值和符号，剩下的24位非指数的值和符号。<br>浮点最大：999999961690316250000000000000000000.000000<br>超过：<em>1.#INF00</em></li>
+<li>double，至少13位有效数字。通常64位，剩下的32位给非指数部分。</li>
+<li>long double 更高的精确要求，至少比double精确</li>
+</ul>
+<h3 id="复数和虚数类型"><a href="#复数和虚数类型" class="headerlink" title="复数和虚数类型"></a>复数和虚数类型</h3><ul>
+<li>复数：float_Complex，double_Complex,long double_Complex</li>
+<li>虚数：float_Imaginary，double_Imaginary，long double_Imaginary</li>
+</ul>
+<h3 id="类型大小"><a href="#类型大小" class="headerlink" title="类型大小"></a>类型大小</h3><p>sizeof()函数<br>sizeof(int),sizeof(char)等等……</p>
+<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p>整型，浮点的上溢出，下溢出？</p>
+<h1 id="字符串与格式化输出输入"><a href="#字符串与格式化输出输入" class="headerlink" title="字符串与格式化输出输入"></a>字符串与格式化输出输入</h1><h3 id="字符串-string"><a href="#字符串-string" class="headerlink" title="字符串 string"></a>字符串 string</h3><ol>
+<li>字符串数组（变量）来存储，char name[40];</li>
+<li>输入scanf(“%s”,name) name是数组首地址</li>
+<li>输出printf(“%s”,name)</li>
+<li>数组大小sizeof(name) =&gt; 40，可以写成 sizeof name</li>
+<li>字符串长度 strlen(name) =&gt;字符实际长度</li>
+<li>空字符结尾（\n）</li>
+</ol>
+<h3 id="预处理-define"><a href="#预处理-define" class="headerlink" title="预处理 define"></a>预处理 define</h3><ul>
+<li>格式 #define NAME ‘shaosuo’</li>
+<li>注意是简单的替换，没有其他操作</li>
+</ul>
+<h3 id="限定符-const"><a href="#限定符-const" class="headerlink" title="限定符 const"></a>限定符 const</h3><ul>
+<li>明示常量：limits.h float.h</li>
+<li>imits/h:包含<em>INT_MAX</em>， <em>INT_MIN</em> 等预处理常量数值h</li>
+<li>float.h:包含<em>FLT_MAX</em>， <em>FLT_MIN</em>..</li>
+</ul>
+<h3 id="输出函数-printf"><a href="#输出函数-printf" class="headerlink" title="输出函数 printf()"></a>输出函数 printf()</h3><h4 id="转换格式"><a href="#转换格式" class="headerlink" title="转换格式"></a>转换格式</h4><ul>
+<li>%a/A  浮点，16进制，p计数</li>
+<li>%g/G  自动选择%f，%e</li>
+<li>%i    有符号10进制整数</li>
+<li>%u    无符号10进制整数</li>
+<li>%%    打印百分号</li>
+<li>%p    指针</li>
+<li>%o    无符号8进制</li>
+<li>%x    无符号16进制</li>
+</ul>
+<h4 id="转换修饰符"><a href="#转换修饰符" class="headerlink" title="转换修饰符"></a>转换修饰符</h4><ul>
+<li>标记：-（左对齐），+（添加符号），空格（空格覆盖正号），#（防止0被删除），0（0填充符号位）</li>
+<li>宽度：数字（最小字段宽度）（用于字段对齐，右对齐）</li>
+<li>精度：.数字</li>
+<li>类型：h（short），hh（char），j，l，ll，L（long  double），t，z</li>
+</ul>
+<h4 id="返回值"><a href="#返回值" class="headerlink" title="返回值"></a>返回值</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> a = <span class="number">0</span>, b =<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> pn1 = <span class="built_in">printf</span>(<span class="string">"ok!\n"</span>);            <span class="comment">// pn1 = 4</span></span><br><span class="line">    <span class="keyword">int</span> pn2 = <span class="built_in">printf</span>(<span class="string">"ok!,%d,%d\n"</span>,a, b); <span class="comment">// pn2 = 8</span></span><br><span class="line">    <span class="keyword">int</span> sn1 = <span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;a, &amp;b);        <span class="comment">// sn1 = 1</span></span><br><span class="line">    <span class="keyword">int</span> sn2 = <span class="built_in">scanf</span>(<span class="string">"%d%d"</span>, &amp;a, &amp;b);      <span class="comment">// sn2 = 2</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"pn1=%d, sn1=%d, pn2=%d, sn2=%d\n"</span>, pn1, sn1, pn2, sn2);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>printf（）返回正确按照格式变量个数，即打印字符的数</li>
+<li>scanf（）返回正确按照指定格式接收的变量个数  <h1 id="运算符表达式和语句"><a href="#运算符表达式和语句" class="headerlink" title="运算符表达式和语句"></a>运算符表达式和语句</h1></li>
+</ul>
+<h3 id="基本运算符"><a href="#基本运算符" class="headerlink" title="基本运算符"></a>基本运算符</h3><ul>
+<li>算数：（），+（取正），-（取负），+，-，*，/，%（取模），=（赋值）</li>
+<li>sizeof：如果对象是类型，必须加括号，是变量可以不加，返回字节大小</li>
+<li>%取模运算符：如13%5=3，只能用于整数，不能用于浮点数</li>
+<li>递增（减）运算符++（–）：前缀与后缀区别，<strong>i++ =&gt; 先使用 i，再递增，++ i  =&gt; 先递增 i，再使用</strong></li>
+</ul>
+<h3 id="类型自动转换"><a href="#类型自动转换" class="headerlink" title="类型自动转换"></a>类型自动转换</h3><ul>
+<li>普遍：<strong>较小类型转换为较大类型</strong></li>
+<li>运算时：两个值被分别两种；类型的更高级别</li>
+<li>高低：long double，double，float，unsigned long long，long long，unsigned long， long，unsigned int，int（int和long大小可能相同<br>）</li>
+<li>参数传递时，char，short转换成int，float转化成double</li>
+<li><strong>赋值语句可能导致类型的升级和降级</strong></li>
+</ul>
+<h3 id="类型强制转化"><a href="#类型强制转化" class="headerlink" title="类型强制转化"></a>类型强制转化</h3><ul>
+<li>格式：（double）a = （double）1 + (double) 1;</li>
+<li>显示使用类型转化比较好，避免不必要的错误<h1 id="控制语句"><a href="#控制语句" class="headerlink" title="控制语句"></a>控制语句</h1></li>
+</ul>
+<h3 id="循环"><a href="#循环" class="headerlink" title="循环"></a>循环</h3><ul>
+<li>关系运算符，表达式：&lt;，&lt;=，==，&gt;=，&gt;，!=</li>
+<li>真假：<strong>非0 即为真</strong></li>
+<li>注意：<strong>= 赋值，== 比较</strong></li>
+<li>优先级关系：x &gt; y + 2 =&gt; x = ( y + 2 )</li>
+<li>while语句：非计数循环</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> a[<span class="number">27</span>] = <span class="string">"abcdefghijklmnopqrstuvwxyz"</span>;</span><br><span class="line">    <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>( i++ &lt; <span class="number">26</span>)&#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%c\n"</span>, a[i<span class="number">-1</span>]); <span class="comment">//前面+1 ，-1即为真实元素</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>for语句：计数循环</li>
+<li>逗号运算符：结果为右边的值</li>
+<li>入口，出口条件：while，do while</li>
+<li>嵌套循环</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> lets[<span class="number">27</span>] = <span class="string">"ABCDEFGHIJKLMNOPQRSTUVWXYZ"</span>;</span><br><span class="line">    <span class="keyword">int</span> i, j;</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; <span class="number">6</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (j = <span class="number">0</span>; j &lt;= i; j++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"%c"</span>, lets[i*(i+<span class="number">1</span>)/<span class="number">2</span>+j]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"\n"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>示例：倒序打印（test47.c）</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAX_LEN 255</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> a[MAX_LEN];</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%s"</span>, a);</span><br><span class="line">    <span class="keyword">int</span> len = <span class="built_in">strlen</span>(a);</span><br><span class="line">    <span class="keyword">while</span>(len-- &gt; <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%c"</span>, a[len]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>示例：冒泡排序（test43.c）</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">bb</span><span class="params">(<span class="keyword">int</span> a[])</span></span>&#123;</span><br><span class="line"><span class="keyword">int</span>  i, j;</span><br><span class="line"><span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; LEN <span class="number">-1</span>; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (j = <span class="number">0</span>; j &lt; LEN - i - <span class="number">1</span>; ++j)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(a[j] &lt; a[j+<span class="number">1</span>])</span><br><span class="line">            &#123;</span><br><span class="line">                swap(&amp;a[j], &amp;a[j+<span class="number">1</span>]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="分支与跳转"><a href="#分支与跳转" class="headerlink" title="分支与跳转"></a>分支与跳转</h3><ul>
+<li>选择语句 if……：<strong>执行或者跳过这条语句</strong></li>
+<li>双选语句 if ……else：<strong>在两条语句中进行选择</strong></li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(n == <span class="number">0</span>)</span><br><span class="line">    s = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    s = <span class="number">-1</span>;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>字符输入输出函数：getchar(),putchar(),它们是#include中的<strong>预处理，不是真正的函数</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ch = getchar();   <span class="comment">//scanf("%c", &amp;ch);</span></span><br><span class="line"><span class="built_in">putchar</span>(ch);    <span class="comment">//printf("%c", ch);</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>ctype.h系列的字符函数：<strong>使用时别忘记头文件</strong></p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>函数名</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>isalnum（）</td>
+<td>字母或数组</td>
+</tr>
+<tr>
+<td>isalpha（）</td>
+<td>字母</td>
+</tr>
+<tr>
+<td>isblank（）</td>
+<td>空白符</td>
+</tr>
+<tr>
+<td>isdigit（）</td>
+<td>数字</td>
+</tr>
+<tr>
+<td>islower（）</td>
+<td>小写字母</td>
+</tr>
+<tr>
+<td>isupper（）</td>
+<td>大写字母</td>
+</tr>
+<tr>
+<td>isxdigit（）</td>
+<td>16进制字母</td>
+</tr>
+<tr>
+<td>tolower（）</td>
+<td>返回小写字母</td>
+</tr>
+<tr>
+<td>toupper（）</td>
+<td>返回大写字母</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>多重选择if …… （else if） …… else：在多条语句中选择，<strong>完全等价与if else多重嵌套模式</strong></li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (score &lt;= <span class="number">60</span>)</span><br><span class="line">    score = <span class="number">6</span>;</span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span>(score &lt;= <span class="number">70</span> )</span><br><span class="line">    score = <span class="number">7</span>;</span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span>(score &lt;= <span class="number">80</span>)</span><br><span class="line">    score = <span class="number">8</span>;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    score = <span class="number">10</span>;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>逻辑运算符：&amp;&amp;（与）， ||（或），！（非）</li>
+<li>替代iso664.h：and，or，not</li>
+<li>优先级：<strong>！与递增运算符一样，&amp;&amp;大于||</strong></li>
+<li>条件运算符： ？：</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">max = a &gt; b ? a : b;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>配对：else 与最近的 if 配对</li>
+<li>循环辅助continue：程序循环到一部分，可以跳过剩余部分，进行下一轮循环</li>
+<li>循环辅助break：程序循环到一部，直接跳出该层循环，进入下一阶段</li>
+<li>多重选择switch ……break：可用来替代ifelse，使用break跳出，不往下继续执行</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">switch</span> (整型表达式)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">case</span> 常量<span class="number">1</span>:</span><br><span class="line">        语句</span><br><span class="line">    <span class="keyword">case</span> 常量<span class="number">2</span>:</span><br><span class="line">        语句</span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">        语句</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>多重case标签</li>
+<li>跳转语句goto：避免使用goto</li>
+<li><strong>注意：“==” 不要写成“=”，不要忘记打印结果</strong> </li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> ch, pre;</span><br><span class="line">    <span class="keyword">int</span> n = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>( (ch = getchar()) != <span class="string">'#'</span> )&#123;</span><br><span class="line">        <span class="keyword">if</span>(pre == <span class="string">'e'</span> &amp;&amp; ch == <span class="string">'i'</span>) <span class="comment">//切记</span></span><br><span class="line">            n++;</span><br><span class="line">        pre = ch;   </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d\n"</span>, n); <span class="comment">//切记</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>综合训练：<strong>注意，getchar连续输入要去掉\n，菜单要过滤字符，退出写在循环条件中</strong></li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> choice;</span><br><span class="line">    <span class="keyword">float</span> fweight = <span class="number">0</span>, sweight = <span class="number">0</span>, tweight = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">float</span> fcharge = <span class="number">0</span>, scharge = <span class="number">0</span>, tcharge = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">float</span> weight, price, charge, orderCharge, orderWeight, account, extCharge, pay;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"enter a, b, c chooce your goods, q is quit:\n"</span>);</span><br><span class="line">    <span class="keyword">while</span> ( (choice = getchar()) != <span class="string">'q'</span> )</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="string">'\n'</span> == choice)</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        <span class="keyword">if</span>( choice == <span class="string">'a'</span> || choice == <span class="string">'b'</span> || choice == <span class="string">'c'</span> )</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">switch</span> (choice)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">'a'</span>:</span><br><span class="line">                    price = <span class="number">2.05</span>;</span><br><span class="line">                    <span class="built_in">printf</span>(<span class="string">"please enter want to buy yangli weight:\n"</span>);</span><br><span class="line">                    <span class="built_in">scanf</span>(<span class="string">"%f"</span>, &amp;weight); ;</span><br><span class="line">                    fweight += weight;</span><br><span class="line">                    fcharge += fweight * price;</span><br><span class="line">                    <span class="built_in">printf</span>(<span class="string">"%.2f\n"</span>, fweight);</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">'b'</span>:</span><br><span class="line">                    price = <span class="number">1.15</span>; </span><br><span class="line">                    <span class="built_in">printf</span>(<span class="string">"please enter want to buy taincai weight:\n"</span>);</span><br><span class="line">                    <span class="built_in">scanf</span>(<span class="string">"%f"</span>, &amp;weight); </span><br><span class="line">                    sweight += weight;</span><br><span class="line">                    scharge += sweight * price;</span><br><span class="line">                    <span class="built_in">printf</span>(<span class="string">"%.2f\n"</span>, sweight);</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">'c'</span>:</span><br><span class="line">                    price = <span class="number">1.09</span>;</span><br><span class="line">                    <span class="built_in">printf</span>(<span class="string">"please enter want to buy hulubo weight:\n"</span>);</span><br><span class="line">                    <span class="built_in">scanf</span>(<span class="string">"%f"</span>, &amp;weight); </span><br><span class="line">                    tweight += weight;</span><br><span class="line">                    tcharge += tweight * price;</span><br><span class="line">                    <span class="built_in">printf</span>(<span class="string">"%.2f\n"</span>, tweight);</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">default</span>: ;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"pleae enter 'a', 'b', 'c' !\n"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"enter a, b, c chooce your goods, q is quit:\n"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    orderWeight = fweight + sweight + tweight; </span><br><span class="line">    orderCharge = fcharge + scharge + tcharge;</span><br><span class="line">    account = orderCharge &gt; <span class="number">100</span> ? orderCharge * <span class="number">0.05</span> : <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span>( orderWeight &lt;= <span class="number">5</span> )</span><br><span class="line">        extCharge = <span class="number">6.5</span>;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>( orderWeight &lt;= <span class="number">20</span>)</span><br><span class="line">        extCharge = <span class="number">14</span>;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        extCharge = <span class="number">14</span> + (orderWeight<span class="number">-14</span>) * <span class="number">0.5</span>;</span><br><span class="line">    pay = orderCharge + extCharge - account;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"*******************   order    ******************\n"</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"*name-------price------weight-------charge*\n"</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"*yang-------$2.05--------%9.2f---------$%9.2f*\n"</span>, fweight, fcharge);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"*tian-------$1.15--------%9.2f---------$%9.2f*\n"</span>, sweight, scharge);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"*hulobo-----$1.09--------%9.2f---------$%9.2f*\n"</span>, tweight, tcharge);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"totalWeight:%.2f, orderCharge:$%.2f"</span>, orderWeight, orderCharge);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"account:$%.2f, extCharge:$%.2f, pay:$%.2f\n"</span>, account, extCharge, pay);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"*************************************************\n"</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="友好的交互"><a href="#友好的交互" class="headerlink" title="友好的交互"></a>友好的交互</h3><ul>
+<li>缓冲区：字符被收集存储的临时存储区（是否有无缓冲输入取决于系统）正常的都是有缓冲输入</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">graph LR</span><br><span class="line">typeHI!--&gt;|无缓冲区程序立即使用| HI!</span><br><span class="line">typeHI!--&gt;|缓冲区| HI!</span><br></pre></td></tr></table></figure>
+<ul>
+<li>结束键盘输入：文件，流，键盘输入</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> ch;</span><br><span class="line">    <span class="keyword">while</span>( (ch =getchar()) != <span class="string">'#'</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">putchar</span>(ch);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>使用的#字符可能会被我们用到，使用#退出并不一定起作用</strong><br><strong>c语言把输入输出设备，视为文件，stdin流表示键盘输入，stdout流表示显示输出</strong><br><strong>使用文件的形式来结束键盘的输入</strong></p>
+<ul>
+<li>文件结尾：Ctrl+Z(曾经操作系统)，存储文件大小信息，<strong>EOF（C语言）</strong></li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> EOF -1 <span class="comment">//stdio.h定义的</span></span></span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>( (ch =getchar()) != EOF)</span><br></pre></td></tr></table></figure>
+<ul>
+<li><ul>
+<li><strong>getchar（）返回int，可能会报信息，但不影响putchar（）输出字符</strong></li>
+</ul>
+</li>
+<li><ul>
+<li><strong>正确的使用是找到操作系统，文件终止符识别方案，大多数是Ctrl+D，有些是Ctrl+Z</strong></li>
+</ul>
+</li>
+<li><ul>
+<li><strong>EOF不要加字符的‘’</strong></li>
+</ul>
+</li>
+<li>重定向和文件：把stdin流重新赋给文件，主要问题与操作系统有关</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">testFileIO &lt; words            <span class="comment">// UNIX与DOS 输入重定向</span></span><br><span class="line">testFileIO &gt; mywords          <span class="comment">//输出重定向 DOS Ctrl+Z结束，UNIX Ctrl+D结束</span></span><br><span class="line">testFileIO &lt; words &gt; mywords  <span class="comment">//组合重定向</span></span><br></pre></td></tr></table></figure>
+<p><strong>不能读多个文件，也不能写多个文件，空格不是必须的，写入的会把之前的覆盖掉</strong></p>
+<ul>
+<li>友好的用户界面<br><strong>丢弃换行符两种方式比较</strong></li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (ch == <span class="string">'\n'</span>)   <span class="comment">//当输入的字符为换行符时，直接跳入下一轮循环</span></span><br><span class="line">    <span class="keyword">continue</span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>( getchar() != <span class="string">'\n'</span> ) <span class="comment">//只要输入的字符不为换行符进入下一轮循环</span></span><br><span class="line">    <span class="keyword">continue</span>;</span><br></pre></td></tr></table></figure>
+<p><strong><em>问题来了？为什么用第二种不用第一种？</em></strong></p>
+<ul>
+<li>混合字符数字输入：<br><strong>1.验证输入正确性2.丢弃换行符</strong></li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>（<span class="number">2</span> != <span class="built_in">scanf</span>(<span class="string">"%d%d"</span>, &amp;a, &amp;b)）</span><br><span class="line">    <span class="keyword">break</span>;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>输入验证：<br><strong>事先预测可能输入，检测和处理</strong></li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>( <span class="built_in">scanf</span>(<span class="string">"%ld"</span>, &amp;n) == <span class="number">1</span> &amp;&amp; n &gt; <span class="number">0</span> ) <span class="comment">//验证正整数</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>模块化编程：<strong>用单独的函数，验证输入和管理显示</strong></li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">count</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">get_int</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">char</span> <span class="title">get_first</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">char</span> <span class="title">get_choice</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> choice;</span><br><span class="line">    count();</span><br><span class="line">    <span class="keyword">while</span>( (choice = get_choice()) != <span class="string">'q'</span> )&#123;</span><br><span class="line">        <span class="keyword">switch</span> (choice)&#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">'a'</span>:</span><br><span class="line">                <span class="built_in">printf</span>(<span class="string">"buy low, sell high\n"</span>);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">'b'</span>:</span><br><span class="line">                <span class="built_in">printf</span>(<span class="string">"\a\n"</span>);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">'c'</span>:</span><br><span class="line">                count();</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">default</span>:</span><br><span class="line">                <span class="built_in">printf</span>(<span class="string">"error!!!\n"</span>);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//计数</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">count</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> n, i;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Count how far?\n"</span>);</span><br><span class="line">    n = get_int();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;= n; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%d\n"</span>, i);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span>( getchar() != <span class="string">'\n'</span> )</span><br><span class="line">        <span class="keyword">continue</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//异常处理</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">get_int</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> n;</span><br><span class="line">    <span class="keyword">char</span> ch;</span><br><span class="line">    <span class="keyword">while</span>( <span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;n) != <span class="number">1</span> )&#123;</span><br><span class="line">        <span class="keyword">while</span>( getchar() != <span class="string">'\n'</span>)</span><br><span class="line">            <span class="built_in">putchar</span>(ch);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"is not a integer!!!\n"</span>);</span><br><span class="line">    &#125; </span><br><span class="line">    <span class="keyword">return</span> n;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//过滤换行符</span></span><br><span class="line"><span class="function"><span class="keyword">char</span> <span class="title">get_first</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> choice;</span><br><span class="line">    choice = getchar();</span><br><span class="line">    <span class="keyword">while</span>( getchar() != <span class="string">'\n'</span> )</span><br><span class="line">        <span class="keyword">continue</span>;</span><br><span class="line">    <span class="keyword">return</span> choice;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//删选合适的字符</span></span><br><span class="line"><span class="function"><span class="keyword">char</span> <span class="title">get_choice</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> choice;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"please enter a, b, c\n"</span>);</span><br><span class="line">    choice = get_first();</span><br><span class="line">    <span class="keyword">while</span>( (choice &lt; <span class="string">'a'</span> || choice &gt; <span class="string">'c'</span>) &amp;&amp; choice != <span class="string">'q'</span>)&#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"please enter correct code!!\n"</span>);</span><br><span class="line">        choice = get_first();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> choice;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>实战例子（test57.c）:统计文件字符数</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;ctype.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> ch;</span><br><span class="line">    <span class="keyword">int</span> count = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>( (ch = getchar()) != EOF )</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(isblank(ch) || ch == <span class="string">'\n'</span>)</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        count++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"count : %d\n"</span>, count);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>实战例子（test61.c）:二分查找找1-100中的数</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> ran, lower = <span class="number">1</span>, upper = <span class="number">100</span>, i = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> smart = (lower + upper) / <span class="number">2</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"please enter 1 ~ 100 a integer:"</span>);</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;ran);</span><br><span class="line">    <span class="keyword">while</span>( ran != smart)&#123;</span><br><span class="line">        <span class="keyword">if</span>(ran &lt; smart)</span><br><span class="line">            upper = smart;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            lower = smart;</span><br><span class="line">        i++;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"though %d times = %d\n"</span>, i, smart);</span><br><span class="line">        smart = (lower + upper) / <span class="number">2</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"though %d times = %d\n"</span>, i+<span class="number">1</span>, smart);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+  </section>
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/9/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span>
+  </nav>
+
+
+
+          </div>
+          
+
+
+          
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">suoyue</p>
+              <p class="site-description motion-element" itemprop="description">保持乐观，保持谦虚</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">46</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">suoyue</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
