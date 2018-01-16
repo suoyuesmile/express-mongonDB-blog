@@ -272,6 +272,423 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/09/10/ds7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="suoyue">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="锁越smile">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2015/09/10/ds7/" itemprop="url">《数据结构》笔记：二叉搜索树</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-09-10T09:13:04+08:00">
+                2015-09-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/编程基础/" itemprop="url" rel="index">
+                    <span itemprop="name">编程基础</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><ul>
+<li>循关键码访问call by key： 关键码之间可以比较，比对</li>
+<li>词条entity： key - value</li>
+<li>比较器：重载操纵符实现</li>
+<li>判等器：重载操纵符实现</li>
+<li>Binary Search Tree: 节点 ~ 词条 ~ 关键码， 处处满足顺序性</li>
+<li>顺序性：任意节点均不小于左后代，不大于右后代</li>
+<li>单调性：中序遍历，必然单调非降，充要性</li>
+<li>宏微观：微观满足顺序性，宏观满足单调性</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="class"><span class="keyword">class</span> <span class="title">BST</span>:</span> <span class="keyword">public</span> <span class="keyword">public</span> BinTree&lt;T&gt; &#123;</span><br><span class="line">    <span class="keyword">public</span>: <span class="comment">//二叉树派生</span></span><br><span class="line">        <span class="function"><span class="keyword">virtual</span> <span class="title">BinNodePosi</span><span class="params">(T)</span> &amp; <span class="title">search</span><span class="params">( <span class="keyword">const</span> T &amp;)</span> </span>; <span class="comment">//查找</span></span><br><span class="line">        <span class="function"><span class="keyword">virtual</span> <span class="title">BinNodePosi</span><span class="params">(T)</span>  <span class="title">insert</span><span class="params">( <span class="keyword">const</span> T &amp;)</span> </span>;  <span class="comment">//插入</span></span><br><span class="line">        <span class="function"><span class="keyword">virtual</span> <span class="keyword">bool</span>  <span class="title">remove</span><span class="params">( <span class="keyword">const</span> T &amp;)</span> </span>;            <span class="comment">//删除</span></span><br><span class="line">    <span class="keyword">protected</span>:</span><br><span class="line">        BinNodePosi(T) _hot; <span class="comment">//命中节点的父亲</span></span><br><span class="line">        BinNodePosi(T) connect34(BinNodePosi(T), BinNodePosi(T),  <span class="comment">//3+4重构</span></span><br><span class="line">            BinNodePosi(T), BinNodePosi(T), BinNodePosi(T), </span><br><span class="line">            BinNodePosi(T), BinNodePosi(T));</span><br><span class="line">        BinNodePosi(T) rotateAt( BinNodePosi(T) ); <span class="comment">//旋转</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="查找"><a href="#查找" class="headerlink" title="查找"></a>查找</h3><ul>
+<li>策略：减而治之，仿照二分查找策略</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; BinNodePosi(T) &amp; BST&lt;T&gt;::search(<span class="keyword">const</span> T &amp; e) &#123;</span><br><span class="line">    <span class="keyword">return</span> searchIn( _root, e, _hot = <span class="literal">NULL</span>) ;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//典型的尾递归，当前树根目标关键码，记忆热点</span></span><br><span class="line">static BinNodePosi(T) &amp;  searchIn(BinNodePosi(T) &amp; v,  const T &amp; e, BinNodePosi(T) &amp; hot ) &#123;</span><br><span class="line">    <span class="keyword">if</span>( !v || (e == v-&gt;data) ) <span class="comment">//确定失败，成功，或者</span></span><br><span class="line">        <span class="keyword">return</span> v;</span><br><span class="line">    hot = v; <span class="comment">//记下当前节点，然后。。</span></span><br><span class="line">    <span class="keyword">return</span> searchIn( ( (e &lt; v-&gt;data ) ? v-&gt;lchild : v-&gt;rchild ) , e, hot);</span><br><span class="line">&#125; <span class="comment">//运行时间正比于返回节点的深度</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>接口语义：返回值的引用值</li>
+<li><ul>
+<li>成功时，指向一个关键码为e且真实存在的节点, 失败时，指向试图转向的空节点NULL</li>
+</ul>
+</li>
+<li><ul>
+<li>增加哨兵，失败时，将此空节点转换为一个关键码为e且真实存在的节点</li>
+</ul>
+</li>
+</ul>
+<h3 id="插入"><a href="#插入" class="headerlink" title="插入"></a>插入</h3><ul>
+<li>策略：在查找的基础上替换失败的空节点</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//BST插入</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; BinNodePosi(T) BST&lt;T&gt;:: insert(<span class="keyword">const</span> T &amp; e) &#123;</span><br><span class="line">    BinNodePosi(T) &amp; x = search( e ); <span class="comment">//查找目标</span></span><br><span class="line">    <span class="keyword">if</span>( !x ) &#123; <span class="comment">//禁止雷同，失败时才插入操作</span></span><br><span class="line">        x = <span class="keyword">new</span> BinNode&lt;T&gt;(e, _hot); <span class="comment">//创建新节点以hot为父亲</span></span><br><span class="line">        _size++;</span><br><span class="line">        updataHeightAbove(x); <span class="comment">//更新全树规模，并更新历代祖先规模</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> x; <span class="comment">//无论e是否存在原树中，总有x-&gt;data == e</span></span><br><span class="line">&#125; <span class="comment">//总体复杂度O(h)</span></span><br></pre></td></tr></table></figure>
+<h3 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h3><ul>
+<li><p>策略：先确认目标再删除</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">bool</span> BST&lt;T&gt;:: remove( <span class="keyword">const</span> T &amp; e) &#123;</span><br><span class="line">    BinNodePosi(T) &amp; x = search( e ); <span class="comment">//定位目标</span></span><br><span class="line">    <span class="keyword">if</span>(!x) <span class="keyword">return</span> <span class="literal">false</span>; <span class="comment">//确认目标存在</span></span><br><span class="line">    removeAt(x , _hot); <span class="comment">//分两大类实施 删除</span></span><br><span class="line">    _size--; <span class="comment">//更新规模</span></span><br><span class="line">    updataHeightAbove( _hot );</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125; <span class="comment">//复杂度O(h)</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>情况一</p>
+</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">template &lt;typename T&gt; static BinNodePosi(T) removeAt(BinNodePosi(T) &amp; x, BinNodePosi(T) &amp; hot)&#123;</span><br><span class="line">    BinNodePosi(T) w = x; <span class="comment">//实际被摘除的节点</span></span><br><span class="line">    BinNodePosi(T) succ = <span class="literal">NULL</span>; <span class="comment">//实际被删除的节点的接替者</span></span><br><span class="line">    <span class="keyword">if</span>( ! HasLchild(*x) ) succ = x = x-&gt;rchild; <span class="comment">//左子树为空</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>( ! HasRchild(*x) ) succ = x = x-&gt;lchild; <span class="comment">//右子树为空</span></span><br><span class="line">    <span class="keyword">else</span> &#123; <span class="comment">//左右并存的状况</span></span><br><span class="line">        hot = w-&gt;parent;</span><br><span class="line">        <span class="keyword">if</span>( succ ) succ-&gt;parent = hot;</span><br><span class="line">        release( w-&gt;data ); <span class="comment">//释放被摘除的节点</span></span><br><span class="line">        release( w );</span><br><span class="line">        <span class="keyword">return</span> succ; 返回接替者</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>情况二</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">template &lt;typename T&gt; static BinNodePosi(T) removeAt( BinNodePosi(T) &amp;x, BinNodePosi(T) &amp; hot ) &#123;</span><br><span class="line">    BinNodePosi(T) w = x; <span class="comment">//实际被摘除的节点</span></span><br><span class="line">    BinNodePosi(T) succ = <span class="literal">NULL</span>; <span class="comment">//实际被删除的节点的接替者</span></span><br><span class="line">    <span class="keyword">if</span>( ! HasLchild(*x) ) succ = x = x-&gt;rchild; <span class="comment">//左子树为空</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>( ! HasRchild(*x) ) succ = x = x-&gt;lchild; <span class="comment">//右子树为空</span></span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        w = w-&gt;succ;</span><br><span class="line">        swap( x-&gt;data, w-&gt;data);</span><br><span class="line">        BinNodePosi(T) u = w-&gt;parent;</span><br><span class="line">        ( u == x ? u-&gt;rChild : u-&gt;lChild ) = succ = w-&gt;rChild;</span><br><span class="line">    &#125;<span class="comment">//O(h)</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="平衡与等价"><a href="#平衡与等价" class="headerlink" title="平衡与等价"></a>平衡与等价</h3><blockquote>
+<p>BST的查找，插入，删除复杂度都为O(h)，但是高度不能很好控制，效率并不理想</p>
+</blockquote>
+<ul>
+<li>生成BST：随机生成的高度为O(logn)，有重复的组合，随机组合的BST生成的O(n^1/2)</li>
+<li>理想平衡：节点数固定，兄弟子树高度越接近(平衡)，全树倾向更低</li>
+<li>由n个节点组成的二叉树，高度不低于logn时—–恰为logn为理想平衡树，概率低，适当降低标准</li>
+<li>退一步海阔天空：高度渐进不超过O(logn)</li>
+<li><p>适度平衡的二叉树，称平衡二叉树BBST</p>
+</li>
+<li><p>非平衡二叉树等价平衡二叉树</p>
+</li>
+<li>中序遍历的歧义性：拓扑结构不同，中序遍历相同</li>
+<li>等价BST：3个规律，上下可变，左右不能乱，旋转变换</li>
+<li>zig变换（旋转调整）</li>
+<li>准则：局部性（常数节点数），操作数至多O(logn)</li>
+</ul>
+<h3 id="AVL树-适度平衡搜索二叉树"><a href="#AVL树-适度平衡搜索二叉树" class="headerlink" title="AVL树(适度平衡搜索二叉树)"></a>AVL树(适度平衡搜索二叉树)</h3><ul>
+<li>平衡因子：balFac(V) = height( lc(v) ) - height( rc(v) )</li>
+<li>G.Adelson-Velsky &amp; E.Landis (1962) 所有 | balFac | &lt;= 1</li>
+<li>AVL = 适度平衡：高度为h的AVL树，至少包含S(h) = fib(h+3) -1个节点</li>
+<li><p>接口：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> Balance(x) ( stature( (x).lChild ) == stature( (x).rChild ) )</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> BalFac(x) ( stature( (x).lChild ) - stature( (x).rChild ) )</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> AvlBalanced(x) ( ( -2 &lt; BalFac(x) ) &amp;&amp; ( BalFac(x) &lt; 2 ) )</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="class"><span class="keyword">class</span> <span class="title">AVL</span>:</span> <span class="keyword">public</span> BST&lt;T&gt; &#123;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">        BinNodePosi(T) insert( <span class="keyword">const</span> T &amp;); <span class="comment">//插入重写</span></span><br><span class="line">        <span class="function"><span class="keyword">bool</span> <span class="title">remove</span><span class="params">( <span class="keyword">const</span> T &amp;)</span></span>; <span class="comment">//删除重写</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>插入节点会导致祖先发生失衡，删除后只有一个节点失衡，相反插入操作更简单</p>
+</li>
+<li>插入：单旋 ，g经过单旋后复衡，子树高度复原，更高祖先也必平衡，全树复衡</li>
+<li>时间：旋转O(1) 一致向右zagzag，一致向左zigzig，双旋，zigzag和zagzig情况</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//插入</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; BinNodePosi(T) AVL&lt;T&gt;::insert( <span class="keyword">const</span> T &amp; e) &#123;</span><br><span class="line">    BinNodePosi(T) &amp; x = search( e ); </span><br><span class="line">    <span class="keyword">if</span>( x ) <span class="keyword">return</span> x;</span><br><span class="line">    x = <span class="keyword">new</span> BinNode&lt;T&gt;( e, _hot );</span><br><span class="line">    _size++;</span><br><span class="line">    BinNodePosi(T) xx = x;</span><br><span class="line">    <span class="keyword">for</span> ( BinNodePosi(T) g = x-&gt;parenr; g; g = g-&gt;parent )</span><br><span class="line">        <span class="keyword">if</span> ( !AvlBalanced( *g ) ) &#123;</span><br><span class="line">            FromParentIo( *g ) = rotateAt( tallerChild( tallerChild(g) ) );</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span></span><br><span class="line">        updateHeight( g );</span><br><span class="line">    <span class="keyword">return</span> xx;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/08/30/ds6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="suoyue">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="锁越smile">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2015/08/30/ds6/" itemprop="url">《数据结构》笔记：图</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-08-30T15:58:33+08:00">
+                2015-08-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/编程基础/" itemprop="url" rel="index">
+                    <span itemprop="name">编程基础</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><ul>
+<li>邻接：邻接关系，顶点与顶点的关系</li>
+<li>关联：关联关系，顶点与边的关系</li>
+<li>无向图：次序无所谓</li>
+<li>有向图（digraph）：有次序，起点尾（tail），终点头 （head）</li>
+<li>路径(path)：一系列的顶点按照依次邻接的关系构成序列</li>
+<li>简单路径：不含重复节点的路径</li>
+<li>环路(cicle)：起点终点重合的路径</li>
+<li>无环路(DAG)：不包含任何环路的图</li>
+<li>欧哈路：覆盖所有的点</li>
+<li>哈密尔顿：覆盖所有点，每个顶点有且仅经过一次</li>
+</ul>
+<h3 id="邻接矩阵（adjacency-matrix）"><a href="#邻接矩阵（adjacency-matrix）" class="headerlink" title="邻接矩阵（adjacency matrix）"></a>邻接矩阵（adjacency matrix）</h3><ul>
+<li>接口</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Tv, <span class="keyword">typename</span> Te&gt; <span class="class"><span class="keyword">class</span> <span class="title">Graph</span> &#123;</span></span><br><span class="line">    <span class="keyword">private</span>:</span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">reset</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; ++i)&#123; <span class="comment">//顶点</span></span><br><span class="line">                status(i) = UNDISCOVERED;</span><br><span class="line">                dTime(i) = fTime(i) = <span class="number">-1</span>;</span><br><span class="line">                parent(i) = <span class="number">-1</span>;</span><br><span class="line">                priority(i) = INT_MAX;</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; n; j++) <span class="comment">//边</span></span><br><span class="line">                    <span class="keyword">if</span> (exists(i, j))</span><br><span class="line">                        status(i, j) = UNDETERMINED;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    <span class="keyword">public</span>: </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>顶点的实现（Vertex）：邻接矩阵</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">enum</span> &#123; UNDISCOVERED, DISCOVERED, VISITED&#125; VStatus;</span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Tv&gt; <span class="class"><span class="keyword">struct</span> <span class="title">Vertex</span> &#123;</span></span><br><span class="line">    Tc data; <span class="comment">//数据</span></span><br><span class="line">    <span class="keyword">int</span> inDegree, outDegree; <span class="comment">//入度出度</span></span><br><span class="line">    VStatus status; <span class="comment">//状态</span></span><br><span class="line">    <span class="keyword">int</span> dTime, fTime; <span class="comment">//时间标签</span></span><br><span class="line">    <span class="keyword">int</span> parent;  <span class="comment">//父节点</span></span><br><span class="line">    <span class="keyword">int</span> priority;  <span class="comment">//优先级</span></span><br><span class="line">    Vertex( Tv <span class="keyword">const</span> &amp; d) :  <span class="comment">//构造初始化新顶点</span></span><br><span class="line">    data(d), inDegree(<span class="number">0</span>), outDegree(<span class="number">0</span>), </span><br><span class="line">    status(UNDISCOVERED), dTime(<span class="number">-1</span>),</span><br><span class="line">     fTime(<span class="number">-1</span>), priority(INT_MAX) &#123;&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>边的实现（Edge）：</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">enum</span> &#123; UNDETERMINED, TREE, CROSS, FORWORD, BACKWAED &#125; EStatus;</span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Te&gt; <span class="class"><span class="keyword">struct</span> <span class="title">Edge</span> &#123;</span></span><br><span class="line">    Te data;  <span class="comment">//数据</span></span><br><span class="line">    <span class="keyword">int</span> weight;  <span class="comment">//权重</span></span><br><span class="line">    EStatus status;  <span class="comment">//类型</span></span><br><span class="line">    Edge( Te <span class="keyword">const</span> &amp; d, <span class="keyword">int</span> w ):data(d), weight(w), status(UNDETERMINED) &#123;&#125; </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>图的实现(GraphMatrix)：利用向量和邻接矩阵实现，适用稠密图，效率高</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Te, <span class="keyword">typename</span> Tv&gt; <span class="class"><span class="keyword">class</span> <span class="title">GraphMatrix</span> :</span> <span class="keyword">public</span> Graph&lt;Tv, Te&gt; &#123;</span><br><span class="line">    <span class="keyword">private</span>:</span><br><span class="line">        Vector&lt; Vertex&lt;Tv&gt; &gt; V;   <span class="comment">//顶点集</span></span><br><span class="line">        Vector&lt; Vector&lt; Edge&lt;Te&gt;* &gt; &gt; E;    <span class="comment">//边集</span></span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">        GraphMatrix() &#123; n = e = <span class="number">0</span>;&#125;</span><br><span class="line">        ~GraphMatrix() &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; n; ++j)</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; n; ++k)</span><br><span class="line">                    <span class="keyword">delete</span> E[j][k];</span><br><span class="line">        &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>顶点操作</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//顶点操作  </span></span><br><span class="line"><span class="function">Tv &amp; <span class="title">Vertex</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123; <span class="keyword">return</span> V[i].data &#125;</span><br><span class="line"><span class="comment">//...</span></span><br><span class="line"><span class="comment">//枚举邻接顶点，逆序查找</span></span><br><span class="line"><span class="keyword">int</span> NextNbr(<span class="keyword">int</span> i, <span class="keyword">int</span> j) &#123;</span><br><span class="line">    <span class="keyword">while</span> ( (<span class="number">-1</span> &lt; j) &amp;&amp; !exists(i, --j) )</span><br><span class="line">        ;</span><br><span class="line">    <span class="keyword">return</span> j;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">firstNbr</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> NextNbr(i, n);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//顶点插入</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">insert</span><span class="params">(Tv <span class="keyword">const</span> &amp; vertex)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; ++i)</span><br><span class="line">        E[j].insert(<span class="literal">NULL</span>);</span><br><span class="line">    n++;</span><br><span class="line">    E.insert( Vector&lt; Edge&lt;Te&gt;* &gt;( n, n, <span class="literal">NULL</span>) );</span><br><span class="line">    <span class="keyword">return</span> V.insert( Vertex&lt;Tv&gt;(vertex) ); </span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//顶点删除</span></span><br><span class="line"><span class="function">Tv <span class="title">remove</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; ++i)</span><br><span class="line">        <span class="keyword">if</span>(exists(i, j))&#123;</span><br><span class="line">            <span class="keyword">delete</span> E[i][j];</span><br><span class="line">            V[j].inDegree--;</span><br><span class="line">        &#125;</span><br><span class="line">    E.remove(i);</span><br><span class="line">    n--;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; n; j++)</span><br><span class="line">        <span class="keyword">if</span> ( exists(j ,i) )&#123;</span><br><span class="line">            <span class="keyword">delete</span> E[j].remove(i);</span><br><span class="line">            V[j].outDegree--;</span><br><span class="line">        &#125;</span><br><span class="line">    Tv vBak = vertex(i);</span><br><span class="line">    V.remove(i);</span><br><span class="line">    <span class="keyword">return</span> vBak;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>边操作</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//边操作</span></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">exists</span><span class="params">(<span class="keyword">int</span> i, <span class="keyword">int</span> j)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (<span class="number">0</span> &lt;= i) &amp;&amp; (i &lt; n) &amp;&amp; (<span class="number">0</span> &lt;= j) &amp;&amp; (j &lt; n) &amp;&amp; E[i][j] != <span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function">Te &amp; <span class="title">edge</span><span class="params">(<span class="keyword">int</span> i, <span class="keyword">int</span> j)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> E[i][j]-&gt;data;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//...</span></span><br><span class="line"><span class="comment">//边插入</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">insert</span><span class="params">( Te <span class="keyword">const</span>&amp; edge, <span class="keyword">int</span> w, <span class="keyword">int</span> i, <span class="keyword">int</span> j)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>( exists(i, j) )</span><br><span class="line">        <span class="keyword">return</span> ;    <span class="comment">//忽略已有的边</span></span><br><span class="line">    E[i][j] = <span class="keyword">new</span> Edge&lt;Te&gt;(edge, w); <span class="comment">//创建新边</span></span><br><span class="line">    e++;  <span class="comment">//更新信息</span></span><br><span class="line">    V[i].outDegree++;</span><br><span class="line">    V[i].inDegree++;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//边删除</span></span><br><span class="line"><span class="function">Te <span class="title">remove</span><span class="params">(<span class="keyword">int</span> i, <span class="keyword">int</span> j)</span> </span>&#123;</span><br><span class="line">    Te eBak = edge(i, j);</span><br><span class="line">    <span class="keyword">delete</span> E[i][j];</span><br><span class="line">    E[i][j] = <span class="literal">NULL</span>;</span><br><span class="line">    e--;</span><br><span class="line">    V[i].outDegree--;</span><br><span class="line">    V[j].inDegree--;</span><br><span class="line">    <span class="keyword">return</span> eBak;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="广度优先搜索（BF-Search）"><a href="#广度优先搜索（BF-Search）" class="headerlink" title="广度优先搜索（BF-Search）"></a>广度优先搜索（BF-Search）</h3><blockquote>
+<p>化繁为简：遍历（图-&gt;树）</p>
+</blockquote>
+<ul>
+<li><p>算法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1. 访问顶点s</span><br><span class="line">2. 访问s所有尚未访问的邻接顶点</span><br><span class="line">3. 依次访问它们尚未访问的邻接顶点</span><br><span class="line">4. 如此反复</span><br><span class="line">实际上：树的层次遍历</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>图示：</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">        </span><br><span class="line">        a     </span><br><span class="line">      / | \ </span><br><span class="line">     s  |  e</span><br><span class="line">    / \ |  | \    遍历前</span><br><span class="line">   d    c  |  f      </span><br><span class="line">    \ /    | /</span><br><span class="line">     b-----g</span><br><span class="line">        a</span><br><span class="line">      /   \ </span><br><span class="line">     s     e</span><br><span class="line">    / \    | \    遍历后</span><br><span class="line">   d    c  |  f    </span><br><span class="line">      /    | </span><br><span class="line">     b     g</span><br><span class="line">队列 s-&gt;a-&gt;c-&gt;d-&gt;e-&gt;b-&gt;f-&gt;g</span><br></pre></td></tr></table></figure>
+<ul>
+<li>实现：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">//练习</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="深度优先搜索-DF-Search"><a href="#深度优先搜索-DF-Search" class="headerlink" title="深度优先搜索(DF-Search)"></a>深度优先搜索(DF-Search)</h3><ul>
+<li>算法：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1. 访问顶点s</span><br><span class="line">2. 尚有未被访问的邻居，任取其一u，递归执行DFS(u),否则返回</span><br></pre></td></tr></table></figure>
+<ul>
+<li>图示:</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">        j</span><br><span class="line">        |</span><br><span class="line">    i---g---h</span><br><span class="line">    | /   \ |</span><br><span class="line">    d   e   f</span><br><span class="line">    | / |   |</span><br><span class="line">    a --b---c</span><br><span class="line">    </span><br><span class="line">        j</span><br><span class="line">        |</span><br><span class="line">    i---g---h</span><br><span class="line">    |       |</span><br><span class="line">    d   e   f</span><br><span class="line">        |   |</span><br><span class="line">    a --b---c</span><br><span class="line">队列: a-&gt;b-&gt;c-&gt;f-&gt;h-&gt;g-&gt;j-&gt;i-&gt;d-&gt;e</span><br></pre></td></tr></table></figure>
+<ul>
+<li>实现：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">//练习</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/08/25/ds5/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1199,661 +1616,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/08/13/ds2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="suoyue">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="锁越smile">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2015/08/13/ds2/" itemprop="url">《数据结构》笔记：向量</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-08-13T12:58:23+08:00">
-                2015-08-13
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/编程基础/" itemprop="url" rel="index">
-                    <span itemprop="name">编程基础</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="接口与实现"><a href="#接口与实现" class="headerlink" title="接口与实现"></a>接口与实现</h3><blockquote>
-<p>抽象数据类型(ADT:Abstract Data Type) = 数据模型 + 一组操作<br>数据结构(DS:Data Structure) = 基于某种特定语言 + 实现ADT的一整套算法</p>
-</blockquote>
-<ul>
-<li>数组：每个元素由编号唯一指代，并可以直接访问，亦称为线性数组</li>
-<li>向量：数组的抽象和泛化，由一组元素按线性次序封装而成</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1）个元素与[0,n)整数一一对应，称成秩（RANK）</span><br><span class="line">2）元素类型不限于基本类型</span><br><span class="line">3）操作，管理，维护，更加简化安全</span><br><span class="line">4）可以为便捷的参与更加复杂的操作定制</span><br></pre></td></tr></table></figure>
-<ul>
-<li><p>模板：灵活指定类型,利用组成更复杂的数据结构</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; Vector;</span><br><span class="line">Vector &lt; <span class="keyword">int</span> &gt; myvertor;</span><br><span class="line">Vector &lt;BinTree&gt; forest;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>ADT接口：丰富的操作接口</p>
-</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>操作</th>
-<th>功能</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>size()</td>
-<td>向量的规模</td>
-</tr>
-<tr>
-<td>get(r)</td>
-<td>获取秩为r的元素</td>
-</tr>
-<tr>
-<td>put(r,e)</td>
-<td>用e替换秩为r的元素</td>
-</tr>
-<tr>
-<td>insert(r,e)</td>
-<td>e作为秩为r的元素插入，原后继元素后移</td>
-</tr>
-<tr>
-<td>remove(r)</td>
-<td>剔除秩为r的元素</td>
-</tr>
-<tr>
-<td>disordered()</td>
-<td>判断所有元素是否已按非降序排列</td>
-</tr>
-<tr>
-<td>sort()</td>
-<td>调整元素位置，使之按非降序排列</td>
-</tr>
-<tr>
-<td>find(e)</td>
-<td>找到目标元素e放回秩</td>
-</tr>
-<tr>
-<td>deduplicate()</td>
-<td>剔除重复元素</td>
-</tr>
-<tr>
-<td>traverse()</td>
-<td>遍历所有元素</td>
-</tr>
-</tbody>
-</table>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">int</span> Rank;          <span class="comment">//秩</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> DEFAULT_CAPACITY 3 <span class="comment">//默认容量</span></span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="class"><span class="keyword">class</span> <span class="title">Vector</span>&#123;</span></span><br><span class="line"><span class="keyword">private</span>: </span><br><span class="line">    Rank _size;      <span class="comment">//规模</span></span><br><span class="line">    <span class="keyword">int</span> _capacity;   <span class="comment">//容量</span></span><br><span class="line">    T* _elem;        <span class="comment">//数据区</span></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    <span class="comment">//内部函数</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">//构造函数</span></span><br><span class="line">    Vector(<span class="keyword">int</span> c = DEFAULT_CAPACITY)&#123; _elem = <span class="keyword">new</span> T[_capacity = c]; _size = <span class="number">0</span>; &#125; <span class="comment">//默认</span></span><br><span class="line">    Vector(T <span class="keyword">const</span> *A, Rank lo, Rank hi) &#123; copyFrom(A, lo, hi); &#125; <span class="comment">//数组区间复制</span></span><br><span class="line">    Vector(Vector&lt;T&gt; <span class="keyword">const</span>&amp; V, Rank lo, Rank hi) &#123; copyFrom(V._elem, lo, hi); &#125; <span class="comment">//向量区间复制</span></span><br><span class="line">    Vector(Vector&lt;T&gt; <span class="keyword">const</span>&amp; V) &#123; copyFrom(V._elem, <span class="number">0</span>, V._size); &#125; <span class="comment">//向量整体复制</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//析构函数</span></span><br><span class="line">    ~Vector() &#123; <span class="keyword">delete</span> [] _elem; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//只读接口</span></span><br><span class="line">    <span class="comment">//可写接口</span></span><br><span class="line">    <span class="comment">//遍历接口</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//复制</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">void</span> Vector&lt;T&gt;::copyFrom(T* <span class="keyword">const</span> A, Rank lo, Rank hi) &#123;</span><br><span class="line">    _elem = <span class="keyword">new</span> T[_capacity = <span class="number">2</span>*(hi - lo)];  <span class="comment">//分配空间，预留2倍的空间</span></span><br><span class="line">    _size = <span class="number">0</span>; <span class="comment">//规模清零</span></span><br><span class="line">    <span class="keyword">while</span> (lo &lt; hi) &#123;</span><br><span class="line">        _elem[_size++] = A[lo++];</span><br><span class="line">    &#125; <span class="comment">//元素逐一复制[0, hi-lo)</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//扩容</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">void</span> Vector&lt;T&gt;::expand() &#123; </span><br><span class="line">    <span class="keyword">if</span>(_size &lt; _capacity) <span class="keyword">return</span>;    <span class="comment">//尚满，不扩</span></span><br><span class="line">    _capacity = max(_capacity, DEFAULT_CAPACITY); <span class="comment">//不低于最小容量</span></span><br><span class="line">    T* oldElem = _elem;   </span><br><span class="line">    _elem = <span class="keyword">new</span> T[_capacity &lt;&lt;= <span class="number">1</span>];  <span class="comment">//容量加倍</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; _size; ++i)  <span class="comment">//复制原向量内容  </span></span><br><span class="line">        _elem[i] = oldElem[i];       <span class="comment">// = 重载了的</span></span><br><span class="line">    <span class="keyword">delete</span> [] oldElem;               <span class="comment">//释放原空间</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="可扩充向量：可能出现上溢-overflow-或者下溢-underflow"><a href="#可扩充向量：可能出现上溢-overflow-或者下溢-underflow" class="headerlink" title="可扩充向量：可能出现上溢(overflow)或者下溢(underflow)"></a>可扩充向量：可能出现上溢(overflow)或者下溢(underflow)</h3><blockquote>
-<p>上溢：不足以存放所有元素 ，空间不足<br>下溢：寥寥无几，装填因子：_size/_capacity &lt;&lt; 50%,空间效率低</p>
-<ul>
-<li>蝉的哲学：每生长一段时间，蜕掉外壳，生成新的壳</li>
-<li>即将上溢时适当的增加容量</li>
-<li>得益于向量的封装，扩容后数据区的指针改变了，但不至于出现野指针</li>
-<li>容量加倍策略：成本好于容量递增策略</li>
-</ul>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">复杂度：最坏情况，在初始容量为1的满容量中，连续插入n = 2^m</span><br><span class="line">当n = 1，2，4，8，16....时扩容</span><br><span class="line">空间上损失换取时间上的巨大收益</span><br></pre></td></tr></table></figure>
-<table>
-<thead>
-<tr>
-<th>策略</th>
-<th>递增策略</th>
-<th>加倍策略</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>累计增容时间</td>
-<td>O(n^2)</td>
-<td>O(n)</td>
-</tr>
-<tr>
-<td>分摊增容时间</td>
-<td>O(n)</td>
-<td>O(1)</td>
-</tr>
-<tr>
-<td>装填因子</td>
-<td>约100%</td>
-<td>&gt;50%</td>
-</tr>
-</tbody>
-</table>
-<blockquote>
-<p>平均复杂度：加权平均数，独立的考察平均程度<br>分摊分析：整体的考虑，连续的足够多次操作，总体成本分摊到单次操作，更加准确分析数据结构和算法成本</p>
-</blockquote>
-<h3 id="无序向量："><a href="#无序向量：" class="headerlink" title="无序向量："></a>无序向量：</h3><ul>
-<li>元素的访问：沿用下标式操作，对下标操纵符进行重载</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; T &amp; Vector&lt;T&gt;::<span class="keyword">operator</span>[](Rank r) <span class="keyword">const</span> &#123; <span class="keyword">return</span> _elem[r]; &#125; <span class="comment">//循秩访问</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>插入：1.扩容2.后移(从后开始)3.赋值4.规模+1</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; Rank Vector&lt;T&gt;::insert(Rank r, T <span class="keyword">const</span> &amp; e) &#123;</span><br><span class="line">    expand();       <span class="comment">//若满，扩容</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = _size; i &gt; r; i--) </span><br><span class="line">        _elem[i] = _elem[i<span class="number">-1</span>];    <span class="comment">//原r后的整体元素后移一位(后开始)</span></span><br><span class="line">    _elem[r] = e;   <span class="comment">//r处赋值</span></span><br><span class="line">    _size++;        <span class="comment">//规模加一</span></span><br><span class="line">    <span class="keyword">return</span> r;       <span class="comment">//返回秩</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>删除：1.单独处理2.前移(从前开始)3.更新规模4.缩容</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;   <span class="comment">// 删除区间hi-lo</span></span><br><span class="line"><span class="keyword">int</span> Vector&lt;T&gt;::remove(Rank lo, Rank hi) &#123;</span><br><span class="line">    <span class="keyword">if</span> (lo == hi) </span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;   <span class="comment">//单独处理退化</span></span><br><span class="line">    <span class="keyword">while</span> (hi &lt; _size)</span><br><span class="line">        _elem[lo++] = _elem[hi++]; <span class="comment">//整体前移一段(前开始)</span></span><br><span class="line">    _size = lo;</span><br><span class="line">    shirnk();       <span class="comment">//缩容</span></span><br><span class="line">    <span class="keyword">return</span> hi - lo;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>单元素删除：调用多元素删除</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; T Vector&lt;T&gt;::remove(Rank r) &#123;</span><br><span class="line">    T e = _elem[r];</span><br><span class="line">    remove(r, r+<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">return</span> e;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>查找：无序向量，默认重载判等和比较操纵符，逆向扫描</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; Rank Vector&lt;T&gt;::find(T <span class="keyword">const</span> &amp; e, Rank lo, Rank hi) <span class="keyword">const</span> &#123;</span><br><span class="line">    <span class="keyword">while</span> ((lo &lt; hi--) &amp;&amp; e != _elem[hi])    <span class="comment">//逆向查找</span></span><br><span class="line">        <span class="keyword">return</span> hi;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//最坏O(n)最好O(1) 输入敏感</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>无序向量唯一化：剔除重复的元素</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;nametype T&gt; <span class="keyword">int</span> Vector&lt;T&gt;::deduplicate() &#123;</span><br><span class="line">    <span class="keyword">int</span> oldSize = _size;</span><br><span class="line">    Rank i = <span class="number">1</span>;               <span class="comment">//从第二个元素开始</span></span><br><span class="line">    <span class="keyword">while</span> (i &lt; _size)         <span class="comment">//由前向后逐步考查</span></span><br><span class="line">        (find(_elem[i], <span class="number">0</span>, i) &lt; <span class="number">0</span>) ?</span><br><span class="line">        i++ : remove(i);      <span class="comment">//删除雷同者</span></span><br><span class="line">    <span class="keyword">return</span> oldSize - _size;   <span class="comment">//删除的总数</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//成本：O(n^2)</span></span><br><span class="line"><span class="comment">//优化</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>遍历：visit操作</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//使用函数指针局部修改</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">void</span> Vector&lt;T&gt;::traverse(<span class="keyword">void</span> (*visit)(T&amp;)) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; _size; i++)</span><br><span class="line">        visit(_elem[i]);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//使用函数对象</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">template</span> &lt;<span class="keyword">typename</span> TSV&gt;</span><br><span class="line"><span class="keyword">void</span> Vector&lt;T&gt;::traverse(TSV &amp; visit)) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; _size; i++)</span><br><span class="line">        visit(_elem[i]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="有序向量：唯一化"><a href="#有序向量：唯一化" class="headerlink" title="有序向量：唯一化"></a>有序向量：唯一化</h3><ul>
-<li>相邻逆序对数目可以来度量向量的逆序程度</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">int</span> Vector&lt;T&gt;::disordered() <span class="keyword">const</span> &#123;</span><br><span class="line">    <span class="keyword">int</span> n = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; _size; i++)  <span class="comment">//逐一检查各对相邻元素</span></span><br><span class="line">        n += (_elem[i - <span class="number">1</span>] &gt; _e[i]); <span class="comment">//逆序则计数向量有序</span></span><br><span class="line">    <span class="keyword">return</span> n;                        <span class="comment">//当且仅当n=0时</span></span><br><span class="line">&#125; <span class="comment">//只判断是否有序，首次遇到逆序对直接终止</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>唯一化：低效与高效算法</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">int</span> Vector&lt;T&gt;::uniquift() &#123;</span><br><span class="line">    <span class="keyword">int</span> oldSize = _size;</span><br><span class="line">    <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (i &lt; _size<span class="number">-1</span>) <span class="comment">//雷同删除后者</span></span><br><span class="line">        (_elem[i] == _elem[i+<span class="number">1</span>]) ? remove(i+<span class="number">1</span>) : i++;</span><br><span class="line">    <span class="keyword">return</span> oldSize - _size;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//最坏情况:O(n^2) 省去了find但竟然与无序向量竟然相同，低效算法</span></span><br><span class="line"><span class="comment">//反思：每个元素都多次进行多次前移</span></span><br><span class="line"><span class="comment">//改进：成批的删除(移动覆盖删除)</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">int</span> Vector&lt;T&gt;::uniquift() &#123;</span><br><span class="line">    Rank i = <span class="number">0</span>, j = <span class="number">0</span>; <span class="comment">//相邻互异元素</span></span><br><span class="line">    <span class="keyword">while</span>(++j &lt; _size) <span class="comment">//跳过雷同者，不同者紧靠前者右侧</span></span><br><span class="line">        <span class="keyword">if</span>(_elem[i] != _elem[j])</span><br><span class="line">            _elem[++i] = _elem[j];</span><br><span class="line">    _size = ++i;</span><br><span class="line">    shirnk();</span><br><span class="line">    <span class="keyword">return</span> j - i;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//常数迭代时间O(n)</span></span><br></pre></td></tr></table></figure>
-<h3 id="有序向量：二分查找"><a href="#有序向量：二分查找" class="headerlink" title="有序向量：二分查找"></a>有序向量：二分查找</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">int</span> Vector&lt;T&gt;::search(T <span class="keyword">const</span> &amp; e, Rank lo, Rank hi) &#123;</span><br><span class="line">    <span class="keyword">return</span> (rand() % <span class="number">2</span>) ?</span><br><span class="line">    binSearch(_elem, e, lo, hi)</span><br><span class="line">    : fibSearch(_elem, e, lo, hi);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>语义约定：利于有序向量的自身的维护V.insert(1+search(e), e)</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">约定：在有序向量区间V[lo,hi)中，确定不大于e的最后一个元素</span><br><span class="line">失败：若 &lt; V[lo] 则返回lo-1</span><br><span class="line">若 &gt; V[hi-1] 则返回hi-1</span><br><span class="line">重复：插入到不同的上一位</span><br></pre></td></tr></table></figure>
-<ul>
-<li>二分查找：折半查找，减而治之</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">1)减而治之，以任一元素x=S[mi]为届，将带查找区间分三部分S(在[lo,mi) &lt;= S[mi] &lt;= S[mi,hi]</span></span><br><span class="line"><span class="comment">2)将目标元素e与x作比较，分三种情况处理</span></span><br><span class="line"><span class="comment">   1. e &lt; x : 必属左侧子区间，递归深入</span></span><br><span class="line"><span class="comment">   2. e &gt; x : 必属右侧子区间，递归深入</span></span><br><span class="line"><span class="comment">   3. e = x : 命中目标，随即返回</span></span><br><span class="line"><span class="comment">3)二分折半策略：轴点mi总是取作中点，每经过最多2次比较，或者命中或者将规模缩减至半</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="comment">//二分查找</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="function"><span class="keyword">static</span> Rank <span class="title">binSearch</span><span class="params">(T * A, T <span class="keyword">const</span> &amp;e, Rank lo, Rank hi)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">while</span> (lo &lt; hi) &#123;</span><br><span class="line">        Rank mi = (lo + hi) &gt;&gt; <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span> (e &lt; A[mi]) </span><br><span class="line">            hi = mi;     <span class="comment">//三种情况</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> ( A[mi] &lt; e) </span><br><span class="line">            lo = mi + <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">else</span> </span><br><span class="line">            <span class="keyword">return</span> mi;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;  <span class="comment">//查找失败</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//复杂度分析</span></span><br><span class="line"><span class="comment">//递推分析：T(n) = T(n/2) + O(1) = O(log(n))</span></span><br><span class="line"><span class="comment">//递归跟踪：递归深度log(n),每次O(1),总的O(log(n))</span></span><br><span class="line"><span class="comment">//查找长度：关键码的比较次数</span></span><br><span class="line"><span class="comment">//精确的为：1.5log(n)</span></span><br></pre></td></tr></table></figure>
-<h3 id="有序向量：fibonacci查找"><a href="#有序向量：fibonacci查找" class="headerlink" title="有序向量：fibonacci查找"></a>有序向量：fibonacci查找</h3><blockquote>
-<p>二分查找的改进，转向左，右分支前的关键码比较次数不等，递归深度不同，对转向成本进行补偿</p>
-</blockquote>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//fib查找</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="function"><span class="keyword">static</span> Rank <span class="title">fibSearch</span><span class="params">(T * A, T <span class="keyword">const</span> &amp;e, Rank lo, Rank hi)</span> </span>&#123;</span><br><span class="line">    <span class="function">Fib <span class="title">fib</span><span class="params">(hi - lo)</span></span>;   <span class="comment">//创建fib数列</span></span><br><span class="line">    <span class="keyword">while</span>(lo &lt; hi) &#123;</span><br><span class="line">        <span class="keyword">while</span> (hi - lo &lt; fib.get())</span><br><span class="line">            fib.prev(); <span class="comment">//向前查找确定fib(k)-1的轴点</span></span><br><span class="line">        Rank mi = lo + fib.get() - <span class="number">1</span>; <span class="comment">//切分</span></span><br><span class="line">        <span class="keyword">if</span> (e &lt; A[mi])  <span class="comment">//前半段</span></span><br><span class="line">            hi = mi;    </span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (A[mi] &lt; e)</span><br><span class="line">            lo = mi + <span class="number">1</span>;<span class="comment">//后半段</span></span><br><span class="line">        <span class="keyword">else</span> </span><br><span class="line">            <span class="keyword">return</span> mi;  <span class="comment">//命中</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//时间复杂度：O(log(n))</span></span><br><span class="line"><span class="comment">//精确复杂度：&lt; O(1.5log(n)) 优于二分查找</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>最优轴点：二分查找对应0.5，fibonacci查找对应的0.6180339黄金分割比</li>
-</ul>
-<h3 id="有序向量：改进二分查找，缩短长度到1，算法更加稳定"><a href="#有序向量：改进二分查找，缩短长度到1，算法更加稳定" class="headerlink" title="有序向量：改进二分查找，缩短长度到1，算法更加稳定"></a>有序向量：改进二分查找，缩短长度到1，算法更加稳定</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">左右分支不平衡问题</span></span><br><span class="line"><span class="comment">解决方案：只设置两个区间</span></span><br><span class="line"><span class="comment">1. e &lt; x ,若e存在必属S[lo, mi),递归深入</span></span><br><span class="line"><span class="comment">2. x &lt;= e, 若e存在必属S[mi, hi),递归深入</span></span><br><span class="line"><span class="comment">当hi - lo = 1时，判断是否命中</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="comment">//二分查找B</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="function"><span class="keyword">static</span> Rank <span class="title">binSearch</span><span class="params">(T * A, T <span class="keyword">const</span> &amp;e, Rank lo, Rank hi)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">while</span> (<span class="number">1</span> &lt; hi - lo) &#123;</span><br><span class="line">        Rank mi = (lo + hi) &gt;&gt; <span class="number">1</span>;</span><br><span class="line">        (e &lt; A[mi]) ? hi = mi : lo = mi;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> (e == A[mi]) ? lo : <span class="number">-1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//复杂度分析：最好的情况更坏，更坏的情况更好，稳定性高</span></span><br><span class="line"><span class="comment">//严格兑现了语义约定：多个命中元素，返回最靠右的</span></span><br><span class="line"><span class="comment">//失败时，返回小于e的最大者</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//二分查找C</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="function"><span class="keyword">static</span> Rank <span class="title">binSearch</span><span class="params">(T * A, T <span class="keyword">const</span> &amp;e, Rank lo, Rank hi)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">while</span> (lo &lt; hi) &#123;</span><br><span class="line">        Rank mi = (lo + hi) &gt;&gt; <span class="number">1</span>;</span><br><span class="line">        (e &lt; A[mi]) ? hi = mi : lo = mi + <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> --lo;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="有序向量：插值查找-以后研究"><a href="#有序向量：插值查找-以后研究" class="headerlink" title="有序向量：插值查找(以后研究)"></a>有序向量：插值查找(以后研究)</h3><ul>
-<li>均匀独立的随机分布</li>
-</ul>
-<h3 id="起泡排序"><a href="#起泡排序" class="headerlink" title="起泡排序"></a>起泡排序</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//排序接口</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">void</span> Vector&lt;T&gt;::sort(Rank lo, Rank hi) &#123;</span><br><span class="line">    <span class="keyword">switch</span> (rand() % <span class="number">5</span>) &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">1</span>: bubbleSort(lo, hi); <span class="keyword">break</span>;  <span class="comment">//起泡排序</span></span><br><span class="line">        <span class="keyword">case</span> <span class="number">2</span>: selectSort(lo, hi); <span class="keyword">break</span>;  <span class="comment">//选择排序</span></span><br><span class="line">        <span class="keyword">case</span> <span class="number">3</span>: mergeSort(lo, hi); <span class="keyword">break</span>;   <span class="comment">//归并排序</span></span><br><span class="line">        <span class="keyword">case</span> <span class="number">4</span>: heapSort(lo, hi); <span class="keyword">break</span>;    <span class="comment">//堆排序</span></span><br><span class="line">        <span class="keyword">case</span> <span class="number">5</span>: quickSort(lo, hi); <span class="keyword">break</span>;   <span class="comment">//快速排序</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//起泡排序(改进版)</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">void</span> Vector&lt;T&gt;::bubbleSort(Rank lo, Rank hi) &#123;</span><br><span class="line">    <span class="keyword">while</span> (!bubble(lo, hi--));               <span class="comment">//扫描直至全序      </span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">bool</span> Vector&lt;T&gt;::bubble(Rank lo, Rank hi) &#123;</span><br><span class="line">    <span class="keyword">bool</span> sorted = <span class="literal">true</span>;                      <span class="comment">//有序标志</span></span><br><span class="line">    <span class="keyword">while</span> (++lo &lt; hi)                        <span class="comment">//整体扫描</span></span><br><span class="line">        <span class="keyword">if</span> (_elem[lo - <span class="number">1</span>] &gt; _elem[lo]) &#123;     <span class="comment">//若存在逆序</span></span><br><span class="line">            sorted = <span class="literal">false</span>;                  <span class="comment">//整体尚未有序的</span></span><br><span class="line">            swap(_elem[lo - <span class="number">1</span>], _elem[lo]);  <span class="comment">//交换</span></span><br><span class="line">        &#125;</span><br><span class="line">    <span class="keyword">return</span> sorted;                           <span class="comment">//返回序标</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//复杂度：O(n^2) 改进节省相当多的时间（三角形变梯形），依然有改进空间</span></span><br><span class="line"><span class="comment">//改进后可以使之为O(n^1.5)</span></span><br><span class="line"><span class="comment">//再次改进</span></span><br><span class="line"><span class="comment">//起泡排序(再次改进)</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">void</span> Vector&lt;T&gt;::bubbleSort(Rank lo, Rank hi) &#123;</span><br><span class="line">    <span class="keyword">while</span> (lo &lt; ( hi = bubble(lo, hi) ) );               <span class="comment">//扫描直至全序      </span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; Rank Vector&lt;T&gt;::bubble(Rank lo, Rank hi) &#123;</span><br><span class="line">    Rank last = lo;             </span><br><span class="line">    <span class="keyword">while</span> (++lo &lt; hi)</span><br><span class="line">        <span class="keyword">if</span> (_elem[lo - <span class="number">1</span>] &gt; _elem[lo]) &#123;</span><br><span class="line">            last = lo;</span><br><span class="line">            swap(_elem[lo - <span class="number">1</span>], _elem[lo]);</span><br><span class="line">        &#125;</span><br><span class="line">    <span class="keyword">return</span> sorted;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//省去更多的时间，跳过有序的部分，最好的情况一样O(n)，最坏的情况依然是O(n^2)</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>稳定性：重复的元素在输入,输出相对的次序,是保持不变的</li>
-<li>起泡排序也是稳定的，元素a，b的相对位置发生变化，只有一种可能：</li>
-<li>1）分别与其他元素交换，二者相互接近和相邻</li>
-<li>2）接下来的一轮扫描交换中，二者因逆序而交换位置</li>
-</ul>
-<h3 id="归并排序：基于分治策略-递归分解"><a href="#归并排序：基于分治策略-递归分解" class="headerlink" title="归并排序：基于分治策略(递归分解)"></a>归并排序：基于<strong>分治策略</strong>(递归分解)</h3><blockquote>
-<p>基于的比较排序：存在的上下界，O(n2) —bubbleSort———–mergeSort–&gt; O(nlogn)  </p>
-</blockquote>
-<ul>
-<li>二路归并算法原理：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">序列1：21 - 13 - 8 - 5   </span><br><span class="line">序列2：29 - 19 - 4 - 2</span><br><span class="line">归并： 2 - 4 - 5 - 8 - 13 - 19 - 21 - 29</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//归并排序</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">void</span> Vetor&lt;T&gt;::mergeSort(Rank lo, Rank hi) &#123;</span><br><span class="line">    <span class="keyword">if</span> (hi -lo &lt; <span class="number">2</span>) <span class="keyword">return</span>;   <span class="comment">//处理递归基，单元素区间自然有序</span></span><br><span class="line">    <span class="keyword">int</span> mi = (lo + hi) &gt;&gt; <span class="number">1</span>;  <span class="comment">//中心点</span></span><br><span class="line">    mergeSort(lo, mi);        <span class="comment">//前端递归</span></span><br><span class="line">    mergeSort(mi, hi);        <span class="comment">//后段递归</span></span><br><span class="line">    merge(lo, mi, hi);        <span class="comment">//归并</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">void</span> Vector&lt;T&gt;::merge(Rank lo, Rank mi, Rank hi) &#123;</span><br><span class="line">    T * A = _elem + lo;       <span class="comment">//合并后的向量</span></span><br><span class="line">    <span class="keyword">int</span> lb = mi - lo;         <span class="comment">//前子向量</span></span><br><span class="line">    T * B = <span class="keyword">new</span> T[lb];        <span class="comment">//复制前子向量</span></span><br><span class="line">    <span class="keyword">for</span> (Rank i = <span class="number">0</span>; i &lt; lb; B[i] = A[i++])</span><br><span class="line">        ;</span><br><span class="line">    <span class="keyword">int</span> lc = hi - mi;         <span class="comment">//后子向量</span></span><br><span class="line">    T * C = _elem + mi;       <span class="comment">//B[j]和C[k]小者转移A末尾</span></span><br><span class="line">    <span class="keyword">for</span> (Rank i = <span class="number">0</span>, j = <span class="number">0</span>, k = <span class="number">0</span>; (j &lt; lb) || (k &lt; lc); ) &#123;</span><br><span class="line">        <span class="keyword">if</span>( (j &lt; lb) &amp;&amp; (lc &lt;= k) || (B[j] &lt;= C[k]) )</span><br><span class="line">            A[i++] = B[j++];</span><br><span class="line">        <span class="keyword">if</span>( (k &lt; lc) &amp;&amp; (lb &lt;= j) || (C[K] &lt;= B[j]) )</span><br><span class="line">            A[i++] = C[k++];</span><br><span class="line">    &#125; <span class="comment">//循环紧凑，效率不如拆分</span></span><br><span class="line">    <span class="keyword">delete</span> [] B;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//正确性：</span></span><br><span class="line"><span class="comment">//复杂度：for (...; (j &lt; lb) || (k &lt; lc); ) &#123;</span></span><br><span class="line">    <span class="keyword">if</span>() &#123; A[i++] = B[j++] ; &#125;</span><br><span class="line">    <span class="keyword">if</span>() &#123; A[i++] = C[k++] ; &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">for</span>循环为主要消耗： j + k = n 总迭代不过O(n)线性时间</span><br><span class="line">总的 T(n) = <span class="number">2</span>T(n/<span class="number">2</span>)  ==&gt; O(nlogn)  最坏情况下</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/08/10/ds1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="suoyue">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="锁越smile">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2015/08/10/ds1/" itemprop="url">《数据结构》笔记：算法分析</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-08-10T13:58:04+08:00">
-                2015-08-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/编程基础/" itemprop="url" rel="index">
-                    <span itemprop="name">编程基础</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="计算"><a href="#计算" class="headerlink" title="计算"></a>计算</h3><p><em>Dijkstra名言：计算机科学，就是计算的科学</em></p>
-<ul>
-<li>绳索计算机和算法：古埃及人的算法，线段垂直</li>
-<li>尺规计算机和算法：线段三等分</li>
-<li><strong>总结：计算 = 信息处理，<br>借助某种工具，尊尊某种规则</strong><blockquote>
-<p>算法：特定计算模型下，解决问题的指令序列</p>
-</blockquote>
-</li>
-</ul>
-<ol>
-<li>输入：待处理的信息</li>
-<li>输出：经处理的信息</li>
-<li>正确性：的确可以解决指定的问题</li>
-<li>确定性：基本操作组成的序列</li>
-<li>可行性：每个操作都可以实现，在常数时间内完成</li>
-<li>有穷性：如何输入，有穷次操作可以，得到输出结果</li>
-</ol>
-<ul>
-<li>可行性：所有操作都可以兑现，例子3步把大象装到冰箱</li>
-<li>有穷性：Hailstone(n)算法</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">hailstone</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> length = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span>(<span class="number">1</span> &lt; n)&#123;   </span><br><span class="line">        n%<span class="number">2</span>==<span class="number">0</span> ? n/=<span class="number">2</span> : n=<span class="number">3</span>*n+<span class="number">1</span>;</span><br><span class="line">        length++;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><strong>结论：所有的n是否都可以有穷的步骤，还没有结论</strong></p>
-<blockquote>
-<p>程序 ！= 算法</p>
-<h3 id="计算模型"><a href="#计算模型" class="headerlink" title="计算模型"></a>计算模型</h3><p><em>凯文名言：如果你需要改进某种东西，你首先的学会如何测量它</em></p>
-</blockquote>
-<ul>
-<li>算法分析两个主要方面：正确性，成本</li>
-<li>成本：时间成本，空间成本</li>
-<li>怎么衡量时间成本：特定算法+不同示例</li>
-<li>稳妥起见：关注最坏情况</li>
-<li>同一问题多种算法，评价其优劣：实验统计不足够</li>
-<li>图灵机模型</li>
-<li><ul>
-<li>Tape(带)：均匀划分单元格，各注一字符，默认为’#’</li>
-</ul>
-</li>
-<li><ul>
-<li>Alphabet：字符种类有限</li>
-</ul>
-</li>
-<li><ul>
-<li>Head：总是对准某一单元格，并可以读取修改其中的字符，<pre><code>每经过一个节拍，可转向左侧或右侧
-</code></pre></li>
-</ul>
-</li>
-<li><ul>
-<li>State TM：有限机状态</li>
-</ul>
-</li>
-<li><ul>
-<li>Transition Function：(q, c, d, L/R, p)<br>若当前状态为q，字符为c，将当前字符改写为d，转向左侧/右侧；转入p状态，一旦转入h停机<br>功能：二进制非负整数加一，全1的后缀转为0，原低位的0翻转为1</li>
-</ul>
-</li>
-<li>RAM模型：寄存器顺序编号，总数没有限制</li>
-</ul>
-<p><strong>总结：图灵机，RAM模型为度量算法性能提供了准确的尺度</strong></p>
-<h3 id="大O记号"><a href="#大O记号" class="headerlink" title="大O记号"></a>大O记号</h3><p><em>陶渊明名言：好读书不求甚解（更多的看重长远，主流）</em></p>
-<ul>
-<li>渐进分析： 考虑n &gt;&gt; 2, 对规模为n的输入，需执行的基本操作次数，存储单元数</li>
-<li>大O记号（big-O notation）：<strong>T(n) = O( f(n) )</strong>  &lt;=   <strong>存在c &gt; 0， n &gt;&gt; ,有 T(n) &lt; c * f(n)</strong></li>
-<li>常系数可忽略：<br>O（ c * f(n) ）= O ( f(n) )</li>
-<li>低次项可忽略：<br>O ( n^a + n^b ) = O( n^a ) ,  a &gt; b</li>
-<li>其他记号：最好，平均情况</li>
-<li>常数O(1)：2 = 2013 = 2013^2013 = O(1)，不含转向</li>
-<li>对数O(logn)：<strong>非常高效，无限接近与常数</strong></li>
-<li><ul>
-<li>常底数无所谓<br>所有 a, b &gt; 0, log(a) n = log(a) b * log(b)n = O( log(b) n )</li>
-</ul>
-</li>
-<li><ul>
-<li>常数次幂无所谓</li>
-</ul>
-</li>
-<li><ul>
-<li>对数多项式</li>
-</ul>
-</li>
-<li>多项式（O（n ^c））:<strong>直接往高处化，通常认为令人满意了</strong></li>
-<li><ul>
-<li>线性（O（n））</li>
-</ul>
-</li>
-<li><ul>
-<li>从O（n）~ O（n^2）：编程题主要覆盖的范围</li>
-</ul>
-</li>
-<li><ul>
-<li>幂</li>
-</ul>
-</li>
-<li>指数（a ^n）：计算成本增长极快，<br>和多项式之间有个分水岭（有效算法到无效算法）</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">问题：<span class="number">2</span>-Subset </span><br><span class="line">S包含n个正整数，存在S = <span class="number">2</span>m</span><br><span class="line">是否有子集T，满足存在 T = m?</span><br><span class="line">美国大选说事</span><br></pre></td></tr></table></figure>
-<p><strong>不存在可在多项式时间内解决该问题</strong></p>
-<h3 id="算法分析"><a href="#算法分析" class="headerlink" title="算法分析"></a>算法分析</h3><p><em>夸赞欧拉：像欧拉一样像呼吸一样自如</em></p>
-<ul>
-<li>主要任务：正确性+复杂度</li>
-<li>C++基本指令：等价于RAM的基本指令，二者相当</li>
-<li><ul>
-<li>分支转向：goto //出于结构化被隐藏了</li>
-</ul>
-</li>
-<li><ul>
-<li>迭代循环：for（）、while（）、…… //本质上就是if + goto</li>
-</ul>
-</li>
-<li><ul>
-<li>调用加递归 //本质上也是goto</li>
-</ul>
-</li>
-<li>分析方法：迭代（级数求和）、递归（递归跟踪+递推方程）、猜测</li>
-<li>级数：</li>
-<li><ul>
-<li>算数级数（与末项平方同阶）：1 + 2 + …… + n = n (n+1) /2 = O(n^2)</li>
-</ul>
-</li>
-<li><ul>
-<li>幂级数（比末项高出一阶）：1^C + 2^C + …… n^C = O( n^(C+1) )</li>
-</ul>
-</li>
-<li><ul>
-<li>几何级数（与末项同阶）：a0 + a^1 + …… a^n = O(a^n)</li>
-</ul>
-</li>
-<li><ul>
-<li>收敛级数： O（1）</li>
-</ul>
-</li>
-<li><ul>
-<li>调和级数：1 + 1/2 + …… 1/n = O(logn)</li>
-</ul>
-</li>
-<li><ul>
-<li>对数级数：log1 + log2 + …… + logn = log(n!) = O(nlogn)</li>
-</ul>
-</li>
-<li>循环与级数：</li>
-<li><ul>
-<li>二重循环复杂度：O(n^2)<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span> ; i&lt;n; i++)</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>; j&lt;n; j++)</span><br><span class="line">        op();</span><br><span class="line">        </span><br><span class="line"><span class="comment">//变化界限   </span></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span> ; i&lt;n; i++)</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>; j&lt;i; j++)</span><br><span class="line">        op();  </span><br><span class="line"><span class="comment">//变化步长</span></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span> ; i&lt;n; i++)</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>; j&lt;i; j=+<span class="number">2017</span>)</span><br><span class="line">        op();</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-</ul>
-<p><strong>渐进复杂度依然一样：n + n + …… + n = n^2 = O(n^2)</strong></p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//变化成几何级数</span></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span> ; i&lt;n; i&lt;&lt;<span class="number">2</span>)</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>; j&lt;n; j++)</span><br><span class="line">        op();</span><br></pre></td></tr></table></figure>
-<p><strong>复杂度变为O(n)</strong></p>
-<ul>
-<li><ul>
-<li>例子：冒泡排序<blockquote>
-<p>估算：1天多少秒？<br><strong>1天 = 24hr <em> 60min </em> 60sec = 25 * 4000 = 100000 sec</strong></p>
-<h3 id="迭代与递归"><a href="#迭代与递归" class="headerlink" title="迭代与递归"></a>迭代与递归</h3><p><strong>凡治众如治寡，分数是也</strong></p>
-</blockquote>
-</li>
-</ul>
-</li>
-<li>例子求和</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">SumI</span><span class="params">(<span class="keyword">int</span> A[], <span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> sum = <span class="number">0</span>; <span class="comment">//O（1）</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        sum += A[i]; <span class="comment">//O（1）</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> sum;  <span class="comment">//O（1）</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 时间复杂度：T(n)  = O（n）</span></span><br><span class="line"><span class="comment">// 空间复杂度：O(1)</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>减而治之：<blockquote>
-<p>求解一个大规模的问题，划分成两个子问题：其一平凡，其二规模缩减（单调性）</p>
-</blockquote>
-</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">SumJ</span><span class="params">(<span class="keyword">int</span> A[], <span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (n &lt; <span class="number">1</span>) ? <span class="number">0</span> : SumJ(A, n<span class="number">-1</span>) + A[n+<span class="number">1</span>] ;</span><br><span class="line">&#125; <span class="comment">//递归</span></span><br><span class="line">递归跟踪：T(n) = O(<span class="number">1</span>)*(n+<span class="number">1</span>) = O(n)</span><br><span class="line">递推方程：T(n) = T(n<span class="number">-1</span>) + O(<span class="number">1</span>)  T(<span class="number">0</span>) = O(<span class="number">1</span>)  ==&gt; T(n) = O(n)</span><br></pre></td></tr></table></figure>
-<ul>
-<li>例子:数组倒置</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">void reverse(int * Am int lo, int hi)；</span><br><span class="line"><span class="comment">//递归版</span></span><br><span class="line"><span class="keyword">if</span>(lo &lt; hi) &#123; swap(A[lo], A[hi]); reverse(A, lo+<span class="number">1</span>, hi<span class="number">-1</span>); &#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>分而治之：<blockquote>
-<p>求解一个大规模的问题，划分成多个子问题，规模相当，分别求解子问题</p>
-</blockquote>
-</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sum</span><span class="params">(<span class="keyword">int</span> A[], <span class="keyword">int</span> lo, <span class="keyword">int</span> hi)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(lo == hi) <span class="keyword">return</span> A[lo];</span><br><span class="line">    <span class="keyword">int</span> mi = (lo+hi) &gt;&gt; <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">return</span> sum(A, lo, mi) + sum(A, mi + <span class="number">1</span>, hi);</span><br><span class="line">&#125;<span class="comment">//二分递归</span></span><br><span class="line">递归跟踪：T(n) = O(<span class="number">1</span>) * (<span class="number">2</span>^<span class="number">0</span> + ... + <span class="number">2</span>^logn) = O(n)</span><br><span class="line">递推方程：T(n) = O(<span class="number">1</span>) + <span class="number">2</span>T(n/<span class="number">2</span>), T(<span class="number">1</span>) = O(<span class="number">1</span>)    T(n) = O(n);</span><br></pre></td></tr></table></figure>
-<ul>
-<li>例子：MAX2，[lo, hi) 找出最大和次大的</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>( A[x1 = lo] &lt; A[x2 = lo + <span class="number">1</span>]) swap(x1, x2);</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i = lo + <span class="number">2</span>; i &lt; hi; i++)</span><br><span class="line">    <span class="keyword">if</span>(A[x2] &lt; A[i])</span><br><span class="line">        <span class="keyword">if</span>(A[x1] &lt; A[x2 =i])</span><br><span class="line">            swap(x1, x2);</span><br><span class="line">复杂度：最好的 n<span class="number">-1</span>次比较，最坏的<span class="number">2</span>n<span class="number">-3</span>次比较</span><br><span class="line">改进：分而治之 最坏<span class="number">5</span>n/<span class="number">3</span><span class="number">-2</span></span><br></pre></td></tr></table></figure>
-<h3 id="动态规划-DSA优化"><a href="#动态规划-DSA优化" class="headerlink" title="动态规划(DSA优化)"></a>动态规划(DSA优化)</h3><blockquote>
-<p>运转–&gt;正确–&gt;快速</p>
-</blockquote>
-<ul>
-<li>例子：fib()（递归）</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// fib(n) = f(n-1) + f(n-2) &#123;0, 1, 1, 2, 3, 5, 8 ...&#125;</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">fib</span><span class="params">(n)</span> </span>&#123; <span class="keyword">return</span> (<span class="number">2</span> &gt; n) ? n : fib(n<span class="number">-1</span>) + fib(n<span class="number">-2</span>); &#125;</span><br><span class="line"><span class="comment">// fib(43)  ==&gt; 巨大的延迟</span></span><br><span class="line"><span class="comment">//时间复杂度分析</span></span><br><span class="line"><span class="comment">//递推公式：T(n-1) + T(n-2) + 1, T(1) = T(0) = 1, S(n) = fib(n+1) = 1.68... ^n</span></span><br><span class="line"><span class="comment">//==&gt; O(2^n) 指数复杂度  超过100项，需要几百年</span></span><br><span class="line"><span class="comment">//递归跟踪：大量重复的递归实例</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>例子：fib()（迭代）</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//方法A(记忆)</span></span><br><span class="line"><span class="comment">//制表查询</span></span><br><span class="line"><span class="comment">//方法B(动态规划)</span></span><br><span class="line"><span class="comment">//颠倒计算方向，自底而上</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">fib2</span><span class="params">(<span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> f = <span class="number">0</span>, g = <span class="number">1</span>;  <span class="comment">//用2个参数存储中间指</span></span><br><span class="line">    <span class="keyword">while</span>(<span class="number">0</span> &lt; n--)&#123;</span><br><span class="line">        g = g + f;</span><br><span class="line">        f = g - f; </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> g;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//空间上只需要O(1)</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>例子：最长公共子序列（递归–&gt;动态规划）</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* </span></span><br><span class="line"><span class="comment"> * 最长公共子序列</span></span><br><span class="line"><span class="comment"> * 可行----&gt;递归策略----&gt;减而治之----&gt;平凡情况</span></span><br><span class="line"><span class="comment"> * 效率----&gt;动态规划----&gt;自底而上----&gt;迭代策略</span></span><br><span class="line"><span class="comment"> * 对于序列A[0,n],B[0,m], LCS(A,B)无非3种情况</span></span><br><span class="line"><span class="comment"> * 1) n=-1或m=-1，作空序列</span></span><br><span class="line"><span class="comment"> * 2) A[n] = 'X' = B[m] 则LCS( A[0,n), B[0,m), 'X' )</span></span><br><span class="line"><span class="comment"> * 3) A[n] != B[m] 则 LCS( A[0,n], B[0,m) ) 与 LCS( A[0,n), B[0,m] ) 中取更长者(分而治之)</span></span><br><span class="line"><span class="comment"> * 采用倒推式方式求公共子序列，用二维数组存储中间值</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="comment">//递归</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">LCS</span><span class="params">(<span class="built_in">string</span>, <span class="keyword">int</span>, <span class="built_in">string</span>, <span class="keyword">int</span>)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">LCS2</span><span class="params">(<span class="built_in">string</span>, <span class="keyword">int</span>, <span class="built_in">string</span>, <span class="keyword">int</span>)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span>&#123;</span><br><span class="line">    <span class="built_in">string</span> a, b;</span><br><span class="line">    <span class="built_in">cin</span> &gt;&gt; a &gt;&gt; b;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; LCS(a, a.length()<span class="number">-1</span>, b, b.length()<span class="number">-1</span>) &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="comment">// cout &lt;&lt; a &lt;&lt; b &lt;&lt; endl;</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//递归</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">LCS</span><span class="params">(<span class="built_in">string</span> a, <span class="keyword">int</span> m, <span class="built_in">string</span> b, <span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(m == <span class="number">-1</span> || n == <span class="number">-1</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(a[m] == b[n])</span><br><span class="line">        <span class="keyword">return</span> LCS(a, m<span class="number">-1</span>, b, n<span class="number">-1</span>) + <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="keyword">return</span> LCS(a, m, b, n<span class="number">-1</span>) &gt; LCS(a, m<span class="number">-1</span>, b, n)</span><br><span class="line">        ? LCS(a, m, b, n<span class="number">-1</span>) </span><br><span class="line">        : LCS(a, m<span class="number">-1</span>, b, n);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//动态规划</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">LCS</span><span class="params">(<span class="built_in">string</span> a, <span class="keyword">int</span> m, <span class="built_in">string</span> b, <span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> arr[m][n] = &#123;<span class="number">0</span>&#125;;   <span class="comment">//用数组存储中间值</span></span><br><span class="line">    <span class="keyword">if</span>(a[<span class="number">0</span>] == a[<span class="number">0</span>])</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1904,7 +1666,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">46</span>
+                  <span class="site-state-item-count">48</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1915,7 +1677,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -1926,7 +1688,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-count">23</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

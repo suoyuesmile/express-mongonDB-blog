@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="锁越smile">
 <meta property="og:description" content="git与gitflow使用新建1234# 新建本地 git 仓库git init [repoName]# 克隆远程仓库git clone [repoUrl] 配置12345678# 查看配置内容git config --list# 编辑配置文件git config -e# 配置姓名git config [--global] user.name &quot;suoyue&quot;# 配置邮箱 git config [">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-12-23T09:01:08.619Z">
+<meta property="og:updated_time" content="2018-01-16T06:46:43.422Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="git及gitflow 使用">
 <meta name="twitter:description" content="git与gitflow使用新建1234# 新建本地 git 仓库git init [repoName]# 克隆远程仓库git clone [repoUrl] 配置12345678# 查看配置内容git config --list# 编辑配置文件git config -e# 配置姓名git config [--global] user.name &quot;suoyue&quot;# 配置邮箱 git config [">
@@ -382,6 +382,15 @@
 <h4 id="忽略"><a href="#忽略" class="headerlink" title="忽略"></a>忽略</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 编辑 git 忽略配置文件</span></span><br><span class="line">vim .gitignore</span><br><span class="line"><span class="comment"># 被写 git 忽略文件, git add 会自动忽略它</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># .gitignore 自动忽略log文件和文件名为suo结尾的文件</span></span><br><span class="line">*.<span class="built_in">log</span></span><br><span class="line">*suo</span><br></pre></td></tr></table></figure>
 <h4 id="分支"><a href="#分支" class="headerlink" title="分支"></a>分支</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看本地分支</span></span><br><span class="line">git branch</span><br><span class="line"><span class="comment"># 查看远程的分支</span></span><br><span class="line">git branch -vgit</span><br><span class="line"><span class="comment"># 查看已跟踪到远程和本地所有分支</span></span><br><span class="line">git branch -a</span><br><span class="line"><span class="comment"># 新建一个分支名为ss的分支（不切换）</span></span><br><span class="line">git branch ss</span><br><span class="line"><span class="comment"># 新建一个分支名为test的分支并切换过去</span></span><br><span class="line">git checkout -b <span class="built_in">test</span></span><br><span class="line"><span class="comment"># 切换分支并更新工作区</span></span><br><span class="line">git checkout ss</span><br><span class="line"><span class="comment"># 合并分支到当前</span></span><br><span class="line">git merge <span class="built_in">test</span></span><br><span class="line"><span class="comment"># 如果有冲突手动改代码在添加提交</span></span><br><span class="line"><span class="comment"># 删除不用分支</span></span><br><span class="line">git checkout -d <span class="built_in">test</span> -m</span><br><span class="line"><span class="comment"># 新建远程分支</span></span><br><span class="line">git push origin ss:ss</span><br><span class="line"><span class="comment"># 删除远程分支</span></span><br><span class="line">git push origin --delete ss</span><br><span class="line"><span class="comment"># 建立远程追踪关系</span></span><br><span class="line">git branch --<span class="built_in">set</span>-upstream-to=origin/ss <span class="built_in">test</span></span><br></pre></td></tr></table></figure>
 <h4 id="远程"><a href="#远程" class="headerlink" title="远程"></a>远程</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#</span></span><br></pre></td></tr></table></figure>
+<h4 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h4><ul>
+<li><p>拉取远程合并本地（切换分支-&gt;拉取-&gt;修改-&gt;提交-&gt;推送）</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">git commit -am <span class="string">'xx'</span>[提交] [or] git stash [暂存]</span><br><span class="line">git checkout xx [切换分支]</span><br><span class="line">git status [查看状态]</span><br><span class="line">git pull [拉取远程并合并]</span><br><span class="line">git <span class="built_in">log</span> [查看历史]</span><br><span class="line">git diff [对比]</span><br><span class="line">git status [查看忽略文件]</span><br><span class="line">git commit -am <span class="string">'xx'</span>[提交修改]</span><br><span class="line">git push [推到远程]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>本地修复issue分支 (切换并新建分支-&gt;修改-&gt;提交-&gt;切回-&gt;合并-&gt;删除临时分支)</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b new-issue [切换新分支]</span><br><span class="line">git status [重要]</span><br><span class="line">git diff [对比]</span><br><span class="line">git commit -am <span class="string">"xx"</span></span><br><span class="line">git checkout ss [切换]</span><br><span class="line">git merge new-issue [合并分支]</span><br><span class="line">git checkout -d new-issue [删除分支]</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+
       
     </div>
     
@@ -420,6 +429,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/01/09/ci/" rel="prev" title="持续集成工具 CI 使用">
+                持续集成工具 CI 使用 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -496,7 +509,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">46</span>
+                  <span class="site-state-item-count">48</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -507,7 +520,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -518,7 +531,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-count">23</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -553,7 +566,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#git与gitflow使用"><span class="nav-number">1.</span> <span class="nav-text">git与gitflow使用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#新建"><span class="nav-number">2.</span> <span class="nav-text">新建</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置"><span class="nav-number">3.</span> <span class="nav-text">配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#流程分解"><span class="nav-number">4.</span> <span class="nav-text">流程分解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#文件状态"><span class="nav-number">5.</span> <span class="nav-text">文件状态</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#添加、删除"><span class="nav-number">6.</span> <span class="nav-text">添加、删除</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#提交"><span class="nav-number">7.</span> <span class="nav-text">提交</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#忽略"><span class="nav-number">8.</span> <span class="nav-text">忽略</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分支"><span class="nav-number">9.</span> <span class="nav-text">分支</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#远程"><span class="nav-number">10.</span> <span class="nav-text">远程</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#git与gitflow使用"><span class="nav-number">1.</span> <span class="nav-text">git与gitflow使用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#新建"><span class="nav-number">2.</span> <span class="nav-text">新建</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置"><span class="nav-number">3.</span> <span class="nav-text">配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#流程分解"><span class="nav-number">4.</span> <span class="nav-text">流程分解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#文件状态"><span class="nav-number">5.</span> <span class="nav-text">文件状态</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#添加、删除"><span class="nav-number">6.</span> <span class="nav-text">添加、删除</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#提交"><span class="nav-number">7.</span> <span class="nav-text">提交</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#忽略"><span class="nav-number">8.</span> <span class="nav-text">忽略</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分支"><span class="nav-number">9.</span> <span class="nav-text">分支</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#远程"><span class="nav-number">10.</span> <span class="nav-text">远程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#场景"><span class="nav-number">11.</span> <span class="nav-text">场景</span></a></li></ol></div>
             
 
           </div>

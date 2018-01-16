@@ -272,6 +272,308 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/03/23/sass-note/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="suoyue">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="锁越smile">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2016/03/23/sass-note/" itemprop="url">前端工程化之路：初探 Sass 技术</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-03-23T19:25:23+08:00">
+                2016-03-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端工具/" itemprop="url" rel="index">
+                    <span itemprop="name">前端工具</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>对于 CSS 来说这门语言就如同是写给设计者们的。语言本身是不需要编译的。而且写起来简单明了，但是对于程序员来说没有一种编程的感觉。对于一些重复冗余的代码，无力提高编写效率。现在推出了两个工具 Sass 和 Less，决定尝试一下，慢慢的适应用编程的方式来写 css。因此写了这篇入门的博客，以便以后忘记了的地方能很快捡起来。</p>
+<h3 id="Sass-语法"><a href="#Sass-语法" class="headerlink" title="Sass 语法"></a>Sass 语法</h3><h4 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h4><figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 普通变量：全局使用属性值</span></span><br><span class="line"><span class="variable">$mainColor</span>: <span class="number">#666666</span>;</span><br><span class="line"><span class="variable">$color</span>: <span class="number">#ff0000</span>;</span><br><span class="line"><span class="selector-tag">body</span> &#123;<span class="attribute">background-color</span>: <span class="variable">$mainColor</span>; <span class="attribute">color</span>: $  color;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 默认变量</span></span><br><span class="line"><span class="variable">$color</span>: <span class="number">#ff0000</span>;</span><br><span class="line"><span class="variable">$color</span>: <span class="number">#000</span> !default; <span class="comment">// 组件化开发时有用</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 特殊变量：名字属性或者其他的</span></span><br><span class="line">$borderDire = top;</span><br><span class="line"><span class="selector-class">.border-</span>#&#123;<span class="variable">$borderDire</span>&#125; &#123;</span><br><span class="line">    <span class="attribute">border</span>-#&#123;<span class="variable">$borderDire</span>&#125;: <span class="variable">$color</span> <span class="number">1px</span> solid;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 多值变量</span></span><br><span class="line">$pList = 5px 10px 15px 20px;</span><br><span class="line"><span class="selector-tag">p</span> &#123;<span class="attribute">margin</span>: <span class="variable">$pList</span>;&#125;</span><br><span class="line">$hSize = (h1: 10px, h2: 15px, h3: 20px);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 全局变量(将新增)</span></span><br><span class="line"><span class="variable">$color</span>: <span class="number">#333333</span>;</span><br><span class="line"><span class="variable">$color</span>: <span class="number">#666666</span> !global;</span><br></pre></td></tr></table></figure>
+<h4 id="嵌套"><a href="#嵌套" class="headerlink" title="嵌套"></a>嵌套</h4><figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 选择器嵌套</span></span><br><span class="line"><span class="selector-tag">body</span> &#123;</span><br><span class="line">    <span class="selector-class">.main</span> &#123;</span><br><span class="line">        <span class="attribute">color</span>: <span class="variable">$color</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 等同于</span></span><br><span class="line"><span class="selector-tag">body</span> <span class="selector-class">.main</span> &#123;<span class="attribute">color</span>: <span class="variable">$color</span>;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 属性嵌套</span></span><br><span class="line"><span class="selector-class">.main</span> &#123;</span><br><span class="line">    <span class="attribute">border</span>: &#123;</span><br><span class="line">        left: &#123;</span><br><span class="line">            width: <span class="number">2px</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="attribute">top</span>: &#123;</span><br><span class="line">            width: <span class="number">3px</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 等同于</span></span><br><span class="line"><span class="selector-class">.main</span> &#123;<span class="attribute">border-left-width</span>: <span class="number">2px</span>; <span class="attribute">border-top-width</span>: <span class="number">3px</span>;&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="导入"><a href="#导入" class="headerlink" title="导入"></a>导入</h4><figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// file: _reset.scss</span></span><br><span class="line">* &#123;<span class="attribute">margin</span>: <span class="number">0</span>; <span class="attribute">padding</span>: <span class="number">0</span>;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// file: test.scss</span></span><br><span class="line">@<span class="keyword">import</span> <span class="string">'reset'</span>;</span><br><span class="line"><span class="selector-tag">body</span> &#123;</span><br><span class="line">    <span class="selector-class">.main</span> &#123;</span><br><span class="line">        <span class="attribute">color</span>: <span class="variable">$color</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//等同于</span></span><br><span class="line">* &#123;<span class="attribute">margin</span>: <span class="number">0</span>; <span class="attribute">padding</span> 0;&#125;</span><br><span class="line"><span class="selector-tag">body</span> <span class="selector-class">.main</span> &#123;<span class="attribute">color</span>: <span class="number">#c</span>olor;&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="混合"><a href="#混合" class="headerlink" title="混合"></a>混合</h4><figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 无参</span></span><br><span class="line">@<span class="keyword">mixin</span> center-block &#123;</span><br><span class="line">    <span class="attribute">margin</span>: <span class="number">0</span> auto;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.main</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">600px</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">300px</span>;</span><br><span class="line">    @<span class="keyword">include</span> center-block;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 有参</span></span><br><span class="line">@<span class="keyword">mixin</span> box-sizing (<span class="variable">$sizing</span>) &#123;</span><br><span class="line">    -webkit-<span class="attribute">box-sizing</span>: <span class="variable">$sizing</span>;</span><br><span class="line">       -moz-bix-sizing: <span class="variable">$sizing</span>;</span><br><span class="line">                sizing: <span class="variable">$sizing</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.box-border</span> &#123;</span><br><span class="line">    <span class="attribute">border</span>: <span class="number">1px</span> <span class="variable">$color</span> solid;</span><br><span class="line">    @<span class="keyword">include</span> box-sizing(border-box);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 多参</span></span><br><span class="line">@<span class="keyword">mixin</span> border-default(<span class="variable">$borderWidth</span>: 1px, <span class="variable">$borderStyle</span>: dashed) &#123;</span><br><span class="line">    <span class="attribute">border</span>: <span class="variable">$borderWidth</span> <span class="variable">$borderStyle</span> <span class="number">#666</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">div</span> <span class="selector-tag">p</span> &#123;@<span class="keyword">include</span> border-default;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// media问题</span></span><br><span class="line">@<span class="keyword">mixin</span> screen-max(<span class="variable">$res</span>) &#123;</span><br><span class="line">    @<span class="keyword">media</span> only screen and (max-width: <span class="variable">$res</span>) &#123;</span><br><span class="line">        @<span class="keyword">content</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">@<span class="keyword">include</span> screen-max(<span class="number">600px</span>) &#123;</span><br><span class="line">    <span class="selector-tag">body</span> &#123;</span><br><span class="line">        <span class="attribute">color</span>: red;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h4><figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$baseFontSize</span>: <span class="number">10px</span> !default;</span><br><span class="line"><span class="variable">$greyColor</span>: <span class="number">#cccccc</span> !default;</span><br><span class="line"></span><br><span class="line">@function pxToRem(<span class="variable">$px</span>) &#123;</span><br><span class="line">    @return <span class="variable">$px</span> / <span class="variable">$baseFontSize</span> * 1rem;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">p</span> &#123;</span><br><span class="line">    <span class="attribute">font-size</span>: pxToRem(<span class="number">20px</span>); <span class="comment">// 自定义</span></span><br><span class="line">    <span class="attribute">color</span>: darken(<span class="variable">$greyColor</span>, <span class="number">20%</span>); <span class="comment">// 内置函数</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h4><figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.main</span> &#123;<span class="attribute">height</span>: <span class="variable">$height</span>; <span class="attribute">width</span>: <span class="variable">$width</span>;&#125;</span><br><span class="line"><span class="selector-class">.left</span> &#123;@<span class="keyword">extend</span> .main; <span class="attribute">color</span>: <span class="variable">$color</span>;&#125;</span><br><span class="line"><span class="selector-class">.right</span> &#123;@<span class="keyword">extend</span> .main; <span class="attribute">color</span>: <span class="number">#777777</span>;&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="运算"><a href="#运算" class="headerlink" title="运算"></a>运算</h4><figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.main</span> &#123;<span class="attribute">width</span>: <span class="number">500px</span>;&#125;</span><br><span class="line"><span class="selector-class">.left</span> &#123;<span class="attribute">width</span>: <span class="number">200px</span>;&#125;</span><br><span class="line"><span class="selector-class">.right</span> &#123;<span class="attribute">width</span>: <span class="number">500px</span> - <span class="number">200px</span> - <span class="number">30px</span>;&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="条件"><a href="#条件" class="headerlink" title="条件"></a>条件</h4><figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 双目判断</span></span><br><span class="line">$size = 10;</span><br><span class="line">$color = red;</span><br><span class="line"><span class="selector-tag">p</span> &#123;</span><br><span class="line">    @<span class="keyword">if</span> <span class="variable">$size</span> &lt; 10 &#123;</span><br><span class="line">        <span class="attribute">font-size</span>: <span class="number">10px</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">p</span> <span class="selector-tag">div</span> &#123;</span><br><span class="line">    @<span class="keyword">if</span> <span class="variable">$color</span> == yellow &#123;</span><br><span class="line">        <span class="attribute">color</span>: darken(yellow, <span class="number">20%</span>);</span><br><span class="line">    &#125; @<span class="keyword">else</span> if <span class="variable">$color</span> == green &#123;</span><br><span class="line">        <span class="attribute">color</span>: darken(green, <span class="number">30%</span>);</span><br><span class="line">    &#125; @<span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="attribute">color</span>: <span class="variable">$color</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 三目判断</span></span><br><span class="line">if(true, 1px, 2px) <span class="comment">// 1px</span></span><br></pre></td></tr></table></figure>
+<h4 id="循环"><a href="#循环" class="headerlink" title="循环"></a>循环</h4><figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1-10</span></span><br><span class="line">@<span class="keyword">for</span> <span class="variable">$i</span> from 1 through 10 &#123;</span><br><span class="line">    <span class="selector-class">.item-</span>#&#123;<span class="variable">$i</span>&#125;: &#123;</span><br><span class="line">        display: none;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 1-10</span></span><br><span class="line">@<span class="keyword">for</span> <span class="variable">$i</span> from 1 to 11 &#123;</span><br><span class="line">    <span class="selector-class">.item-</span>#&#123;<span class="variable">$i</span>&#125;: &#123;</span><br><span class="line">        display: none;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Sass-安装"><a href="#Sass-安装" class="headerlink" title="Sass 安装"></a>Sass 安装</h3><p>1.安装 Ruby<br>2.安装 Sass<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gem install sass</span><br></pre></td></tr></table></figure></p>
+<h3 id="Sass-编译"><a href="#Sass-编译" class="headerlink" title="Sass 编译"></a>Sass 编译</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 单文件编译</span></span><br><span class="line">sass test.scss test.css</span><br><span class="line"><span class="comment"># 文件夹监听编译</span></span><br><span class="line">sass --watch scssDir:cssDir </span><br><span class="line"><span class="comment"># 逆向转换</span></span><br><span class="line">sass-convert test.css test.scss</span><br></pre></td></tr></table></figure>
+<h3 id="Sass-调试"><a href="#Sass-调试" class="headerlink" title="Sass 调试"></a>Sass 调试</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 开启调试</span></span><br><span class="line">sass --watch scssDir:cssDir --debug-info</span><br><span class="line">sass --watch scssDir:cssDir --sourcemap</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/03/13/h5-note/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="suoyue">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="锁越smile">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2016/03/13/h5-note/" itemprop="url">学习新技术：从 HTML4 到 HTML5 的改变</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-03-13T22:34:22+08:00">
+                2016-03-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/HTML/" itemprop="url" rel="index">
+                    <span itemprop="name">HTML</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>很长时间都在和 HTML5 打交道，但是并没有区分 HTML5 和 HTML4 。但是今天我偶然看了一本 H5 的书籍 《H5网页设计入门必读》 ，读完之后，才想到原来这么多特性是 HTML5 的。由此我在这里做一个分类总结。总结一下 HTML5 到底有什么新的地方。</p>
+<p>很久之前，我读了一本CSS的书籍《CSS权威指南》，里面详细概述了关于 <strong>结构和表现分离</strong>的思想。为什么谈到这个呢？原因是现在我们说的 H5 的改变很多都是基于这种思想。为了将 HTML 从表现化中脱离出来。</p>
+<h3 id="HTML5新增特性"><a href="#HTML5新增特性" class="headerlink" title="HTML5新增特性"></a>HTML5新增特性</h3><p>H5总得来说从6个方面做出了改变：<br>1.弃用过时元素标签<br>2.新增结构元素标签<br>3.新增富媒体元素标签<br>4.增强表单属性<br>5.新增JavaScript API<br>6.语义化，容错性提高</p>
+<h4 id="弃用过时标签"><a href="#弃用过时标签" class="headerlink" title="弃用过时标签"></a>弃用过时标签</h4><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 框架家族 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">frame</span>&gt;</span><span class="tag">&lt;/<span class="name">frame</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">frameset</span>&gt;</span><span class="tag">&lt;/<span class="name">frameset</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">noframes</span>&gt;</span><span class="tag">&lt;/<span class="name">noframes</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 弃用 --&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 首字母缩写 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">acronym</span> <span class="attr">title</span>=<span class="string">"Suo Yue"</span>&gt;</span>SY<span class="tag">&lt;/<span class="name">acronym</span>&gt;</span> </span><br><span class="line"><span class="comment">&lt;!-- 弃用 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">abbr</span> <span class="attr">ttile</span>=<span class="string">"Suo Yue"</span>&gt;</span>SY<span class="tag">&lt;/<span class="name">abbr</span>&gt;</span> </span><br><span class="line"><span class="comment">&lt;!-- 替代 --&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 显示元素 --&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 弃用 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">font</span>&gt;</span><span class="tag">&lt;/<span class="name">font</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">big</span>&gt;</span><span class="tag">&lt;/<span class="name">big</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">center</span>&gt;</span><span class="tag">&lt;/<span class="name">center</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">strike</span>&gt;</span><span class="tag">&lt;/<span class="name">strike</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- css替代--&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="新增结构元素"><a href="#新增结构元素" class="headerlink" title="新增结构元素"></a>新增结构元素</h4><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- section:集合理论上相关的内容 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">section</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h1</span>&gt;</span>锁的博客<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>这是邵锁的博客<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">section</span>&gt;</span> </span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- header:介绍和导航的辅助工具 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">section</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">header</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">h1</span>&gt;</span>邵锁<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">header</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>邵锁的博客<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">section</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- footer:内部元素信息，作者版权相关内容 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">section</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">header</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">h1</span>&gt;</span>邵锁<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">header</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>邵锁的博客<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">footer</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">p</span>&gt;</span>作者：邵锁<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">footer</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">section</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- aside: 侧边栏，相关性不大的内容 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">aside</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>总计文章12篇<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">aside</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- nav:全站导航信息 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">section</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">header</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">nav</span>&gt;</span> </span><br><span class="line">        <span class="tag">&lt;/<span class="name">nav</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">header</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">section</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- article:与aection相似，是section一个特殊类别，用于自包含内容 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">article</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">header</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">nav</span>&gt;</span> </span><br><span class="line">        <span class="tag">&lt;/<span class="name">nav</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">header</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">article</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- hgroup:不希望内容现在在文件大纲内 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">hgroup</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h1</span>&gt;</span>suo yue<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h2</span>&gt;</span>suo suo<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">hgroup</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="新增富媒体元素标签"><a href="#新增富媒体元素标签" class="headerlink" title="新增富媒体元素标签"></a>新增富媒体元素标签</h4><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- canvas:创建动态图像的环境 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">canvas</span> <span class="attr">id</span>=<span class="string">"suo"</span> <span class="attr">width</span>=<span class="string">"200"</span> <span class="attr">height</span>=<span class="string">"200"</span>&gt;</span> </span><br><span class="line">var canvas = dociment.getElementById('suo');</span><br><span class="line">var context = canvas.getContext('2d');</span><br><span class="line">context.strokeStyle = '#666666';</span><br><span class="line">context.strokeRect(20, 20, 100, 100);</span><br><span class="line"><span class="comment">&lt;!-- 绘制一个正方形 --&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">canvas</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- audio:音频 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">audio</span> <span class="attr">src</span>=<span class="string">"canon.mp3"</span> <span class="attr">autoplay</span>&gt;</span><span class="tag">&lt;/<span class="name">audio</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">audio</span> <span class="attr">src</span>=<span class="string">"canon.mp3"</span> <span class="attr">controls</span>&gt;</span><span class="tag">&lt;/<span class="name">audio</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">audio</span> <span class="attr">src</span>=<span class="string">"canon.mp3"</span> <span class="attr">autobuffer</span>&gt;</span><span class="tag">&lt;/<span class="name">audio</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 兼容音频格式 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">audio</span> <span class="attr">controls</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">source</span> <span class="attr">src</span>=<span class="string">"canon.ogg"</span> <span class="attr">type</span>=<span class="string">"audio/ogg"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">source</span> <span class="attr">src</span>=<span class="string">"canon.mp3"</span> <span class="attr">type</span>=<span class="string">"audio/mp3"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">audio</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- video:视频 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">video</span> <span class="attr">src</span>=<span class="string">"movie.mp4"</span> <span class="attr">width</span>=<span class="string">"200"</span> <span class="attr">height</span>=<span class="string">"200"</span>&gt;</span><span class="tag">&lt;/<span class="name">video</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 兼容视频格式 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">video</span> <span class="attr">width</span>=<span class="string">"200"</span> <span class="attr">height</span>=<span class="string">"200"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">source</span> <span class="attr">src</span>=<span class="string">"movie.ogv"</span> <span class="attr">type</span>=<span class="string">"video/ogv"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">source</span> <span class="attr">src</span>=<span class="string">"movie.mp4"</span> <span class="attr">type</span>=<span class="string">"video/mp4"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">video</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="增强表单属性"><a href="#增强表单属性" class="headerlink" title="增强表单属性"></a>增强表单属性</h4><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 以前的常规表单 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">"login.php"</span> <span class="attr">method</span>=<span class="string">"post"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"username"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"password"</span> <span class="attr">name</span>=<span class="string">"password"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- placeholder:没有值则插入占位符，定位后删除，离开恢复 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"username"</span> <span class="attr">placeholder</span>=<span class="string">"username"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- autofocus:自动聚焦模式,文件加载后自动聚焦到某一表单栏 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"username"</span> <span class="attr">autofocus</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- required:将脚本变为标记 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"username"</span> <span class="attr">required</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- autocomplete:自动填写表单 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"username"</span> <span class="attr">autocomplete</span>=<span class="string">"on"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- datalist:一系列选项关联到输入栏 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"username"</span> <span class="attr">list</span>=<span class="string">"suoyue"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">datalist</span> <span class="attr">id</span>=<span class="string">"suoyue"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"suoyue"</span>&gt;</span><span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"suo"</span>&gt;</span><span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"shaosuo"</span>&gt;</span><span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"yue"</span>&gt;</span><span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"shaosuoyue"</span>&gt;</span><span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">datalist</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- type:新增类型 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"search"</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"email"</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"url"</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"tel"</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"range"</span> <span class="attr">min</span>=<span class="string">"1"</span> <span class="attr">max</span>=<span class="string">"10"</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"number"</span> <span class="attr">min</span>=<span class="string">"1"</span> <span class="attr">max</span>=<span class="string">"10"</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"date"</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"datetime"</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"datetime-local"</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"time"</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"month"</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"color"</span>&gt;</span> </span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 自定类型:正则表达式 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">pattern</span>=<span class="string">"[\d]5"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/12/15/book-note11/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -963,334 +1265,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/12/08/book-note8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="suoyue">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="锁越smile">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2015/12/08/book-note8/" itemprop="url">《JavaScript高级程序设计》读后记<八>：BOM</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-12-08T22:31:11+08:00">
-                2015-12-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
-                    <span itemprop="name">JavaScript</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>前几章学了 JavaScript 的基础的知识，理论性太强。需要思考理解的东西远远多于实战的。我最近看了 BOM 这一章，才真正的感受到了 JavaScript 真的很强大，特别是在于操作浏览器这方法。不多写了，已经等不急实战了。</p>
-<h3 id="理解BOM"><a href="#理解BOM" class="headerlink" title="理解BOM"></a>理解BOM</h3><h4 id="使用-Window-对象"><a href="#使用-Window-对象" class="headerlink" title="使用 Window 对象"></a>使用 Window 对象</h4><p>说明一下，在浏览器中 window 对象有两重身份，一重是 JavaScript 访问浏览器的接口，另一重是 ES 规定的 Global 对象，因此可以访问<code>parseInt()</code>等方法<br>测试一下<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> name = <span class="string">"suo"</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sayName</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.name);</span><br><span class="line">&#125;</span><br><span class="line">sayName(); <span class="comment">// suo</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">window</span>.name); <span class="comment">// suo</span></span><br><span class="line"><span class="built_in">window</span>.sayName(); <span class="comment">// suo</span></span><br></pre></td></tr></table></figure></p>
-<p>说明全局的变量和方法，使用 window均能访问到</p>
-<p>全局变量的window的变量有说明差异呢，有一点就是定义在window上的属性可以使用delete删除，而定义的全局变量不可以<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> name = <span class="string">"suo"</span>;</span><br><span class="line"><span class="built_in">window</span>.gender = <span class="string">"male"</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">delete</span> name;</span><br><span class="line"><span class="keyword">delete</span> <span class="built_in">window</span>.gender;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(name); <span class="comment">// suo</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">window</span>.gender); <span class="comment">// undefined</span></span><br></pre></td></tr></table></figure></p>
-<p>另外尝试访问未声明的变量会抛出错误，但是通过查询window对象，可以知道某个可能未声明的对象是否存在<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> newname = oldname; <span class="comment">// 报错</span></span><br><span class="line"><span class="keyword">var</span> newname = <span class="built_in">window</span>.oldname; <span class="comment">// 没报错</span></span><br></pre></td></tr></table></figure></p>
-<p>说了这么多，我们来用 window 对象操作窗口<br>(1)控制窗口位置<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> leftPos = (<span class="keyword">typeof</span> <span class="built_in">window</span>.screenLeft == <span class="string">"number"</span>) ?</span><br><span class="line">    <span class="built_in">window</span>.screenLeft : <span class="built_in">window</span>.screenX;</span><br><span class="line"><span class="keyword">var</span> topPos = (<span class="keyword">typeof</span> <span class="built_in">window</span>.screenTop == <span class="string">"number"</span>) ?</span><br><span class="line">    <span class="built_in">window</span>.screenTop : <span class="built_in">window</span>.screenY;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(leftPos);</span><br><span class="line"><span class="built_in">console</span>.log(topPos);</span><br><span class="line"></span><br><span class="line"><span class="comment">// IE(5,7-11) edge firefox 都能正常显示位置</span></span><br><span class="line"><span class="comment">// chorme 始终显示 0 0</span></span><br><span class="line"><span class="comment">// 令人费解</span></span><br></pre></td></tr></table></figure></p>
-<p>除此之外还可以改变位置<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 移动多少像素</span></span><br><span class="line"><span class="built_in">window</span>.moveBy(<span class="number">20</span>, <span class="number">30</span>);</span><br><span class="line"><span class="comment">// 移动到哪个位置</span></span><br><span class="line"><span class="built_in">window</span>.moveTo(<span class="number">100</span>, <span class="number">100</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 测试结果，除了IE以外，其他浏览器都默认禁用了</span></span><br></pre></td></tr></table></figure></p>
-<p>(2)控制窗口大小<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 页面视图区大小</span></span><br><span class="line"><span class="comment">// 兼容的处理</span></span><br><span class="line"><span class="keyword">var</span> pageWidth = <span class="built_in">window</span>.innerWidth,</span><br><span class="line">    pageHeight = <span class="built_in">window</span>.innerHeight;</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">typeof</span> pageWidth != <span class="string">"number"</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">document</span>.campatMode == <span class="string">"CSS1Compat"</span>) &#123;</span><br><span class="line">        pageWidth = <span class="built_in">document</span>.documentElement.clientWidth;</span><br><span class="line">        pageHeight = <span class="built_in">document</span>.documentElement.clientHeight;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        pageWidth = <span class="built_in">document</span>.body.clientWidth; <span class="comment">// IE6</span></span><br><span class="line">        pageHeight = <span class="built_in">document</span>.body.clientHeight;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(pageWidth + <span class="string">','</span> + pageHeight); <span class="comment">// 1080,1008</span></span><br></pre></td></tr></table></figure></p>
-<p>我们还可以调整窗口大小<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 调整的像素</span></span><br><span class="line"><span class="built_in">window</span>.resizeBy(<span class="number">300</span>, <span class="number">200</span>);</span><br><span class="line"><span class="comment">// 调整到多少</span></span><br><span class="line"><span class="built_in">window</span>.resizeTo(<span class="number">100</span>,<span class="number">100</span>);</span><br><span class="line"><span class="comment">// 仍然除了IE以外其他都禁用了的</span></span><br></pre></td></tr></table></figure></p>
-<p>(3)打开窗口<br>使用<code>window.open()</code>函数打开窗口，其中有四个参数：URL， target， 特性字符串，是否取得历史纪录中那个页面。第一个参数不用说，第二个参数有几个可以是特殊值：<code>_self</code>,<code>_parent</code>,<code>_top</code>,<code>_blank</code>。举个例子<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 打开窗口</span></span><br><span class="line"><span class="keyword">var</span> local = <span class="built_in">window</span>.open(<span class="string">"http://localhost:4000"</span>, <span class="string">"local"</span>, <span class="string">"height=500,width=500,top=100,left=100,resizable=yes"</span>);</span><br><span class="line"><span class="comment">// 关闭窗口</span></span><br><span class="line">local.close()</span><br><span class="line"><span class="comment">// 强制关闭</span></span><br><span class="line">top.close();</span><br></pre></td></tr></table></figure></p>
-<p>检测窗口是否被屏蔽<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> blocked = <span class="literal">false</span>;</span><br><span class="line"><span class="keyword">try</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> local = <span class="built_in">window</span>.open(<span class="string">"http://localhost:4000"</span>, <span class="string">"_blank"</span>);</span><br><span class="line">    <span class="keyword">if</span> (local == <span class="literal">null</span>) &#123;</span><br><span class="line">        blocked = <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125; <span class="keyword">catch</span> (ex) &#123;</span><br><span class="line">    blocked = <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> (blocked) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"窗口被屏蔽"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>(4)使用定时器<br>window 对象提供两种定时器，一种是超时定时器<code>setTimeout()</code>,另一种是间歇定时器<code>setInterval()</code>。它们都提供两个参数，一个是执行的代码，一个是时间毫秒。看一下代码<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 超时定时器</span></span><br><span class="line"><span class="keyword">var</span> timer = setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"ok"</span>);</span><br><span class="line">    &#125;, <span class="number">1000</span>); <span class="comment">// 经过一秒后ok</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 取消超时定时器</span></span><br><span class="line">clearTimeout(timer); <span class="comment">// 没打印</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 间歇定时器</span></span><br><span class="line"><span class="keyword">var</span> max = <span class="number">3</span>; <span class="comment">// 设置最多定时次数</span></span><br><span class="line"><span class="keyword">var</span> num = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">var</span> interval = setInterval(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    num++;</span><br><span class="line">    <span class="keyword">if</span> (num == max) &#123;</span><br><span class="line">        clearInterval(interval);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"ok"</span>);</span><br><span class="line">    &#125;, <span class="number">1000</span>); <span class="comment">// 没经过一秒打印一个ok，打印三次后结束打印</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用超时定时器模拟间歇定时器</span></span><br><span class="line"><span class="keyword">var</span> max = <span class="number">3</span>;</span><br><span class="line"><span class="keyword">var</span> num = <span class="number">0</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">timerFunction</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"ok"</span>);</span><br><span class="line">    num++;</span><br><span class="line">    <span class="keyword">if</span> (num &lt; max) &#123;  </span><br><span class="line">        setTimeout(timerFunction, <span class="number">1000</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">"done"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">setTimeout(timerFunction, <span class="number">1000</span>);</span><br></pre></td></tr></table></figure></p>
-<p>开发环境中很少真正使用间歇定时器，一般用超时定时器模拟它，原因在于当执行函数时间大于间歇时间时，后一个间歇定时器在前一个调用结束之前调用。</p>
-<p>(5)使用系统对话框<br>由于系统对话框带来的用户体验相当差，现在用的很少，这里随便提一下<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 验证框与弹出框</span></span><br><span class="line"><span class="keyword">if</span> (confirm(<span class="string">"are you sure?"</span>)) &#123;</span><br><span class="line">    alert(<span class="string">"baici"</span>);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    alert(<span class="string">"shagua"</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 文本框</span></span><br><span class="line"><span class="keyword">var</span> name = prompt(<span class="string">"you name?"</span>);</span><br><span class="line">alert(<span class="string">"welcome "</span> + name);</span><br><span class="line"><span class="comment">// 打开find,print</span></span><br><span class="line">find();</span><br><span class="line">print(); <span class="comment">// 打印对话框</span></span><br></pre></td></tr></table></figure></p>
-<h4 id="使用-location-对象"><a href="#使用-location-对象" class="headerlink" title="使用 location 对象"></a>使用 location 对象</h4><p>location对象是BOM最有用的对象之一，提供了文档有关的信息，还提供了一些导航功能。它是一个特别的对象，即是window属性，也是document属性，也就是说location,window.location,document.location是同一个东西。我们来试试它的功能。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(location.hash); <span class="comment">// 无</span></span><br><span class="line"><span class="built_in">console</span>.log(location.host); <span class="comment">// localhost:4000</span></span><br><span class="line"><span class="built_in">console</span>.log(location.href); <span class="comment">// http://localhost:4000/</span></span><br><span class="line"><span class="built_in">console</span>.log(location.port); <span class="comment">// 4000</span></span><br><span class="line"><span class="built_in">console</span>.log(location.protocol); <span class="comment">// http:</span></span><br><span class="line"><span class="built_in">console</span>.log(location.search);</span><br></pre></td></tr></table></figure></p>
-<h4 id="使用-navigator对象"><a href="#使用-navigator对象" class="headerlink" title="使用 navigator对象"></a>使用 navigator对象</h4><h4 id="使用-screen-对象"><a href="#使用-screen-对象" class="headerlink" title="使用 screen 对象"></a>使用 screen 对象</h4><p>用来识别客户端浏览器的，用处不大，表明客户端能力的。一般用于客户端能力检测</p>
-<h4 id="使用-history对象"><a href="#使用-history对象" class="headerlink" title="使用 history对象"></a>使用 history对象</h4><p>保存用户上网的历史记录。处于安全考虑，开发人员无法知道历史记录的具体的URL,但是可以通过go()方法在历史记录中任意跳转。这个方法只接受一个参数，正数前进，负数后退<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// go方法前进后退</span></span><br><span class="line">history.go(<span class="number">-1</span>);</span><br><span class="line">history.go(<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 简写的两个方法</span></span><br><span class="line">history.back();</span><br><span class="line">history.forword();</span><br></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/12/06/book-note7/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="suoyue">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="锁越smile">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2015/12/06/book-note7/" itemprop="url">《JavaScript高级程序设计》读后记<七>：继承</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-12-06T13:33:12+08:00">
-                2015-12-06
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
-                    <span itemprop="name">JavaScript</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>上一篇博客，我深入理解了对象，可以通过一些方式来创建对象。而对于 OOP 来说，仅仅做到这些是不够的。我们学过 OOP 都知道，它有三大特性，继承，多态，封装。第一个就是继承，而 JS 却本身没有继承这一方法。所以我们需要通过 JS 其他的特性来实现继承。由于 JS 的函数是没有函数签名的。所以并不能做到“接口继承”，但是我们可以做到“实现继承”。</p>
-<h4 id="理解继承"><a href="#理解继承" class="headerlink" title="理解继承"></a>理解继承</h4><p><strong>(1)原型链</strong><br><strong>原型链</strong>是实现继承的主要方法，那么原型链到底是什么样的东西呢？上一篇博客我们重点分析了原型这一属性和对象。并且给出了一个图来说明它们之间的关系。回顾一些，下面给出之前的图<br><a href="/images/dm5.png">img</a><br>现在，我稍微改变一下原型属性的指向，我们让原型属性不指向它自己的原型对象，而是指向另一个函数的原型对象。如同所示，依次如此就构成了 <strong>原型链</strong><br><a href="/images/dm6.png">img</a><br><strong>各个函数之间通过原型对象构成一条链，所以称之为原型链</strong>，下面模拟一下这个过程<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 父类型</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.prototype = <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line">Person.prototype.getPersonValue = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.prototype;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// 子类型</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">SubPerson</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.subprototype = <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 继承，子类型原型等于父类型实例</span></span><br><span class="line">SubPerson.prototype = <span class="keyword">new</span> Person();</span><br><span class="line">SubPerson.prototype.getSubValue = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.subprototype;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> subperson = <span class="keyword">new</span> SubPerson();</span><br><span class="line"><span class="comment">// 测试</span></span><br><span class="line"><span class="built_in">console</span>.log(subperson.getPersonValue()); <span class="comment">// true</span></span><br><span class="line"><span class="built_in">console</span>.log(subperson.getSubValue()); <span class="comment">// false</span></span><br></pre></td></tr></table></figure></p>
-<p>由上可知，当我们的函数的原型属性等于另一个函数的实例时，我们就继承了它的原型属性和方法。同时我们仍然保留了自己原型属性和方法。</p>
-<p>我们现在知道了使用原型链来实现继承，有了继承我们的 <strong>原型搜索机制</strong>也得到了扩展</p>
-<ul>
-<li>搜索实例本身定义的属性</li>
-<li>搜索实例原型</li>
-<li>搜索继承的原型(多重继续)</li>
-<li>搜索Object的原型(继承链顶端)</li>
-</ul>
-<p><strong>要注意的方面：</strong></p>
-<ul>
-<li><strong>子类型给原型添加的方法要在父类型之后添加</strong>(无论是新添加还是重新)</li>
-<li><strong>通过原型链实现继承，不能通过对象字面量创建原型方法，这样会重写原型链</strong></li>
-</ul>
-<p><strong>原型链的缺陷：</strong><br>缺陷一，原型链实现的继承，原型变成了另外一个类型的实例，<strong>原有的实例属性变成了原型属性</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.name = [<span class="string">"suo"</span>, <span class="string">"yue"</span>];</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">SubPerson</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 继承</span></span><br><span class="line">SubPerson.prototype = <span class="keyword">new</span> Person();</span><br><span class="line"><span class="comment">// 实例</span></span><br><span class="line"><span class="keyword">var</span> sub1 = <span class="keyword">new</span> SubPerson();</span><br><span class="line">sub1.name.push(<span class="string">"smile"</span>);</span><br><span class="line"><span class="built_in">console</span>.log(sub1.name); <span class="comment">// (3) ["suo", "yue", "smile"]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> sub2 = <span class="keyword">new</span> SubPerson();</span><br><span class="line"><span class="built_in">console</span>.log(sub2.name); <span class="comment">// (3) ["suo", "yue", "smile"]</span></span><br></pre></td></tr></table></figure></p>
-<p>缺陷二，<strong>子类继承了父类，但是没法给父类传递参数。</strong><br>基于这些缺陷，单一的使用原型链继承不太实用，怎么去解决这些问题呢？</p>
-<p><strong>(2)构造函数</strong><br>上面两个缺陷是否有解决方法，结合我们之前学习的知识。我们思考一下，<br><strong>可以传参，而且不使用原型等于实例这种方法，怎么让子类型使用父类型的变量和方法呢呢？</strong><br>由此我们想到了之前学习的两个函数的方法，一个是<code>apply()</code>，一个是<code>call()</code>。<strong>它们可以将函数调用的其他函数绑定本函数的作用域和参数</strong>。现在我们来试试<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 父类型</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.name = [<span class="string">"suo"</span>, <span class="string">"yue"</span>];</span><br><span class="line">    <span class="keyword">this</span>.addName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name.push(name);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 子类型</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">SubPerson</span>(<span class="params">name, gender</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 调用父类函数，并绑定子类函数和参数</span></span><br><span class="line">    Person.call(<span class="keyword">this</span>, name);</span><br><span class="line">    <span class="keyword">this</span>.gender = gender;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> subperson1 = <span class="keyword">new</span> SubPerson(<span class="string">"smile"</span>, <span class="string">"male"</span>);</span><br><span class="line"><span class="keyword">var</span> subperson2 = <span class="keyword">new</span> SubPerson(<span class="string">"cry"</span>, <span class="string">"female"</span>);</span><br><span class="line">subperson1.addName();</span><br><span class="line"></span><br><span class="line"><span class="comment">// test</span></span><br><span class="line"><span class="built_in">console</span>.log(subperson1.name); <span class="comment">// ["suo", "yue", "smile"]</span></span><br><span class="line"><span class="built_in">console</span>.log(subperson2.name); <span class="comment">// ["suo", "yue"]</span></span><br></pre></td></tr></table></figure></p>
-<p>同理单独使用构造函数实现继承也是不行的，共享属性和变量就谈不上了，所以我们还是结合它们两者的优势重新实现继承吧。这和创建对象的模式有着异曲同工之妙。</p>
-<p><strong>(3)组合继承</strong><br>结合以上我们来整合它们的技术，先上代码<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 父类型</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.name = name;</span><br><span class="line">    <span class="keyword">this</span>.nameGroup = [<span class="string">"suo"</span>, <span class="string">"yue"</span>];</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 父类型函数原型方法</span></span><br><span class="line">Person.prototype.getName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.name;</span><br><span class="line">&#125;;</span><br><span class="line">Person.prototype.addName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.nameGroup.push(<span class="keyword">this</span>.name);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 子类型</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">SubPerson</span>(<span class="params">name, gender</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 构造继承，调用父类型函数并绑定作用域和参数</span></span><br><span class="line">    Person.call(<span class="keyword">this</span>, name);</span><br><span class="line">    <span class="keyword">this</span>.gender = gender;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 原型链继承，子类型函数原型等于父类型实例</span></span><br><span class="line">SubPerson.prototype = <span class="keyword">new</span> Person();</span><br><span class="line"><span class="comment">// 修正构造属性</span></span><br><span class="line">SubPerson.prototype.constructor = SubPerson;</span><br><span class="line"><span class="comment">// 子类型函数原型方法</span></span><br><span class="line">SubPerson.prototype.getGender = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.gender;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> subperson1 = <span class="keyword">new</span> SubPerson(<span class="string">"smile"</span>, <span class="string">"male"</span>);</span><br><span class="line"><span class="keyword">var</span> subperson2 = <span class="keyword">new</span> SubPerson(<span class="string">"cry"</span>, <span class="string">"female"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// test</span></span><br><span class="line">subperson1.addName();</span><br><span class="line"><span class="built_in">console</span>.log(subperson1.getName());   <span class="comment">// smile</span></span><br><span class="line"><span class="built_in">console</span>.log(subperson1.getGender()); <span class="comment">// male</span></span><br><span class="line"><span class="built_in">console</span>.log(subperson1.nameGroup);   <span class="comment">// ["suo", "yue", ""]</span></span><br><span class="line"><span class="built_in">console</span>.log(subperson2.getName());   <span class="comment">// cry</span></span><br><span class="line"><span class="built_in">console</span>.log(subperson2.getGender()); <span class="comment">// female</span></span><br><span class="line"><span class="built_in">console</span>.log(subperson2.nameGroup);   <span class="comment">// ["suo", "yue"]</span></span><br></pre></td></tr></table></figure></p>
-<p><strong>(4)原型式继承</strong><br>基于已有的对象创建新对象，同时还不必因此自定义类型，看看代码<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">object</span>(<span class="params">o</span>) </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">F</span>(<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line">    Person.prototype = o;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> F();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>现在我们可能看不懂，但是结合原型链的思想，改变一下，或许就很明了了<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// person1是Person的实例</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">object</span>(<span class="params">person1</span>) </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">SubPerson</span>(<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line">    <span class="comment">// 子类型的原型等于父类型的实例</span></span><br><span class="line">    SubPerson.prototype = person1;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> SubPerson;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// test</span></span><br><span class="line">subperson1 = object(person1);</span><br></pre></td></tr></table></figure></p>
-<p>咋一看这不就是将原型链的继承方法，用函数封装了一下吗。有啥区别<br>确实原理都是样的。区别就在于，<strong>原型链方法是类型到类型。而原型式继承则直接是对象到对象</strong>。测试一下，到底可不可以继承到属性和方法<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> person1 = &#123;</span><br><span class="line">    name: <span class="string">"suo"</span>,</span><br><span class="line">    nameGroup: [<span class="string">"suo"</span>, <span class="string">"yue"</span>];</span><br><span class="line">    getName: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 继承方法</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createObj</span>(<span class="params">o</span>) </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">P</span>(<span class="params"></span>) </span>&#123;&#125;;</span><br><span class="line">    P.prototype = o;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> P();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> subperson = createObj(person1);</span><br><span class="line"><span class="built_in">console</span>.log(subperson.getName()); <span class="comment">// suo</span></span><br></pre></td></tr></table></figure></p>
-<p>很明显当然是可以的，我们由此也想到了，这和复制一个对象有什么区别呢？当然是有区别的，本质来说，这种继承方法是一个 <strong>浅复制</strong>，<strong>虽然复制了对象的属性，但是引用型的属性仍然是共享的</strong>。验证一下<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> subperson1 = createObj(person1); </span><br><span class="line"><span class="keyword">var</span> subperson2 = createObj(person1);</span><br><span class="line">subperson1.nameGroup.push(<span class="string">"smile"</span>);</span><br><span class="line"><span class="built_in">console</span>.log(subperson2.nameGroup); </span><br><span class="line"><span class="comment">// (3) ["suo", "yue", "smile"]</span></span><br></pre></td></tr></table></figure></p>
-<p>ES 新增了一个<code>Object.create()</code>方法规范了这个原型式继承。只有一个参数的情况下两者效果是一样的。第二个参数是可选的，作用是可以设置属性特性。这和我们之前谈到的<code>Object.defineProperties()</code>是同等效果的。测试一下<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> person = &#123;</span><br><span class="line">    name: <span class="string">"suo"</span>,</span><br><span class="line">    age: <span class="number">18</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">var</span> subperson1 = <span class="built_in">Object</span>.create(person, &#123;</span><br><span class="line">    name: &#123;</span><br><span class="line">        value: <span class="string">"yue"</span>,</span><br><span class="line">        enumerable: <span class="literal">false</span> <span class="comment">// 设置不可枚举</span></span><br><span class="line">    &#125;,</span><br><span class="line">    gerder: &#123;</span><br><span class="line">        value: <span class="string">"male"</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="built_in">console</span>.log(subperson1.name + <span class="string">','</span> + subperson1.gender); </span><br><span class="line"><span class="comment">// male, undefined 说明不能自己增加属性</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (prop <span class="keyword">in</span> subperson1) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(prop); <span class="comment">// age </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p><strong>(5)寄生式继承</strong><br>寄生式继承与刚刚学习的原型式继承紧密相连，在原型式继承的基础上又封装了一道函数。直接上代码吧<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> person = &#123;</span><br><span class="line">    name: <span class="string">"suo"</span>,</span><br><span class="line">    mess: <span class="string">"bye"</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// 原型式继承</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">creatObj</span>(<span class="params">o</span>) </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">P</span>(<span class="params"></span>) </span>&#123;&#125;;</span><br><span class="line">    P.prototype = o;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> P();</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 寄生式继承</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createAnobj</span>(<span class="params">o</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> clone = createObj(o);</span><br><span class="line">    clone.sayBye = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> o.mess;</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">return</span> clone;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 测试</span></span><br><span class="line"><span class="keyword">var</span> anoperson = createAnobj(person);</span><br><span class="line"><span class="built_in">console</span>.log(anoperson.name + <span class="string">','</span> + anoperson.sayBye());</span><br><span class="line"><span class="comment">// suo,bye</span></span><br></pre></td></tr></table></figure></p>
-<p>咋一看，这不就是在原型式的基础上加一个添加方法的函数吗。当然完全是，它还有另一个用途，如果对象不是自定义或者构造函数时，它也是有用的，随便举个例子<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createAnobj</span>(<span class="params">o</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> clone =  o; <span class="comment">// 原型式函数不是必须的</span></span><br><span class="line">    o.printFirst = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(o[<span class="number">0</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> clone;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> arr2 = createAnobj(arr);</span><br><span class="line">arr.printFirst(); <span class="comment">// 1</span></span><br></pre></td></tr></table></figure></p>
-<p><strong>(6)寄生组合继承</strong><br>我们知道原型链与构造函数的组合模式是最常见的继承方式，但是它也有不足的地方。它们单独来将每次调用一次父类型，组合起来就是调用了两次父类型。我们现在有一种方法来解决这个问题，就是组合寄生继承模式。<strong>它的思路就是构造函数模式不变，不直接调用父类型函数，而是通过原型模式创建一个副本，然后让子类的原型等于这个副本。</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 父类型</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.name = name;</span><br><span class="line">    <span class="keyword">this</span>.nameGroup = [<span class="string">"xiao"</span>, <span class="string">"ai"</span>];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Person.prototype.getName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.name;</span><br><span class="line">&#125;</span><br><span class="line">Person.prototype.addName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.nameGroup.push(<span class="keyword">this</span>.name);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 子类型</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">SubPerson</span>(<span class="params">name, gender</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 继承属性</span></span><br><span class="line">    Person.call(<span class="keyword">this</span>, name);</span><br><span class="line">    <span class="comment">// 自己属性</span></span><br><span class="line">    <span class="keyword">this</span>.gender = gender;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 原型式模式</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createObj</span>(<span class="params">o</span>) </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">P</span>(<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line">    P.prototype = o;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> P();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 寄生模式</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">inheritPrototype</span>(<span class="params">p, subp</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 创建对象，浅复制原型对象</span></span><br><span class="line">    <span class="keyword">var</span> prototype = createObj(p.prototype);</span><br><span class="line">    <span class="comment">// 增强对象，修正构造函数</span></span><br><span class="line">    prototype.constructor = subp;</span><br><span class="line">    <span class="comment">// 指向对象，子类型指向创建并修正构造的父类型原型对象</span></span><br><span class="line">    subp.prototype = prototype;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 执行寄生模式</span></span><br><span class="line">inheritPrototype(Person, SubPerson);</span><br><span class="line"></span><br><span class="line">SubPerson.prototype.sayBye = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"bye"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 测试</span></span><br><span class="line"><span class="keyword">var</span> subperson1 = <span class="keyword">new</span> SubPerson(<span class="string">"suo"</span>, <span class="string">"male"</span>);</span><br><span class="line"><span class="built_in">console</span>.log(subperson1.getName()); <span class="comment">// 父类型属性和方法</span></span><br><span class="line"><span class="built_in">console</span>.log(subperson1);</span><br><span class="line"><span class="built_in">console</span>.log(subperson1.gender); <span class="comment">// 自己的属性</span></span><br><span class="line">subperson1.addName(); <span class="comment">// 父类型的方法</span></span><br><span class="line"><span class="built_in">console</span>.log(subperson1.nameGroup);</span><br><span class="line">subperson1.sayBye(); <span class="comment">// 自己的方法</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> subperson2 = <span class="keyword">new</span> SubPerson(<span class="string">"yue"</span>, <span class="string">"female"</span>);</span><br><span class="line"><span class="built_in">console</span>.log(subperson2.nameGroup); </span><br><span class="line"></span><br><span class="line"><span class="comment">// 输出</span></span><br><span class="line"><span class="comment">// suo</span></span><br><span class="line"><span class="comment">// male</span></span><br><span class="line"><span class="comment">// bye</span></span><br><span class="line"><span class="comment">// (3) ["xiao", "ai", "suo"]</span></span><br><span class="line"><span class="comment">// (2) ["xiao", "ai"]</span></span><br></pre></td></tr></table></figure></p>
-<p>写到这里，只能感叹一句，<strong>寄生组合模式简直就是一个大杂烩啊</strong>。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1341,7 +1315,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">46</span>
+                  <span class="site-state-item-count">48</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1352,7 +1326,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -1363,7 +1337,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-count">23</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
