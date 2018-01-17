@@ -272,6 +272,213 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/08/16/ds3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="suoyue">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="锁越smile">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2015/08/16/ds3/" itemprop="url">《数据结构》笔记：列表</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-08-16T11:38:34+08:00">
+                2015-08-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/编程基础/" itemprop="url" rel="index">
+                    <span itemprop="name">编程基础</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="接口与实现"><a href="#接口与实现" class="headerlink" title="接口与实现"></a>接口与实现</h3><blockquote>
+<p>列表是采用<strong>动态存储</strong>策略的典型结构，其中的元素称作节点(node)<br>各节点通过指针或者引用彼此联结，在<strong>逻辑</strong>上构成一个线性序列<br>属于双向链表结构</p>
+</blockquote>
+<ul>
+<li>从静态到动态操作</li>
+<li>1）静态：get O(1), search O(logn)</li>
+<li>2）动态：insert O(n), remove O(n)</li>
+<li>前驱后继：彼此相邻的节点，前驱或后继若存在则必然唯一</li>
+<li>首末节点：没有前驱后后继的唯一节点</li>
+<li>寻位置访问：called-by-position,通过节点的相互引用找到特定的节点</li>
+<li>实现接口：列表节点作为基本单位<br>操作 | 功能<br>—|—<br>pred() | 取节点前驱<br>succ() | 取节点后继<br>data() | 取节点数据对象<br>insertAsPred(e) | 插入前驱节点，存入e，返回新节点位置<br>insertAsSucc(e) | 插入后继节点，存入e，返回新节点位置</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> Post(T) ListNode<span class="meta-string">&lt;T&gt;*</span></span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="class"><span class="keyword">struct</span> <span class="title">ListNode</span> &#123;</span>  <span class="comment">//完全开放，不再过度封装</span></span><br><span class="line">    T data;   <span class="comment">//数值</span></span><br><span class="line">    Post(T) pred;  <span class="comment">//前驱</span></span><br><span class="line">    Post(T) succ;  <span class="comment">//后继</span></span><br><span class="line">    ListNode() &#123;&#125;  <span class="comment">//针对header和trailer的构造</span></span><br><span class="line">    ListNode(T e, Posi(T) p = <span class="literal">NULL</span>, Post(T) s = <span class="literal">NULL</span>) : data(e), pred(p), succ(s) &#123;&#125; <span class="comment">//默认构造</span></span><br><span class="line">    Posi(T) insertAsPred(T <span class="keyword">const</span> &amp; e); <span class="comment">//前插入</span></span><br><span class="line">    Posi(T) insertAsSucc(T <span class="keyword">const</span> &amp; e); <span class="comment">//后插入</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>操作接口</li>
+<li>模板类</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"ListNode.h"</span></span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="class"><span class="keyword">class</span> <span class="title">List</span> &#123;</span></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">int</span> _size;</span><br><span class="line">    Posi(T) header;  <span class="comment">//头元素（不可见）</span></span><br><span class="line">    Posi(T) tailer;  <span class="comment">//末元素（不可见）</span></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    <span class="comment">//内部函数</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">//构造函数</span></span><br><span class="line">    <span class="comment">//析构函数</span></span><br><span class="line">    <span class="comment">//只读接口</span></span><br><span class="line">    <span class="comment">//可写接口</span></span><br><span class="line">    <span class="comment">//遍历接口</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//构造函数 规模为0</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">void</span> List&lt;T&gt;::init() &#123;</span><br><span class="line">    header = <span class="keyword">new</span> ListNode&lt;T&gt;;</span><br><span class="line">    trailer = <span class="keyword">new</span> ListNode&lt;T&gt;;</span><br><span class="line">    header-&gt;succ = trailer;</span><br><span class="line">    header-&gt;pred = <span class="literal">NULL</span>;</span><br><span class="line">    tailer-&gt;pred = header;</span><br><span class="line">    tailer-&gt;succ = <span class="literal">NULL</span>;</span><br><span class="line">    _size = <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="无序列表"><a href="#无序列表" class="headerlink" title="无序列表"></a>无序列表</h3><ul>
+<li>秩到位置：模仿向量的循秩访问方式，重载下标符</li>
+<li>查找</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; Posi(T) List&lt;T&gt;::find(T <span class="keyword">const</span> &amp;e, <span class="keyword">int</span> n, Posi(n) p) <span class="keyword">const</span> &#123;</span><br><span class="line">    <span class="keyword">while</span> (<span class="number">0</span> &lt; n--) </span><br><span class="line">        <span class="keyword">if</span> (e == ( p = p-&gt;pred )-&gt;data )</span><br><span class="line">            <span class="keyword">return</span> p;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>插入</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; Posi(T) List&lt;T&gt;::insertBefore(Posi(T) p, T <span class="keyword">const</span> &amp; e) &#123;</span><br><span class="line">    _size++;</span><br><span class="line">    <span class="keyword">return</span> p-&gt;insertAsPred(e);  <span class="comment">//e当作前驱插入</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; Posi(T) ListNode&lt;T&gt;::insertAsPred(T <span class="keyword">const</span> &amp; e) &#123;</span><br><span class="line">    Posi(T) x = <span class="keyword">new</span> ListNode(e, pred, <span class="keyword">this</span>); <span class="comment">//创建</span></span><br><span class="line">    pred-&gt;succ = x;                          <span class="comment">//建立连接</span></span><br><span class="line">    pred = x;</span><br><span class="line">    <span class="keyword">return</span> x;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>基于复制的构造</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//基于复制的构造</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">void</span> List&lt;T&gt;::copyNodes(Posi(T) p, <span class="keyword">int</span> n) &#123;  <span class="comment">//O(n)</span></span><br><span class="line">    init();  <span class="comment">//创建头尾节点初始化</span></span><br><span class="line">    <span class="keyword">while</span> (n--) &#123;  <span class="comment">//自p的n下依次作为末节点插入</span></span><br><span class="line">        insertAsLast(p-&gt;data);</span><br><span class="line">        p = p-&gt;succ;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>删除节点</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//删除</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; T List&lt;T&gt;::remove(Posi(T) p) &#123;  <span class="comment">//O(1)</span></span><br><span class="line">    T e = p-&gt;data;     <span class="comment">//备份待删除的数值</span></span><br><span class="line">    p-&gt;pred-&gt;succ = p-&gt;succ; <span class="comment">//跳过p</span></span><br><span class="line">    p-&gt;succ-&gt;pred = p-&gt;pred; <span class="comment">//对称</span></span><br><span class="line">    <span class="keyword">delete</span> p;</span><br><span class="line">    _size--;</span><br><span class="line">    <span class="keyword">return</span> e;          <span class="comment">//返回数值</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>析构</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//析构</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; List&lt;T&gt;::~List() &#123;</span><br><span class="line">    clear();          <span class="comment">//清空列表</span></span><br><span class="line">    <span class="keyword">delete</span> header;    <span class="comment">//释放头</span></span><br><span class="line">    <span class="keyword">delete</span> tailer;    <span class="comment">//释放末</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">int</span> List&lt;T&gt;::clear() &#123;</span><br><span class="line">    <span class="keyword">int</span> oldSize = _size;</span><br><span class="line">    <span class="keyword">while</span>(<span class="number">0</span> &lt; _size)</span><br><span class="line">        remove(header-&gt;succ); <span class="comment">//反复删除首节点</span></span><br><span class="line">    <span class="keyword">return</span> oldSize;</span><br><span class="line">&#125;  <span class="comment">//O(n)</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>唯一化</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//唯一化</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">int</span> List&lt;T&gt;::deduplicate() &#123;</span><br><span class="line">    <span class="keyword">if</span> (_size &lt; <span class="number">2</span>)    <span class="comment">//平凡列表自然无重复</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;     </span><br><span class="line">    <span class="keyword">int</span> oldSize = _size;  <span class="comment">//记录原规模</span></span><br><span class="line">    Posi(T) p = first();</span><br><span class="line">    Rank r = <span class="number">1</span>;           <span class="comment">//p从首节点开始</span></span><br><span class="line">    <span class="keyword">while</span> ( trailer != ( p = p-&gt;succ ) ) &#123;  <span class="comment">//依次到末节点</span></span><br><span class="line">        Posi(T) q = find(p-&gt;data, r, p);    <span class="comment">//从前驱中查找雷同的</span></span><br><span class="line">        q ? remove(q) : r++;                <span class="comment">//若存在删除，否则秩递增</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> oldSize - _size;                 <span class="comment">//列表规模变化，等于删除的元素</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="有序列表"><a href="#有序列表" class="headerlink" title="有序列表"></a>有序列表</h3><ul>
+<li>唯一化</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//有序向量唯一化</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">int</span> List&lt;T&gt;::uniquify() &#123; </span><br><span class="line">    <span class="keyword">if</span>(_size &lt; <span class="number">2</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> ordSize = _size;   <span class="comment">//原始规模</span></span><br><span class="line">    ListNodePosi(T) p = first(); </span><br><span class="line">    ListNodePosi(T) q;</span><br><span class="line">    <span class="keyword">while</span> ( trailer != ( q = p-&gt;succ ) ) <span class="comment">//遍历</span></span><br><span class="line">        <span class="keyword">if</span> ( p-&gt;data != q-&gt;data )  <span class="comment">//不同</span></span><br><span class="line">            p = q;  <span class="comment">//连接</span></span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            remove(q); <span class="comment">//雷同删除</span></span><br><span class="line">    <span class="keyword">return</span> oldSize - _size;</span><br><span class="line">&#125; <span class="comment">//O(n)</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>查找</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//查找</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; Posi(T) List&lt;T&gt;::search(T <span class="keyword">const</span> &amp;e, <span class="keyword">int</span> n, Posi(T) p) <span class="keyword">const</span> &#123;</span><br><span class="line">    <span class="keyword">while</span> ( <span class="number">0</span> &lt;= n-- )  <span class="comment">//从右往左扫描，发现下于即命中</span></span><br><span class="line">        <span class="keyword">if</span> ( ( (  p = p-&gt;pred )-&gt;data ) &lt;= e ) <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">return</span> p;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="链表"><a href="#链表" class="headerlink" title="链表"></a>链表</h3><ul>
+<li>单链表：节点只包含值域和指针域两个部分</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> posi(T) sList<span class="meta-string">&lt;T&gt;*</span></span></span><br><span class="line">Template &lt;<span class="keyword">typename</span> T&gt; <span class="class"><span class="keyword">struct</span> <span class="title">sList</span> &#123;</span></span><br><span class="line">    T data;</span><br><span class="line">    posi(T) next;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//特点：特定元素之后插入，删除，复杂度为O(1)</span></span><br><span class="line"><span class="comment">//尾节点的指针为空 tail-&gt;next = NULL;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>- </li>
+<li>双向链表（列表）</li>
+<li>循环单链表：尾指针指向了首元素</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tail-&gt;next = head;</span><br><span class="line"><span class="comment">//特点：特点元素前后插入，删除复杂度O(1)</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>循环双链表：兼具双向链表和循环链表优势</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tail-&gt;succ = head;</span><br><span class="line">head-&gt;pred = tail;</span><br><span class="line"><span class="comment">//优势：在尾部插入删除元素的复杂度为O(1)</span></span><br></pre></td></tr></table></figure>
+<h3 id="选择排序"><a href="#选择排序" class="headerlink" title="选择排序"></a>选择排序</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">void</span> List&lt;T&gt;::selectionSort(Posi(T) p, <span class="keyword">int</span> n) &#123;</span><br><span class="line">    Posi(T) head = p-&gt;pred;   <span class="comment">//待排区间</span></span><br><span class="line">    Posi(T) tail = p;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        tail = tail-&gt;succ;   </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span> (<span class="number">1</span> &lt; n) &#123;          <span class="comment">//反复从待排区间找出最大的移至有序区间前端</span></span><br><span class="line">        insertBefore( tail, remove( selectMax(head-&gt;succ), n) );</span><br><span class="line">        tail = tail-&gt;pred;</span><br><span class="line">        n--;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//尽可能少的使用new delete</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; Posi(T) List&lt;T&gt;::selectMax(Posi(T) p, <span class="keyword">int</span> n) &#123;</span><br><span class="line">    Posi(T) max = p;</span><br><span class="line">    <span class="keyword">for</span> (Posi(T) cur = p; <span class="number">1</span> &lt; n; n--) &#123;</span><br><span class="line">        <span class="keyword">if</span> ( !lt ( (cur = cur-&gt;succ )-&gt;data, max-&gt;data) )</span><br><span class="line">            max = cur;</span><br><span class="line">    <span class="keyword">return</span> max;   <span class="comment">//返回最大节点位置</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//O(n^2)  但是移动操作远远少于起泡排序</span></span><br><span class="line"><span class="comment">//改进比较操作后可以在nlogn下完成</span></span><br></pre></td></tr></table></figure>
+<h3 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h3><h3 id="LightHouse"><a href="#LightHouse" class="headerlink" title="LightHouse"></a>LightHouse</h3>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/08/13/ds2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1566,295 +1773,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/07/06/c4/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="suoyue">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="锁越smile">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2015/07/06/c4/" itemprop="url">《C primer plus》笔记：字符串</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-07-06T20:48:24+08:00">
-                2015-07-06
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/C/" itemprop="url" rel="index">
-                    <span itemprop="name">C</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h1><h3 id="表示字符串和字符串IO"><a href="#表示字符串和字符串IO" class="headerlink" title="表示字符串和字符串IO"></a>表示字符串和字符串IO</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MSG = <span class="meta-string">"hello world!"</span>;</span></span><br><span class="line"><span class="keyword">char</span> a[MAX] = <span class="string">"hello world!"</span>;</span><br><span class="line"><span class="keyword">char</span> * p = <span class="string">"hello world!"</span>;</span><br><span class="line"><span class="built_in">puts</span>(MSG);</span><br><span class="line"><span class="built_in">puts</span>(a);</span><br><span class="line"><span class="built_in">puts</span>(p);</span><br></pre></td></tr></table></figure>
-<h3 id="定义字符串"><a href="#定义字符串" class="headerlink" title="定义字符串"></a>定义字符串</h3><ul>
-<li>字符串字面量：双引号括起来的内容，编译器会自动加入\n，双引号之间紧邻或者空格看作相连的</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> * a = <span class="string">"hello "</span> <span class="string">"world!"</span>;  <span class="comment">//  hello world!</span></span><br></pre></td></tr></table></figure>
-<p>函数中使用字符串，只存储一次，被视为指向该字符串位置的指针</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">printf</span>(<span class="string">"%s, %p, %c\n"</span>, <span class="string">"hello"</span>, <span class="string">"world"</span>, *<span class="string">"ok"</span>); <span class="comment">// hello,0X000000999,o</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>字符串数组：和字符数组区别，两种初始化方式</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> a[<span class="number">40</span>] = <span class="string">"sadasfsdfgsdgfdgfdhfdh"</span>;    <span class="comment">//简易初始化</span></span><br><span class="line"><span class="keyword">char</span> a[<span class="number">40</span>] = &#123;<span class="string">'a'</span>,<span class="string">'b'</span>,<span class="string">'c'</span>..<span class="number">.'</span>g', <span class="string">'\n'</span>&#125;    <span class="comment">//标准初始化</span></span><br><span class="line"><span class="keyword">char</span> a[] = <span class="string">"dsfsdfsdfdsfsdfsdf"</span>;          <span class="comment">//编译器自动计算长度</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">char</span> * a = <span class="string">"sdsafsdfsdfsdfsfdf"</span>;          <span class="comment">//同上</span></span><br><span class="line"><span class="comment">//定长初始化中未被初始化的部分填充'\0'</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>数组形式与指针形式区别</li>
-<li><ul>
-<li>数组形式的a == &amp;a[0] 只能作为常量，不能进行a ++等操作，指针形式a 是可以进行a ++的</li>
-</ul>
-</li>
-<li><ul>
-<li>指针对数据类型匹配很高，指向常量的指针需要被声明为常量const char * p = “abc”;</li>
-</ul>
-</li>
-<li><ul>
-<li>意味着不能用p改变数据的值，但可以改变p的位置</li>
-</ul>
-</li>
-<li><ul>
-<li>初始化数组把静态存储区的字符串拷贝给数组，初始化指针只是把字符串的地址给指针</li>
-</ul>
-</li>
-<li>字符串与数组</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//相当于字符的二维数组</span></span><br><span class="line"><span class="keyword">char</span> f[<span class="number">3</span>][<span class="number">4</span>] = &#123;&#123;<span class="string">"ab"</span>&#125;,&#123;<span class="string">"cd"</span>&#125;,&#123;<span class="string">"e"</span>&#125;&#125;;  <span class="comment">// ab\0, cd\0, e\0\0</span></span><br><span class="line"><span class="comment">//相当于3个字符串指针</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">char</span> * p[<span class="number">3</span>] = &#123;&#123;<span class="string">"ab"</span>&#125;,&#123;<span class="string">"cd"</span>&#125;,&#123;<span class="string">"e"</span>&#125;&#125;; <span class="comment">// ab\0, cd\0, e\0 自动获取大小</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>字符串与指针：指针拷贝也只拷贝地址，没有拷贝整个字符串</li>
-</ul>
-<h3 id="字符串输入"><a href="#字符串输入" class="headerlink" title="字符串输入"></a>字符串输入</h3><ul>
-<li>分配空间：用显示声明来输入，否则会丢失数据</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> *name; <span class="built_in">scanf</span>(<span class="string">"%s"</span>, name);   <span class="comment">//不好</span></span><br><span class="line"><span class="keyword">char</span> name[SIZE]; <span class="built_in">scanf</span>(<span class="string">"%s"</span>, name); <span class="comment">//可以的</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>gets()函数：已废弃，并不知道字符串有多长，输入字符过长导致缓冲区溢出，可能导致其他数据被擦除</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> name[<span class="number">10</span>];</span><br><span class="line">    gets(name);</span><br><span class="line">    <span class="built_in">puts</span>(name);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//gcc 编译没报任何消息</span></span><br><span class="line"><span class="comment">//fgdfgdfgdfgfdgfdg</span></span><br><span class="line"><span class="comment">//fgdfgdfgdfgfdgfdg</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>实际情况：大多数编译器仍支持</p>
-</blockquote>
-<ul>
-<li>fgets()函数：可以替代gets(),可扩展，可以从文件输入，保留换行符，需要手动设置为空字符</li>
-<li><ul>
-<li>读一行：读到换行或者读到n个字符，最终打印的n-1个字符<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> a[<span class="number">10</span>];</span><br><span class="line">    fgets(a, <span class="number">7</span>, <span class="built_in">stdin</span>);  <span class="comment">//读了dsfdsf个字符+'\0'</span></span><br><span class="line">    <span class="built_in">fputs</span>(a, <span class="built_in">stdout</span>);    <span class="comment">//输出dsfdsf\0 没有+'\n' </span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//dsfdsfsdgfdgdffdg   </span></span><br><span class="line"><span class="comment">//dsfdsf</span></span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-<li><ul>
-<li>连续读取，fgets可以存储换行符，读完一段，继续读剩下的，可以直接读到文件尾部<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> N 10</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> word[N];</span><br><span class="line">    <span class="keyword">while</span>( fgets(word, N, <span class="built_in">stdin</span>) != <span class="literal">NULL</span> &amp;&amp; word[<span class="number">0</span>] != <span class="string">'\n'</span> )&#123;</span><br><span class="line">        <span class="built_in">fputs</span>(word, <span class="built_in">stdout</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-<li><ul>
-<li>每行只读一定数量的字符，并丢弃了换行符</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> N 10</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> word[N];</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    <span class="keyword">while</span>( fgets(word, N, <span class="built_in">stdin</span>) != <span class="literal">NULL</span> &amp;&amp; word[<span class="number">0</span>] != <span class="string">'\n'</span>)&#123;</span><br><span class="line">        i = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span>(word[i] != <span class="string">'\n'</span> &amp;&amp; word[i] != <span class="string">'\0'</span>)</span><br><span class="line">            i++;             <span class="comment">//不是换行符或者空字符跳过</span></span><br><span class="line">        <span class="keyword">if</span>(word[i] == <span class="string">'\n'</span>)</span><br><span class="line">            word[i] = <span class="string">'\0'</span>; <span class="comment">//遇到换行符，转空字符</span></span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            <span class="keyword">while</span>(getchar() != <span class="string">'\n'</span>) <span class="comment">//读到空字符，丢弃剩余</span></span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">        <span class="built_in">fputs</span>(word, <span class="built_in">stdout</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>空字符于空指针：空字符(‘\0’)与空指针(NULL)都可以用0表示，但空字符是字符型(1字节)，空指针是指针型(4字节)</p>
-</blockquote>
-<ul>
-<li>gets_s()函数：c11新增，可扩展，只从标准输入中输入，丢弃换行符，输入太长时更安全</li>
-<li>s_gets()函数：fgets()变体，遇到换行符设为空，遇到空丢弃其余字符</li>
-<li>scanf()函数：可指定宽度，但遇空格即终止，只能用于输入单词</li>
-</ul>
-<h3 id="字符串输出"><a href="#字符串输出" class="headerlink" title="字符串输出"></a>字符串输出</h3><ul>
-<li>puts()函数：使用字符串地址作参数，自动添加换行符</li>
-<li>fputs()函数：用于文件输出，不添加换行符，遇fgets()配对使用</li>
-<li>printf()函数：不自动加换行符，打印多个字符更简单</li>
-</ul>
-<h3 id="自定义输入输出"><a href="#自定义输入输出" class="headerlink" title="自定义输入输出"></a>自定义输入输出</h3><h3 id="字符串函数"><a href="#字符串函数" class="headerlink" title="字符串函数"></a>字符串函数</h3><table>
-<thead>
-<tr>
-<th>(类型)函数名</th>
-<th>参数</th>
-<th>作用</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>int    strlen</td>
-<td>char *</td>
-<td>统计字符串长度</td>
-</tr>
-<tr>
-<td>char * strcat</td>
-<td>char <em>, char </em></td>
-<td>把第二个字符串拼接在第一个上</td>
-</tr>
-<tr>
-<td>char * strncat</td>
-<td>char <em>, char </em>, int</td>
-<td>把第二个字符串指定长度添加到第一个字符串上</td>
-</tr>
-<tr>
-<td>int    strcmp</td>
-<td>char <em>, char </em></td>
-<td>比较两个字符串，相同返回0，二大于1返回正，否则返回负</td>
-</tr>
-<tr>
-<td>int    strncmp</td>
-<td>char <em>, char </em>, int</td>
-<td>限定比较的字符串长度</td>
-</tr>
-<tr>
-<td>char * strcpy</td>
-<td>char <em>, char </em></td>
-<td>把第二个拷贝到第一个</td>
-</tr>
-<tr>
-<td>char * strcpy</td>
-<td>char <em>, char </em> int</td>
-<td>限制拷贝的字符串长度</td>
-</tr>
-<tr>
-<td>void  sprintf</td>
-<td>char *, 格式化, name</td>
-<td>将printf的内容存储在一个字符串中</td>
-</tr>
-</tbody>
-</table>
-<h3 id="字符串排序"><a href="#字符串排序" class="headerlink" title="字符串排序"></a>字符串排序</h3><ul>
-<li>示例</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIZE 81  <span class="comment">//字符串长度</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> LIM 20   <span class="comment">//最大行数</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> HALT <span class="meta-string">""</span>  <span class="comment">//读到空字符结束</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">strSort</span><span class="params">(<span class="keyword">char</span> * str [], <span class="keyword">int</span> num)</span></span>; <span class="comment">//排序函数</span></span><br><span class="line"><span class="function"><span class="keyword">char</span> * <span class="title">strGets</span><span class="params">(<span class="keyword">char</span> * , <span class="keyword">int</span> )</span></span>;    <span class="comment">//输入字符串函数</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> in[LIM][SIZE];</span><br><span class="line">    <span class="keyword">char</span> * pstr[LIM];</span><br><span class="line">    <span class="keyword">int</span> ct = <span class="number">0</span>, k = <span class="number">0</span>; <span class="comment">//输入输出计数</span></span><br><span class="line">    <span class="keyword">while</span>(ct &lt; LIM &amp;&amp; strGets(in[ct], SIZE) != <span class="literal">NULL</span> &amp;&amp; in[ct][<span class="number">0</span>] != <span class="string">'\0'</span>)&#123;</span><br><span class="line">        pstr[ct] = in[ct];</span><br><span class="line">        ct++;          <span class="comment">//输入字符串</span></span><br><span class="line">    &#125;</span><br><span class="line">    strSort(pstr, ct); <span class="comment">//排序字符串</span></span><br><span class="line">    <span class="keyword">for</span>(k = <span class="number">0</span>; k &lt; ct; k++)</span><br><span class="line">        <span class="built_in">puts</span>(pstr[k]); <span class="comment">//输出字符串</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//选择排序</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">strSort</span><span class="params">(<span class="keyword">char</span> * str [], <span class="keyword">int</span> num)</span></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> *temp;</span><br><span class="line">    <span class="keyword">int</span> top, seek;</span><br><span class="line">    <span class="keyword">for</span> (top = <span class="number">0</span>; top &lt; num<span class="number">-1</span>; ++top)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (seek = top + <span class="number">1</span>; seek &lt; num; ++seek)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>( <span class="built_in">strcmp</span>(str[top], str[seek]) &gt; <span class="number">0</span> )</span><br><span class="line">                temp = str[top];</span><br><span class="line">                str[top] = str[seek];</span><br><span class="line">                str[seek] = temp; </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//自定义输入函数</span></span><br><span class="line"><span class="function"><span class="keyword">char</span> * <span class="title">strGets</span><span class="params">(<span class="keyword">char</span> * str, <span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> * ret_val;</span><br><span class="line">    <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">    ret_val = fgets(str, n, <span class="built_in">stdin</span>);</span><br><span class="line">    <span class="keyword">if</span>(ret_val)&#123;</span><br><span class="line">        <span class="keyword">while</span>(str[i] != <span class="string">'\n'</span> &amp;&amp; str[i] != <span class="string">'\0'</span>)</span><br><span class="line">            i++;</span><br><span class="line">        <span class="keyword">if</span>(str[i] == <span class="string">'\n'</span>)</span><br><span class="line">            str[i] = <span class="string">'\0'</span>;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            <span class="keyword">while</span>(getchar() != <span class="string">'\n'</span>)</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ret_val;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>排序单位是指针：排序的是指针而不是字符串本身</li>
-<li>选择排序算法</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//伪代码</span></span><br><span class="line"><span class="keyword">for</span> n = 首元素 to n=倒数第<span class="number">2</span>个元素</span><br><span class="line">    找出剩余元素中的最大元素，并将其放在第n个元素</span><br><span class="line"><span class="comment">//C代码</span></span><br><span class="line"><span class="keyword">for</span>(top = <span class="number">0</span>; top &lt; n - <span class="number">1</span>; top++)</span><br><span class="line">    <span class="keyword">for</span>(seek = top + <span class="number">1</span>; seek &lt; n; seek++)</span><br><span class="line">        <span class="keyword">if</span>(a[top] &gt; a[seek])</span><br><span class="line">            swap(&amp;a[top], &amp;a[seek]);</span><br></pre></td></tr></table></figure>
-<h3 id="字符串和ctype-h字符函数"><a href="#字符串和ctype-h字符函数" class="headerlink" title="字符串和ctype.h字符函数"></a>字符串和ctype.h字符函数</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h3 id="命令行参数：int-argc-char-argv"><a href="#命令行参数：int-argc-char-argv" class="headerlink" title="命令行参数：int argc, char *argv[]"></a>命令行参数：int argc, char *argv[]</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    argc <span class="comment">// 命令行字符串数量</span></span><br><span class="line">    argv <span class="comment">// 字符串数组指针 argv[n] 表示第n个字符串的地址</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> * argv[])</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i = argc;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d\n"</span>, argc);</span><br><span class="line">    <span class="keyword">while</span>( i-- &gt;  <span class="number">1</span> )  </span><br><span class="line">        <span class="built_in">puts</span>(argv[i]);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// --i情况  (没想到argc = 4)  (- -)</span></span><br><span class="line"><span class="comment">// test86 see you later  0 1 2 3 </span></span><br><span class="line"><span class="comment">// 1) (i = 4- 1 = 3, i &gt; 0) -&gt; a[3]</span></span><br><span class="line"><span class="comment">// 2) (i = 3- 1 = 2, i &gt; 0) -&gt; a[2]</span></span><br><span class="line"><span class="comment">// i--情况</span></span><br><span class="line"><span class="comment">// 1) (i = 4 &gt; 0, i = 3 - 1 = 2) -&gt; a[3]</span></span><br><span class="line"><span class="comment">// 2) (i = 3 &gt; 0, i = 2 - 1 = 2) -&gt; a[2]</span></span><br><span class="line"><span class="comment">// 3) (i = 2 &gt; 0, i = 1 - 1 = 1) -&gt; a[1]</span></span><br></pre></td></tr></table></figure>
-<h3 id="字符串转数字"><a href="#字符串转数字" class="headerlink" title="字符串转数字"></a>字符串转数字</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<ul>
-<li>小训练：逆转字符串</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">reStr</span><span class="params">(<span class="keyword">char</span> * a, <span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">char</span> b[n];</span><br><span class="line">    <span class="keyword">while</span>(i++ &lt; n)</span><br><span class="line">        b[i] = a[i<span class="number">-1</span>];</span><br><span class="line">    i = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>(n-- &gt;= <span class="number">0</span>)&#123;</span><br><span class="line">        a[i] = b[n];</span><br><span class="line">        i++;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>小训练：命令行输出</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;ctype.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> N 10</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">pf</span><span class="params">(<span class="keyword">char</span> * , <span class="keyword">int</span>)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">toUpper</span><span class="params">(<span class="keyword">char</span> * , <span class="keyword">int</span>)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">toLower</span><span class="params">(<span class="keyword">char</span> * , <span class="keyword">int</span>)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> * argv[])</span></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> a[N];</span><br><span class="line">    <span class="keyword">switch</span> (argv[<span class="number">1</span>][<span class="number">1</span>])&#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">'p'</span>: pf(a, N); <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">'u'</span>: toUpper(a, N); <span class="keyword">break</span>;     </span><br><span class="line">        <span class="keyword">case</span> <span class="string">'l'</span>: toLower(a, N); <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">default</span> : <span class="built_in">puts</span>(<span class="string">"enter error!"</span>); <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//原样输出</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">pf</span><span class="params">(<span class="keyword">char</span> * a, <span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line">    <span class="keyword">while</span>( fgets(a, n, <span class="built_in">stdin</span>) != <span class="literal">NULL</span> &amp;&amp; a[<span class="number">0</span>] != <span class="string">'\n'</span>)&#123;</span><br><span class="line">        <span class="built_in">fputs</span>(a, <span class="built_in">stdout</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//输出大写</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">toLower</span><span class="params">(<span class="keyword">char</span> * a, <span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    <span class="keyword">while</span>( fgets(a, n, <span class="built_in">stdin</span>) != <span class="literal">NULL</span> &amp;&amp; a[<span class="number">0</span>] != <span class="string">'\n'</span>)&#123;</span><br><span class="line">        i = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span>(i++ &lt; n<span class="number">-1</span>)&#123;     <span class="comment">// i=0&lt;9 i=1 a[0], i=1&lt;9 i=2 a[1] ---&gt; i=8&lt;9 i=9 a[8]</span></span><br><span class="line">            <span class="keyword">if</span>(<span class="built_in">isupper</span>(a[i<span class="number">-1</span>]))</span><br><span class="line">                a[i<span class="number">-1</span>] = <span class="built_in">tolower</span>(a[i<span class="number">-1</span>]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">fputs</span>(a, <span class="built_in">stdout</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//输出小写</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">toUpper</span><span class="params">(<span class="keyword">char</span> * a, <span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    <span class="keyword">while</span>( fgets(a, n, <span class="built_in">stdin</span>) != <span class="literal">NULL</span> &amp;&amp; a[<span class="number">0</span>] != <span class="string">'\n'</span>)&#123;</span><br><span class="line">        i = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span>(i++ &lt; n<span class="number">-1</span>)&#123;</span><br><span class="line">            <span class="keyword">if</span>(<span class="built_in">islower</span>(a[i<span class="number">-1</span>]))</span><br><span class="line">                a[i<span class="number">-1</span>] = <span class="built_in">toupper</span>(a[i<span class="number">-1</span>]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">fputs</span>(a, <span class="built_in">stdout</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1905,7 +1823,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-count">49</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1927,7 +1845,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-count">25</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
