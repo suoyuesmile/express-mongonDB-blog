@@ -73,66 +73,6 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-t-book_js_003" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2015/11/28/t-book_js_003/" class="article-date">
-  <time datetime="2015-11-28T03:28:15.000Z" itemprop="datePublished">2015-11-28</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/11/28/t-book_js_003/">《JavaScript高级程序设计》读后记&lt;三&gt;：闭包</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <!-- Table of Contents -->
-        
-        <p>在上一篇博客里，谈到了作用域，留下了一个问题，怎样从函数外访问到函数内部的局部变量。这是在我完全理解闭包和函数后，写的一篇博客。</p>
-<h3 id="理解函数与闭包"><a href="#理解函数与闭包" class="headerlink" title="理解函数与闭包"></a>理解函数与闭包</h3><p>前面我们知道了作用域最小单位就是函数，那么函数是怎么表示的呢？<br>定义函数有两种方式：一种是函数声明，另一种是函数表达式。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 函数声明</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params">arg0, arg1, arg2</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// code...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>我们知道函数也是一种引用类型，所以函数，也有自己的属性，其中一个就是<code>name</code><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(foo.name);  <span class="comment">// foo</span></span><br></pre></td></tr></table></figure></p>
-<p>由此我们也更加确定了，函数也是一个对象，里面包含各种属性和方法<br>对于函数还有一个特别的性质，那就是函数声明提升，如同变量声明提升，函数声明也是可以提升的<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sayBye();  <span class="comment">// bye bye</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sayBye</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    alert(<span class="string">"bye bye"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>函数声明提升会带来一个问题<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 反例</span></span><br><span class="line"><span class="keyword">var</span> a = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">if</span> (a &gt; <span class="number">1</span>) &#123;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">saybye</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="comment">// code...</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> (a &lt; <span class="number">1</span>) &#123;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">saybye</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="comment">// code...</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>上面的代码，很容易看出来，函数声明提升后，可能产生和预期不一样的效果<br>接下来我们看下函数表达式<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> foo = <span class="function"><span class="keyword">function</span>(<span class="params">arg0, arg1, arg2</span>) </span>&#123;</span><br><span class="line">    <span class="comment">//code..</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-<p><strong>这个表达式怎么解释呢？</strong><br>就如一个赋值语句一样，将后面的匿名函数赋值给<code>foo</code>变量，有人可能有疑问，函数也可以赋值吗？在 js 里面来说，这是可以的，因为 js 里面函数也是一种引用类型，当作对象赋值给变量</p>
-<p><strong>那么函数表达式是否也有函数提升呢？</strong><br>下面验证一下<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">foo(); <span class="comment">// VM225:1 Uncaught TypeError: foo is not a function</span></span><br><span class="line"><span class="keyword">var</span> foo = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    alert(<span class="string">"ok"</span>);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-<p>答案是没有，函数并没有提升上去，因为在这里函数作为了对象赋值给了变量，并不是声明，这里的赋值同样的也是引用赋值。此时<code>foo</code>指向的是堆中的内存块。</p>
-<p><strong>谈谈闭包</strong><br>闭包是有权访问另一个函数作用域中的变量的函数，创建闭包的常见方式，就是在一个函数内部创建另一个函数<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 要访问foo中的a</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> a1 = <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line">foo();</span><br><span class="line"><span class="built_in">console</span>.log(a1);</span><br><span class="line"><span class="comment">// VM309:4 Uncaught ReferenceError: a1 is not defined</span></span><br></pre></td></tr></table></figure></p>
-<p>显然访问不了<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用闭包函数访问</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> a2 = <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">var</span> b = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(a2);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> b();</span><br><span class="line">&#125;</span><br><span class="line">foo(); <span class="comment">// 2</span></span><br></pre></td></tr></table></figure></p>
-<p><strong>下面解释一下是怎么做到的</strong><br><code>a2</code>是<code>foo</code>的局部变量，而是<code>b</code>函数的外部变量，而<code>b</code>是可以访问到的，<code>b</code>函数在闭包函数<code>b</code>返回到外部的函数或全局变量<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 改写成立即执行函数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> a3 = <span class="number">3</span>;</span><br><span class="line">    <span class="keyword">return</span> (<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(a3);</span><br><span class="line">        &#125;)();</span><br><span class="line">&#125;</span><br><span class="line">foo(); <span class="comment">// 3</span></span><br></pre></td></tr></table></figure></p>
-<p>将<code>b</code>函数改写成立即执行函数更加清晰紧凑了，相当于函数里面将一个执行的函数返回到外部去<br>就好像在函数内外构建了一个桥梁。<br><strong>闭包有闭包的好处，但是它也有不少缺陷</strong><br>闭包会携带包含它的函数的作用域，因此比其他函数占用更多的内存，过度的使用闭包可能会导致内存占用过多<br><strong>闭包的限制与解除</strong>，闭包只能取得包含函数中的任何变量的最后一个值，闭包保存的是整个变量对象，而不是某个特殊的变量<br>下面我们来看看代码<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> arr = <span class="keyword">new</span> <span class="built_in">Array</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i=<span class="number">0</span>; i&lt;<span class="number">10</span>; i++) &#123;</span><br><span class="line">        arr[i] = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> i;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> arr;</span><br><span class="line">&#125;</span><br><span class="line">alert(foo());</span><br></pre></td></tr></table></figure></p>
-<p>谈到闭包的缺点，必须要说的一个东西就是 Js 的垃圾回收机制，下篇博客，我将重点研究关于 JS 的垃圾回收机制，</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/11/28/t-book_js_003/" data-id="cjwvlaw93000wqajdobdtgbfo" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
- 
-
-
-  
     <article id="post-t-book_js_002" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2015/11/27/t-book_js_002/" class="article-date">
@@ -188,7 +128,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/11/27/t-book_js_002/" data-id="cjwvlaw92000rqajdon9s1qqy" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2015/11/27/t-book_js_002/" data-id="cjwvqeovi000uwzjd74odf36a" class="article-share-link">分享</a>
       
       
       
@@ -255,7 +195,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/11/27/t-book_js_001/" data-id="cjwvlaw90000oqajdjrya9dbw" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2015/11/27/t-book_js_001/" data-id="cjwvqeovf000qwzjdxskha8fd" class="article-share-link">分享</a>
       
       
       
@@ -313,11 +253,127 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/10/25/t-blog_css_001/" data-id="cjwvlaw8n0007qajdhuglswfh" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2015/10/25/t-blog_css_001/" data-id="cjwvqeouy0004wzjdukb7e17u" class="article-share-link">分享</a>
       
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CSS/">CSS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/垂直居中/">垂直居中</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
+    <article id="post-note-this" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/10/25/note-this/" class="article-date">
+  <time datetime="2015-10-25T10:25:43.000Z" itemprop="datePublished">2015-10-25</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/10/25/note-this/">关于 this 的两种误解</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <h1 id="this"><a href="#this" class="headerlink" title="this"></a>this</h1><h2 id="两种误解"><a href="#两种误解" class="headerlink" title="两种误解"></a>两种误解</h2><ul>
+<li><p><strong>误解1 <code>this</code> 指向函数本身</strong></p>
+<ul>
+<li><p>对象内部引用自身 具名函数可以实现、匿名就不好实现了</p>
+<ul>
+<li>弃用的方法：<code>arguments.callee</code></li>
+</ul>
+</li>
+<li><p>解决方法1 <code>foo</code>函数名 代替 <code>this</code></p>
+</li>
+<li><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  foo.count++</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">foo.count = <span class="number">0</span></span><br><span class="line">foo()</span><br><span class="line"><span class="built_in">console</span>.log(foo.count) <span class="comment">// 1</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>解决方法2 强制 this 指向 foo</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo1</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.count++</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">foo1.count = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">foo1.call(foo1)</span><br><span class="line"><span class="built_in">console</span>.log(foo1.count)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p><strong>误解2 <code>this</code> 指向函数作用域</strong></p>
+<ul>
+<li>this 任何情况下都不指向函数词法作用域</li>
+<li>this 无法跨越词法作用域边界</li>
+</ul>
+</li>
+</ul>
+<h2 id="this-到底是什么"><a href="#this-到底是什么" class="headerlink" title="this 到底是什么?"></a>this 到底是什么?</h2><p><strong>this 的绑定和函数的声明位置没有任何关系，只取决于函数的调用方式</strong></p>
+<ul>
+<li><p>函数的调用位置</p>
+<ul>
+<li><p>分析调用栈</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 调用链相关</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// global</span></span><br><span class="line">    bar()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bar</span> </span>&#123;</span><br><span class="line">    <span class="comment">// global foo</span></span><br><span class="line">    baz()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">baz</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// global foo bar</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">foo()</span><br></pre></td></tr></table></figure>
+<p><strong>严格模式下，全局对象无法绑定</strong></p>
+</li>
+</ul>
+</li>
+<li><p>隐式调用</p>
+<ul>
+<li><p>绑定对象内部</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.a)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">    a: <span class="number">1</span>,</span><br><span class="line">    foo: foo</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">obj.foo() <span class="comment">// 1</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li><p>只有最顶层有效</p>
+</li>
+<li><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.a)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">    a: <span class="number">40</span>,</span><br><span class="line">    obj2: obj2</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> obj2 = &#123;</span><br><span class="line">    a: <span class="number">3</span>,</span><br><span class="line">    foo: foo</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">obj.obj2.foo() <span class="comment">// 42</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>隐式丢失</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.a)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">    a: <span class="number">10</span>,</span><br><span class="line">    foo: foo</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> bar = obj.foo</span><br><span class="line"><span class="keyword">var</span> a = <span class="string">'global'</span></span><br><span class="line">obj.foo()</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>隐式 传参丢失</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.a)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params">fn</span>) </span>&#123;</span><br><span class="line">    fn()</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">    a: <span class="number">1</span>,</span><br><span class="line">    foo: foo</span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> a = <span class="number">2</span></span><br><span class="line"><span class="built_in">console</span>.log(bar(obj.foo))</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>显式绑定</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.a)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">    a: <span class="number">1</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">foo.call(obj) <span class="comment">// 1</span></span><br></pre></td></tr></table></figure>
+<p><strong>无法解决隐式丢失问题</strong></p>
+<ul>
+<li><p>解决方法1: 硬绑定</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.a)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">    a: <span class="number">1</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> bar = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    foo.call(obj)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">bar() <span class="comment">// 1</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>New 调用</p>
+</li>
+<li><strong>优先级 new &gt; 显示调用 &gt; 隐式调用 &gt; 调用栈</strong></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/10/25/note-this/" data-id="cjwvqeov40007wzjdpjv8qljd" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ES5/">ES5</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
 
     </footer>
   </div>
@@ -376,7 +432,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/10/23/t-book_css_003/" data-id="cjwvlaw8w000iqajdhlz0nq1o" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2015/10/23/t-book_css_003/" data-id="cjwvqeovd000jwzjdg4dn4z0c" class="article-share-link">分享</a>
       
       
       
@@ -416,10 +472,6 @@
       <ul>
         
           <li>
-            <a href="/2019/02/26/note-this/">(no title)</a>
-          </li>
-        
-          <li>
             <a href="/2019/02/26/t-note_vue_004/">(no title)</a>
           </li>
         
@@ -433,6 +485,10 @@
         
           <li>
             <a href="/2018/01/17/t-note_tools_001/">各大编辑器快捷键收集</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/09/t-note_ci_001/">持续集成工具 CI 使用</a>
           </li>
         
       </ul>
