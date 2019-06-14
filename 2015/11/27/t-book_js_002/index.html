@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="JavaScript," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="在第一篇博客里面，提到过变量是松散变量，决定它只是特定时间保持特定的值的符号而已，而变量的值和数据类型可以在脚本的生命周期内改变的。接下来就是理解这种特性的性质了。 理解引用类型，作用域前面我们已经知道了，ES 变量类型包括 5 种基本类型和引用类型。 基本类型与引用类型的区别？  基本类型值在内存中占据固定大小的空间">
+<meta name="keywords" content="JavaScript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《JavaScript高级程序设计》读后记&lt;二&gt;：作用域">
+<meta property="og:url" content="http://yoursite.com/2015/11/27/t-book_js_002/index.html">
+<meta property="og:site_name" content="锁越smile">
+<meta property="og:description" content="在第一篇博客里面，提到过变量是松散变量，决定它只是特定时间保持特定的值的符号而已，而变量的值和数据类型可以在脚本的生命周期内改变的。接下来就是理解这种特性的性质了。 理解引用类型，作用域前面我们已经知道了，ES 变量类型包括 5 种基本类型和引用类型。 基本类型与引用类型的区别？  基本类型值在内存中占据固定大小的空间，保存在栈中，引用类型的值是对象，被保存在堆中 这 5 种基本类型可以按值访问的">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images/dm2.png">
+<meta property="og:updated_time" content="2018-06-30T16:32:57.260Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《JavaScript高级程序设计》读后记&lt;二&gt;：作用域">
+<meta name="twitter:description" content="在第一篇博客里面，提到过变量是松散变量，决定它只是特定时间保持特定的值的符号而已，而变量的值和数据类型可以在脚本的生命周期内改变的。接下来就是理解这种特性的性质了。 理解引用类型，作用域前面我们已经知道了，ES 变量类型包括 5 种基本类型和引用类型。 基本类型与引用类型的区别？  基本类型值在内存中占据固定大小的空间，保存在栈中，引用类型的值是对象，被保存在堆中 这 5 种基本类型可以按值访问的">
+<meta name="twitter:image" content="http://yoursite.com/images/dm2.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2015/11/27/t-book_js_002/"/>
+
+
+
+
+
+  <title>《JavaScript高级程序设计》读后记<二>：作用域 | 锁越smile</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">锁越smile</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">邵锁的博客</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/11/27/t-book_js_002/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="suoyue">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="锁越smile">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">《JavaScript高级程序设计》读后记<二>：作用域</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-11-27T21:18:03+08:00">
+                2015-11-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScript</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在第一篇博客里面，提到过变量是松散变量，决定它只是特定时间保持特定的值的符号而已，而变量的值和数据类型可以在脚本的生命周期内改变的。接下来就是理解这种特性的性质了。</p>
+<h3 id="理解引用类型，作用域"><a href="#理解引用类型，作用域" class="headerlink" title="理解引用类型，作用域"></a>理解引用类型，作用域</h3><p>前面我们已经知道了，ES 变量类型包括 5 种基本类型和引用类型。</p>
+<p><strong>基本类型与引用类型的区别？</strong></p>
+<ul>
+<li>基本类型值在内存中占据固定大小的空间，保存在栈中，引用类型的值是对象，被保存在堆中</li>
+<li>这 5 种基本类型可以按值访问的，而引用类型的值是按引用访问</li>
+<li>基本类型的变量包含的是实际的值，引用对象实际包含的并不是对象本身而是指向对象的指针。</li>
+</ul>
+<p><strong>这里要解释一下什么是按值访问？什么是按引用访问？</strong><br>如果学过 C++ ,我们就会知道 C++ 传参有两种方式，一种是传值，一种是传引用。</p>
+<p><strong>这两种方式有什么区别呢？</strong><br>区别在于传值是将实参拷贝给形参，而传引用并不是简单的赋值，而是将形参与实参绑定在一起，它们同时指向同一内存空间，修改形参相当于修改实参。<strong>引用相当于变量的别名</strong>，理解这句话。<br>我们可能大致知道什么是按值访问，什么是按引用访问了</p>
+<p><strong>那么，为什么基本类型是按值访问？而引用类型是按引用访问？</strong><br>我们知道引用类型不同于基本类型，它不是单纯的值，而是一种数据结构，包含有属性和方法。<br>如果按值传递，会拷贝整个对象，这样消耗的空间是否太大了呢，所以<code>ES</code>将这些对象的访问都设置成了按引用访问。</p>
+<p><strong>刚才我们提到了，<code>c++</code>的值拷贝方式和引用拷贝方式，<code>JS</code>是否也是这样的呢？</strong><br>的确，<code>JS</code>也是这样的，下面简单的验证一下<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 基本类型的拷贝</span></span><br><span class="line"><span class="keyword">var</span> a = <span class="string">"hello"</span>;</span><br><span class="line"><span class="keyword">var</span> b = a;</span><br><span class="line"><span class="built_in">console</span>.log(a+<span class="string">','</span>+b); <span class="comment">// hello,hello</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 引用类型的拷贝</span></span><br><span class="line"><span class="keyword">var</span> obj = <span class="keyword">new</span> Objcet();</span><br><span class="line"><span class="keyword">var</span> obj1 = obj2;</span><br><span class="line">obj.name = <span class="string">"hello"</span>;</span><br><span class="line"><span class="built_in">console</span>.log(obj.name+<span class="string">','</span>+obj1.name); <span class="comment">// hello,hello</span></span><br></pre></td></tr></table></figure>
+<p>因此我们可以看到，对象<code>obj1</code>是随<code>obj</code>变化的，他们是指向同一个内存块的，而不是简单的拷贝而已</p>
+<p><strong>那么传参是否也是在我们的意料之中呢？</strong><br>然而并不是这样的，ES 中所有函数的参数都是按值传递的，基本类型值的传递就像复制一样<br>而引用类型的值的传递，就行引用类型的变量复制一样，为什么会这样呢？<br>这里我们重点看一下传递引用参数<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">setName</span>(<span class="params">obj</span>) </span>&#123;</span><br><span class="line">    obj.name = <span class="string">"suo"</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> person = <span class="keyword">new</span> <span class="built_in">Object</span>;</span><br><span class="line">setName(person);</span><br><span class="line"><span class="built_in">console</span>.log(person.name);   <span class="comment">// suo</span></span><br></pre></td></tr></table></figure></p>
+<p>由上可知，对象传递后，通过函数修改对象属性影响了全局变量的值<br>在这里有人可能会觉得，函数传的是引用并非是值吧<br>其实 ES 中所有的函数都是按值传递，并非引用传递，有人肯定会有疑问为什么<code>obj</code>会被改变呢<br>其实这里说的按值传递有点特殊，这个值恰好是指向内存的指针，与引用传递的不同在于，并没有，形参并没有和实参进行引用绑定<br>接下来进一步验证一下<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">setName</span>(<span class="params">obj</span>) </span>&#123;</span><br><span class="line">    obj.name = <span class="string">"suo"</span>;</span><br><span class="line">    obj = <span class="keyword">new</span> <span class="built_in">Object</span>;   </span><br><span class="line">    obj.name = <span class="string">"yue"</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> person = <span class="keyword">new</span> <span class="built_in">Object</span>;</span><br><span class="line">setName(person);</span><br><span class="line"><span class="built_in">console</span>.log(person.name);   <span class="comment">// suo</span></span><br></pre></td></tr></table></figure></p>
+<p>上面代码的意义是什么呢？我们在函数内重新定义了这个对象，并给了它一个属性<br>而执行后，结果<code>person</code>并没有和<code>obj</code>的属性一样，也就是说<code>obj</code>并不是<code>person</code>的引用，仅仅是它的地址的值等于<code>person</code>的地址而已</p>
+<p>我们已经知道了<code>ES</code>有引用类型和基本类型，而且<code>typeof</code>操作符可以检测基本类型的类型<br><strong>那么我们怎样检测引用类型呢？</strong>其实也有个操作符可以利用，不过它只能判断是或者不是，不能直接得出是什么类型<br>下面我们测试一下几个引用类型检测<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> person = <span class="keyword">new</span> <span class="built_in">Object</span>;</span><br><span class="line"><span class="built_in">console</span>.log(person <span class="keyword">instanceof</span> <span class="built_in">Object</span>);</span><br></pre></td></tr></table></figure></p>
+<p>刚刚看到了，函数通过传值的形式来传参<br><strong>现在思考一下，函数是怎么执行的呢？</strong><br>原来每个函数都有执行环境，每个执行环境都有与之对应的变量对象，环境中所有的对象和函数都保存在这个对象中。<br>代码在一个环境中执行时，会创建变量对象的作用域链，作用域链控制执行环境访问变量和函数的顺序和权限。<br>下面先看一段代码<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> color = <span class="string">"red"</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">changeColor</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (color === <span class="string">"red"</span>)</span><br><span class="line">        color = <span class="string">"yellow"</span>;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        color = <span class="string">"green"</span>;</span><br><span class="line">&#125;</span><br><span class="line">changeColor();</span><br><span class="line"><span class="built_in">console</span>.log(color); <span class="comment">// yellow</span></span><br></pre></td></tr></table></figure></p>
+<p>可知，函数执行时可以访问到外部的变量，这里的作用域包括两个对象：自己的对象，全局环境的对象<br><strong>进一步研究，多层函数套用，执行是怎样的呢？</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> color = <span class="string">"blue"</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">changeColor</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> anotherColor = <span class="string">"red"</span>;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">swapColors</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> tempColor = anotherColor;</span><br><span class="line">        anotherColor = color;</span><br><span class="line">        color = tempColor; <span class="comment">// 都能访问</span></span><br><span class="line">    &#125; <span class="comment">// 只能访问color,anothor</span></span><br><span class="line">    swapColor();</span><br><span class="line">&#125; <span class="comment">// 只能访问color</span></span><br><span class="line">changeColor();</span><br></pre></td></tr></table></figure></p>
+<p>可以看出作用域链是由内而外的，也就是说函数是从当前的环境对象向外搜索变量，直至到全局对象。函数可以访问外部的变量，但是无法访问当前环境下函数里的局部变量。<br>用更确切的话说，<strong>ES 的作用域链是单向的，而这个方向是由里向外的访问原则</strong>。<br>下面画一个图式来说明这个问题<br><img src="/images/dm2.png" alt="img"><br>现在问题来了，既然作用域是单向访问，有没有办法访问到由外访问到里面的局部变量呢？<br>答案是有的，下节谈一下闭包，这个特性能很好的解决这个问题。<br>还有一点要说明的是,<strong>JS 没有块级作用域</strong>，不同域 c 语言，花括号括起来的都有作用域，<strong>JS 只有函数作用域</strong><br>下面用代码解释下<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> b = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> a=<span class="number">0</span>; a&lt;<span class="number">10</span>; a++) &#123;</span><br><span class="line">        b++; <span class="comment">// 出错</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d,%d"</span>, &amp;a, &amp;b);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// error: 'b' was not declared in this scope,b++;</span></span><br><span class="line"><span class="comment">// error: 'a' was not declared in this scope</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="keyword">var</span> b = <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> a=<span class="number">0</span>; a&lt;<span class="number">10</span>; a++) &#123;</span><br><span class="line">    b++;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(a+<span class="string">','</span>+b);</span><br><span class="line"><span class="comment">// 10,10</span></span><br></pre></td></tr></table></figure>
+<p>根据上面的运行结果，我们很容易看到 C 中花括号的是单独的作用域，其他作用域是访问不到的，<code>for</code>循环里的变量，循环结束后，也不会保留<br>而 JS 里的不一样，他们虽然有花括号，但是这个花括号如同形式一般，没特别的意义，与去掉花括号是同样的意义。 JS 是通过函数作用域，来实现作用域链，控制访问顺序和权限。所有它的最小执行的单元就是函数。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/11/27/t-book_js_001/" rel="next" title="《JavaScript高级程序设计》读后记<一>：数据类型">
+                <i class="fa fa-chevron-left"></i> 《JavaScript高级程序设计》读后记<一>：数据类型
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/11/28/t-book_js_003/" rel="prev" title="《JavaScript高级程序设计》读后记<三>：闭包">
+                《JavaScript高级程序设计》读后记<三>：闭包 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">suoyue</p>
+              <p class="site-description motion-element" itemprop="description">保持乐观，保持谦虚</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">53</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#理解引用类型，作用域"><span class="nav-number">1.</span> <span class="nav-text">理解引用类型，作用域</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">suoyue</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
