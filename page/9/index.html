@@ -73,14 +73,14 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-t-course_ds_007" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-redux 原理" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2015/09/10/t-course_ds_007/" class="article-date">
-  <time datetime="2015-09-10T01:13:04.000Z" itemprop="datePublished">2015-09-10</time>
+    <a href="/2018/02/15/redux 原理/" class="article-date">
+  <time datetime="2018-02-15T12:31:11.000Z" itemprop="datePublished">2018-02-15</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/编程基础/">编程基础</a>
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
   </div>
 
   </div>
@@ -91,7 +91,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/09/10/t-course_ds_007/">《数据结构》笔记：二叉搜索树</a>
+      <a class="article-title" href="/2018/02/15/redux 原理/">Redux 探索其用法和原理</a>
     </h1>
   
 
@@ -101,87 +101,15 @@
       
         <!-- Table of Contents -->
         
-        <h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><ul>
-<li>循关键码访问call by key： 关键码之间可以比较，比对</li>
-<li>词条entity： key - value</li>
-<li>比较器：重载操纵符实现</li>
-<li>判等器：重载操纵符实现</li>
-<li>Binary Search Tree: 节点 ~ 词条 ~ 关键码， 处处满足顺序性</li>
-<li>顺序性：任意节点均不小于左后代，不大于右后代</li>
-<li>单调性：中序遍历，必然单调非降，充要性</li>
-<li>宏微观：微观满足顺序性，宏观满足单调性</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="class"><span class="keyword">class</span> <span class="title">BST</span>:</span> <span class="keyword">public</span> <span class="keyword">public</span> BinTree&lt;T&gt; &#123;</span><br><span class="line">    <span class="keyword">public</span>: <span class="comment">//二叉树派生</span></span><br><span class="line">        <span class="function"><span class="keyword">virtual</span> <span class="title">BinNodePosi</span><span class="params">(T)</span> &amp; <span class="title">search</span><span class="params">( <span class="keyword">const</span> T &amp;)</span> </span>; <span class="comment">//查找</span></span><br><span class="line">        <span class="function"><span class="keyword">virtual</span> <span class="title">BinNodePosi</span><span class="params">(T)</span>  <span class="title">insert</span><span class="params">( <span class="keyword">const</span> T &amp;)</span> </span>;  <span class="comment">//插入</span></span><br><span class="line">        <span class="function"><span class="keyword">virtual</span> <span class="keyword">bool</span>  <span class="title">remove</span><span class="params">( <span class="keyword">const</span> T &amp;)</span> </span>;            <span class="comment">//删除</span></span><br><span class="line">    <span class="keyword">protected</span>:</span><br><span class="line">        BinNodePosi(T) _hot; <span class="comment">//命中节点的父亲</span></span><br><span class="line">        BinNodePosi(T) connect34(BinNodePosi(T), BinNodePosi(T),  <span class="comment">//3+4重构</span></span><br><span class="line">            BinNodePosi(T), BinNodePosi(T), BinNodePosi(T), </span><br><span class="line">            BinNodePosi(T), BinNodePosi(T));</span><br><span class="line">        BinNodePosi(T) rotateAt( BinNodePosi(T) ); <span class="comment">//旋转</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="查找"><a href="#查找" class="headerlink" title="查找"></a>查找</h3><ul>
-<li>策略：减而治之，仿照二分查找策略</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; BinNodePosi(T) &amp; BST&lt;T&gt;::search(<span class="keyword">const</span> T &amp; e) &#123;</span><br><span class="line">    <span class="keyword">return</span> searchIn( _root, e, _hot = <span class="literal">NULL</span>) ;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//典型的尾递归，当前树根目标关键码，记忆热点</span></span><br><span class="line">static BinNodePosi(T) &amp;  searchIn(BinNodePosi(T) &amp; v,  const T &amp; e, BinNodePosi(T) &amp; hot ) &#123;</span><br><span class="line">    <span class="keyword">if</span>( !v || (e == v-&gt;data) ) <span class="comment">//确定失败，成功，或者</span></span><br><span class="line">        <span class="keyword">return</span> v;</span><br><span class="line">    hot = v; <span class="comment">//记下当前节点，然后。。</span></span><br><span class="line">    <span class="keyword">return</span> searchIn( ( (e &lt; v-&gt;data ) ? v-&gt;lchild : v-&gt;rchild ) , e, hot);</span><br><span class="line">&#125; <span class="comment">//运行时间正比于返回节点的深度</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>接口语义：返回值的引用值</li>
-<li><ul>
-<li>成功时，指向一个关键码为e且真实存在的节点, 失败时，指向试图转向的空节点NULL</li>
-</ul>
-</li>
-<li><ul>
-<li>增加哨兵，失败时，将此空节点转换为一个关键码为e且真实存在的节点</li>
-</ul>
-</li>
-</ul>
-<h3 id="插入"><a href="#插入" class="headerlink" title="插入"></a>插入</h3><ul>
-<li>策略：在查找的基础上替换失败的空节点</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//BST插入</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; BinNodePosi(T) BST&lt;T&gt;:: insert(<span class="keyword">const</span> T &amp; e) &#123;</span><br><span class="line">    BinNodePosi(T) &amp; x = search( e ); <span class="comment">//查找目标</span></span><br><span class="line">    <span class="keyword">if</span>( !x ) &#123; <span class="comment">//禁止雷同，失败时才插入操作</span></span><br><span class="line">        x = <span class="keyword">new</span> BinNode&lt;T&gt;(e, _hot); <span class="comment">//创建新节点以hot为父亲</span></span><br><span class="line">        _size++;</span><br><span class="line">        updataHeightAbove(x); <span class="comment">//更新全树规模，并更新历代祖先规模</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> x; <span class="comment">//无论e是否存在原树中，总有x-&gt;data == e</span></span><br><span class="line">&#125; <span class="comment">//总体复杂度O(h)</span></span><br></pre></td></tr></table></figure>
-<h3 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h3><ul>
-<li><p>策略：先确认目标再删除</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">bool</span> BST&lt;T&gt;:: remove( <span class="keyword">const</span> T &amp; e) &#123;</span><br><span class="line">    BinNodePosi(T) &amp; x = search( e ); <span class="comment">//定位目标</span></span><br><span class="line">    <span class="keyword">if</span>(!x) <span class="keyword">return</span> <span class="literal">false</span>; <span class="comment">//确认目标存在</span></span><br><span class="line">    removeAt(x , _hot); <span class="comment">//分两大类实施 删除</span></span><br><span class="line">    _size--; <span class="comment">//更新规模</span></span><br><span class="line">    updataHeightAbove( _hot );</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125; <span class="comment">//复杂度O(h)</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>情况一</p>
-</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">template &lt;typename T&gt; static BinNodePosi(T) removeAt(BinNodePosi(T) &amp; x, BinNodePosi(T) &amp; hot)&#123;</span><br><span class="line">    BinNodePosi(T) w = x; <span class="comment">//实际被摘除的节点</span></span><br><span class="line">    BinNodePosi(T) succ = <span class="literal">NULL</span>; <span class="comment">//实际被删除的节点的接替者</span></span><br><span class="line">    <span class="keyword">if</span>( ! HasLchild(*x) ) succ = x = x-&gt;rchild; <span class="comment">//左子树为空</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>( ! HasRchild(*x) ) succ = x = x-&gt;lchild; <span class="comment">//右子树为空</span></span><br><span class="line">    <span class="keyword">else</span> &#123; <span class="comment">//左右并存的状况</span></span><br><span class="line">        hot = w-&gt;parent;</span><br><span class="line">        <span class="keyword">if</span>( succ ) succ-&gt;parent = hot;</span><br><span class="line">        release( w-&gt;data ); <span class="comment">//释放被摘除的节点</span></span><br><span class="line">        release( w );</span><br><span class="line">        <span class="keyword">return</span> succ; 返回接替者</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>情况二</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">template &lt;typename T&gt; static BinNodePosi(T) removeAt( BinNodePosi(T) &amp;x, BinNodePosi(T) &amp; hot ) &#123;</span><br><span class="line">    BinNodePosi(T) w = x; <span class="comment">//实际被摘除的节点</span></span><br><span class="line">    BinNodePosi(T) succ = <span class="literal">NULL</span>; <span class="comment">//实际被删除的节点的接替者</span></span><br><span class="line">    <span class="keyword">if</span>( ! HasLchild(*x) ) succ = x = x-&gt;rchild; <span class="comment">//左子树为空</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>( ! HasRchild(*x) ) succ = x = x-&gt;lchild; <span class="comment">//右子树为空</span></span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        w = w-&gt;succ;</span><br><span class="line">        swap( x-&gt;data, w-&gt;data);</span><br><span class="line">        BinNodePosi(T) u = w-&gt;parent;</span><br><span class="line">        ( u == x ? u-&gt;rChild : u-&gt;lChild ) = succ = w-&gt;rChild;</span><br><span class="line">    &#125;<span class="comment">//O(h)</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="平衡与等价"><a href="#平衡与等价" class="headerlink" title="平衡与等价"></a>平衡与等价</h3><blockquote>
-<p>BST的查找，插入，删除复杂度都为O(h)，但是高度不能很好控制，效率并不理想</p>
-</blockquote>
-<ul>
-<li>生成BST：随机生成的高度为O(logn)，有重复的组合，随机组合的BST生成的O(n^1/2)</li>
-<li>理想平衡：节点数固定，兄弟子树高度越接近(平衡)，全树倾向更低</li>
-<li>由n个节点组成的二叉树，高度不低于logn时—–恰为logn为理想平衡树，概率低，适当降低标准</li>
-<li>退一步海阔天空：高度渐进不超过O(logn)</li>
-<li><p>适度平衡的二叉树，称平衡二叉树BBST</p>
-</li>
-<li><p>非平衡二叉树等价平衡二叉树</p>
-</li>
-<li>中序遍历的歧义性：拓扑结构不同，中序遍历相同</li>
-<li>等价BST：3个规律，上下可变，左右不能乱，旋转变换</li>
-<li>zig变换（旋转调整）</li>
-<li>准则：局部性（常数节点数），操作数至多O(logn)</li>
-</ul>
-<h3 id="AVL树-适度平衡搜索二叉树"><a href="#AVL树-适度平衡搜索二叉树" class="headerlink" title="AVL树(适度平衡搜索二叉树)"></a>AVL树(适度平衡搜索二叉树)</h3><ul>
-<li>平衡因子：balFac(V) = height( lc(v) ) - height( rc(v) )</li>
-<li>G.Adelson-Velsky &amp; E.Landis (1962) 所有 | balFac | &lt;= 1</li>
-<li>AVL = 适度平衡：高度为h的AVL树，至少包含S(h) = fib(h+3) -1个节点</li>
-<li><p>接口：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> Balance(x) ( stature( (x).lChild ) == stature( (x).rChild ) )</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> BalFac(x) ( stature( (x).lChild ) - stature( (x).rChild ) )</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> AvlBalanced(x) ( ( -2 &lt; BalFac(x) ) &amp;&amp; ( BalFac(x) &lt; 2 ) )</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="class"><span class="keyword">class</span> <span class="title">AVL</span>:</span> <span class="keyword">public</span> BST&lt;T&gt; &#123;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">        BinNodePosi(T) insert( <span class="keyword">const</span> T &amp;); <span class="comment">//插入重写</span></span><br><span class="line">        <span class="function"><span class="keyword">bool</span> <span class="title">remove</span><span class="params">( <span class="keyword">const</span> T &amp;)</span></span>; <span class="comment">//删除重写</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>插入节点会导致祖先发生失衡，删除后只有一个节点失衡，相反插入操作更简单</p>
-</li>
-<li>插入：单旋 ，g经过单旋后复衡，子树高度复原，更高祖先也必平衡，全树复衡</li>
-<li>时间：旋转O(1) 一致向右zagzag，一致向左zigzig，双旋，zigzag和zagzig情况</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//插入</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; BinNodePosi(T) AVL&lt;T&gt;::insert( <span class="keyword">const</span> T &amp; e) &#123;</span><br><span class="line">    BinNodePosi(T) &amp; x = search( e ); </span><br><span class="line">    <span class="keyword">if</span>( x ) <span class="keyword">return</span> x;</span><br><span class="line">    x = <span class="keyword">new</span> BinNode&lt;T&gt;( e, _hot );</span><br><span class="line">    _size++;</span><br><span class="line">    BinNodePosi(T) xx = x;</span><br><span class="line">    <span class="keyword">for</span> ( BinNodePosi(T) g = x-&gt;parenr; g; g = g-&gt;parent )</span><br><span class="line">        <span class="keyword">if</span> ( !AvlBalanced( *g ) ) &#123;</span><br><span class="line">            FromParentIo( *g ) = rotateAt( tallerChild( tallerChild(g) ) );</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span></span><br><span class="line">        updateHeight( g );</span><br><span class="line">    <span class="keyword">return</span> xx;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+        
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/09/10/t-course_ds_007/" data-id="cjwvqj49b001v2jjd0fjmto8a" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2018/02/15/redux 原理/" data-id="cjwvu9vhc001ajfjdpuc93ptf" class="article-share-link">分享</a>
       
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据结构/">数据结构</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/React/">React</a></li></ul>
 
     </footer>
   </div>
@@ -191,14 +119,14 @@
 
 
   
-    <article id="post-t-course_ds_006" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-react 初探 上" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2015/08/30/t-course_ds_006/" class="article-date">
-  <time datetime="2015-08-30T07:58:33.000Z" itemprop="datePublished">2015-08-30</time>
+    <a href="/2018/02/13/react 初探 上/" class="article-date">
+  <time datetime="2018-02-13T12:31:11.000Z" itemprop="datePublished">2018-02-13</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/编程基础/">编程基础</a>
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
   </div>
 
   </div>
@@ -209,7 +137,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/08/30/t-course_ds_006/">《数据结构》笔记：图</a>
+      <a class="article-title" href="/2018/02/13/react 初探 上/">React 初探（上）</a>
     </h1>
   
 
@@ -219,78 +147,15 @@
       
         <!-- Table of Contents -->
         
-        <h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><ul>
-<li>邻接：邻接关系，顶点与顶点的关系</li>
-<li>关联：关联关系，顶点与边的关系</li>
-<li>无向图：次序无所谓</li>
-<li>有向图（digraph）：有次序，起点尾（tail），终点头 （head）</li>
-<li>路径(path)：一系列的顶点按照依次邻接的关系构成序列</li>
-<li>简单路径：不含重复节点的路径</li>
-<li>环路(cicle)：起点终点重合的路径</li>
-<li>无环路(DAG)：不包含任何环路的图</li>
-<li>欧哈路：覆盖所有的点</li>
-<li>哈密尔顿：覆盖所有点，每个顶点有且仅经过一次</li>
-</ul>
-<h3 id="邻接矩阵（adjacency-matrix）"><a href="#邻接矩阵（adjacency-matrix）" class="headerlink" title="邻接矩阵（adjacency matrix）"></a>邻接矩阵（adjacency matrix）</h3><ul>
-<li>接口</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Tv, <span class="keyword">typename</span> Te&gt; <span class="class"><span class="keyword">class</span> <span class="title">Graph</span> &#123;</span></span><br><span class="line">    <span class="keyword">private</span>:</span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">reset</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; ++i)&#123; <span class="comment">//顶点</span></span><br><span class="line">                status(i) = UNDISCOVERED;</span><br><span class="line">                dTime(i) = fTime(i) = <span class="number">-1</span>;</span><br><span class="line">                parent(i) = <span class="number">-1</span>;</span><br><span class="line">                priority(i) = INT_MAX;</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; n; j++) <span class="comment">//边</span></span><br><span class="line">                    <span class="keyword">if</span> (exists(i, j))</span><br><span class="line">                        status(i, j) = UNDETERMINED;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    <span class="keyword">public</span>: </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>顶点的实现（Vertex）：邻接矩阵</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">enum</span> &#123; UNDISCOVERED, DISCOVERED, VISITED&#125; VStatus;</span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Tv&gt; <span class="class"><span class="keyword">struct</span> <span class="title">Vertex</span> &#123;</span></span><br><span class="line">    Tc data; <span class="comment">//数据</span></span><br><span class="line">    <span class="keyword">int</span> inDegree, outDegree; <span class="comment">//入度出度</span></span><br><span class="line">    VStatus status; <span class="comment">//状态</span></span><br><span class="line">    <span class="keyword">int</span> dTime, fTime; <span class="comment">//时间标签</span></span><br><span class="line">    <span class="keyword">int</span> parent;  <span class="comment">//父节点</span></span><br><span class="line">    <span class="keyword">int</span> priority;  <span class="comment">//优先级</span></span><br><span class="line">    Vertex( Tv <span class="keyword">const</span> &amp; d) :  <span class="comment">//构造初始化新顶点</span></span><br><span class="line">    data(d), inDegree(<span class="number">0</span>), outDegree(<span class="number">0</span>), </span><br><span class="line">    status(UNDISCOVERED), dTime(<span class="number">-1</span>),</span><br><span class="line">     fTime(<span class="number">-1</span>), priority(INT_MAX) &#123;&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>边的实现（Edge）：</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">enum</span> &#123; UNDETERMINED, TREE, CROSS, FORWORD, BACKWAED &#125; EStatus;</span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Te&gt; <span class="class"><span class="keyword">struct</span> <span class="title">Edge</span> &#123;</span></span><br><span class="line">    Te data;  <span class="comment">//数据</span></span><br><span class="line">    <span class="keyword">int</span> weight;  <span class="comment">//权重</span></span><br><span class="line">    EStatus status;  <span class="comment">//类型</span></span><br><span class="line">    Edge( Te <span class="keyword">const</span> &amp; d, <span class="keyword">int</span> w ):data(d), weight(w), status(UNDETERMINED) &#123;&#125; </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>图的实现(GraphMatrix)：利用向量和邻接矩阵实现，适用稠密图，效率高</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Te, <span class="keyword">typename</span> Tv&gt; <span class="class"><span class="keyword">class</span> <span class="title">GraphMatrix</span> :</span> <span class="keyword">public</span> Graph&lt;Tv, Te&gt; &#123;</span><br><span class="line">    <span class="keyword">private</span>:</span><br><span class="line">        Vector&lt; Vertex&lt;Tv&gt; &gt; V;   <span class="comment">//顶点集</span></span><br><span class="line">        Vector&lt; Vector&lt; Edge&lt;Te&gt;* &gt; &gt; E;    <span class="comment">//边集</span></span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">        GraphMatrix() &#123; n = e = <span class="number">0</span>;&#125;</span><br><span class="line">        ~GraphMatrix() &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; n; ++j)</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; n; ++k)</span><br><span class="line">                    <span class="keyword">delete</span> E[j][k];</span><br><span class="line">        &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>顶点操作</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//顶点操作  </span></span><br><span class="line"><span class="function">Tv &amp; <span class="title">Vertex</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123; <span class="keyword">return</span> V[i].data &#125;</span><br><span class="line"><span class="comment">//...</span></span><br><span class="line"><span class="comment">//枚举邻接顶点，逆序查找</span></span><br><span class="line"><span class="keyword">int</span> NextNbr(<span class="keyword">int</span> i, <span class="keyword">int</span> j) &#123;</span><br><span class="line">    <span class="keyword">while</span> ( (<span class="number">-1</span> &lt; j) &amp;&amp; !exists(i, --j) )</span><br><span class="line">        ;</span><br><span class="line">    <span class="keyword">return</span> j;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">firstNbr</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> NextNbr(i, n);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//顶点插入</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">insert</span><span class="params">(Tv <span class="keyword">const</span> &amp; vertex)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; ++i)</span><br><span class="line">        E[j].insert(<span class="literal">NULL</span>);</span><br><span class="line">    n++;</span><br><span class="line">    E.insert( Vector&lt; Edge&lt;Te&gt;* &gt;( n, n, <span class="literal">NULL</span>) );</span><br><span class="line">    <span class="keyword">return</span> V.insert( Vertex&lt;Tv&gt;(vertex) ); </span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//顶点删除</span></span><br><span class="line"><span class="function">Tv <span class="title">remove</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; ++i)</span><br><span class="line">        <span class="keyword">if</span>(exists(i, j))&#123;</span><br><span class="line">            <span class="keyword">delete</span> E[i][j];</span><br><span class="line">            V[j].inDegree--;</span><br><span class="line">        &#125;</span><br><span class="line">    E.remove(i);</span><br><span class="line">    n--;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; n; j++)</span><br><span class="line">        <span class="keyword">if</span> ( exists(j ,i) )&#123;</span><br><span class="line">            <span class="keyword">delete</span> E[j].remove(i);</span><br><span class="line">            V[j].outDegree--;</span><br><span class="line">        &#125;</span><br><span class="line">    Tv vBak = vertex(i);</span><br><span class="line">    V.remove(i);</span><br><span class="line">    <span class="keyword">return</span> vBak;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>边操作</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//边操作</span></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">exists</span><span class="params">(<span class="keyword">int</span> i, <span class="keyword">int</span> j)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (<span class="number">0</span> &lt;= i) &amp;&amp; (i &lt; n) &amp;&amp; (<span class="number">0</span> &lt;= j) &amp;&amp; (j &lt; n) &amp;&amp; E[i][j] != <span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function">Te &amp; <span class="title">edge</span><span class="params">(<span class="keyword">int</span> i, <span class="keyword">int</span> j)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> E[i][j]-&gt;data;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//...</span></span><br><span class="line"><span class="comment">//边插入</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">insert</span><span class="params">( Te <span class="keyword">const</span>&amp; edge, <span class="keyword">int</span> w, <span class="keyword">int</span> i, <span class="keyword">int</span> j)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>( exists(i, j) )</span><br><span class="line">        <span class="keyword">return</span> ;    <span class="comment">//忽略已有的边</span></span><br><span class="line">    E[i][j] = <span class="keyword">new</span> Edge&lt;Te&gt;(edge, w); <span class="comment">//创建新边</span></span><br><span class="line">    e++;  <span class="comment">//更新信息</span></span><br><span class="line">    V[i].outDegree++;</span><br><span class="line">    V[i].inDegree++;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//边删除</span></span><br><span class="line"><span class="function">Te <span class="title">remove</span><span class="params">(<span class="keyword">int</span> i, <span class="keyword">int</span> j)</span> </span>&#123;</span><br><span class="line">    Te eBak = edge(i, j);</span><br><span class="line">    <span class="keyword">delete</span> E[i][j];</span><br><span class="line">    E[i][j] = <span class="literal">NULL</span>;</span><br><span class="line">    e--;</span><br><span class="line">    V[i].outDegree--;</span><br><span class="line">    V[j].inDegree--;</span><br><span class="line">    <span class="keyword">return</span> eBak;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="广度优先搜索（BF-Search）"><a href="#广度优先搜索（BF-Search）" class="headerlink" title="广度优先搜索（BF-Search）"></a>广度优先搜索（BF-Search）</h3><blockquote>
-<p>化繁为简：遍历（图-&gt;树）</p>
-</blockquote>
-<ul>
-<li><p>算法：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1. 访问顶点s</span><br><span class="line">2. 访问s所有尚未访问的邻接顶点</span><br><span class="line">3. 依次访问它们尚未访问的邻接顶点</span><br><span class="line">4. 如此反复</span><br><span class="line">实际上：树的层次遍历</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>图示：</p>
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">        </span><br><span class="line">        a     </span><br><span class="line">      / | \ </span><br><span class="line">     s  |  e</span><br><span class="line">    / \ |  | \    遍历前</span><br><span class="line">   d    c  |  f      </span><br><span class="line">    \ /    | /</span><br><span class="line">     b-----g</span><br><span class="line">        a</span><br><span class="line">      /   \ </span><br><span class="line">     s     e</span><br><span class="line">    / \    | \    遍历后</span><br><span class="line">   d    c  |  f    </span><br><span class="line">      /    | </span><br><span class="line">     b     g</span><br><span class="line">队列 s-&gt;a-&gt;c-&gt;d-&gt;e-&gt;b-&gt;f-&gt;g</span><br></pre></td></tr></table></figure>
-<ul>
-<li>实现：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">//练习</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h3 id="深度优先搜索-DF-Search"><a href="#深度优先搜索-DF-Search" class="headerlink" title="深度优先搜索(DF-Search)"></a>深度优先搜索(DF-Search)</h3><ul>
-<li>算法：</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1. 访问顶点s</span><br><span class="line">2. 尚有未被访问的邻居，任取其一u，递归执行DFS(u),否则返回</span><br></pre></td></tr></table></figure>
-<ul>
-<li>图示:</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">        j</span><br><span class="line">        |</span><br><span class="line">    i---g---h</span><br><span class="line">    | /   \ |</span><br><span class="line">    d   e   f</span><br><span class="line">    | / |   |</span><br><span class="line">    a --b---c</span><br><span class="line">    </span><br><span class="line">        j</span><br><span class="line">        |</span><br><span class="line">    i---g---h</span><br><span class="line">    |       |</span><br><span class="line">    d   e   f</span><br><span class="line">        |   |</span><br><span class="line">    a --b---c</span><br><span class="line">队列: a-&gt;b-&gt;c-&gt;f-&gt;h-&gt;g-&gt;j-&gt;i-&gt;d-&gt;e</span><br></pre></td></tr></table></figure>
-<ul>
-<li>实现：</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">//练习</span><br></pre></td></tr></table></figure>
-
+        
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/08/30/t-course_ds_006/" data-id="cjwvqj49a001s2jjdmkb7y95q" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2018/02/13/react 初探 上/" data-id="cjwvu9vh90013jfjd1f6rkcgn" class="article-share-link">分享</a>
       
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据结构/">数据结构</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/React/">React</a></li></ul>
 
     </footer>
   </div>
@@ -300,14 +165,14 @@
 
 
   
-    <article id="post-t-course_ds_005" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-t-note_kj_001" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2015/08/25/t-course_ds_005/" class="article-date">
-  <time datetime="2015-08-25T14:58:11.000Z" itemprop="datePublished">2015-08-25</time>
+    <a href="/2018/01/17/t-note_kj_001/" class="article-date">
+  <time datetime="2018-01-17T14:34:22.000Z" itemprop="datePublished">2018-01-17</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/编程基础/">编程基础</a>
+    <a class="article-category-link" href="/categories/通用工具/">通用工具</a>
   </div>
 
   </div>
@@ -318,7 +183,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/08/25/t-course_ds_005/">《数据结构》笔记：二叉树</a>
+      <a class="article-title" href="/2018/01/17/t-note_kj_001/">各大编辑器快捷键收集</a>
     </h1>
   
 
@@ -328,405 +193,19 @@
       
         <!-- Table of Contents -->
         
-        <blockquote>
-<p>半线性结构，二维的列表，特殊的图</p>
-</blockquote>
-<h3 id="树-tree"><a href="#树-tree" class="headerlink" title="树(tree)"></a>树(tree)</h3><ul>
-<li>有根树：指定任一节点r 属于 V作为根后，T即称有根树(rooted tree)</li>
-<li>有序树：</li>
-<li><ul>
-<li>子树树根称孩子，同一父亲的子树之间称兄弟</li>
+        <h4 id="Sublime-text-转载"><a href="#Sublime-text-转载" class="headerlink" title="Sublime text [转载]"></a>Sublime text [转载]</h4><ul>
+<li>Mac版</li>
 </ul>
-</li>
-<li><ul>
-<li>关系：边数 = 所有定点度数之和 = 所有顶点-1 = O（n）</li>
-</ul>
-</li>
-<li><ul>
-<li>定义：指定孩子的顺序，称T为有序数</li>
-</ul>
-</li>
-<li>路径环路：</li>
-<li><ul>
-<li>k条边依次相连，构成一条路径(path)</li>
-</ul>
-</li>
-<li><ul>
-<li>长度：边的数目</li>
-</ul>
-</li>
-<li><ul>
-<li>环路：其中的某个顶点短路</li>
-</ul>
-</li>
-<li>连通无环：</li>
-<li><ul>
-<li>连通图：节点之间均有路径（边数多）</li>
-</ul>
-</li>
-<li><ul>
-<li>无环图：不含环路（边数少）</li>
-</ul>
-</li>
-<li>树与图：无环连通图，任何节点与根之间存在唯一路径，每个顶点都有了一个长度path(V)</li>
-<li>深度层次：</li>
-<li><ul>
-<li>路径节点子树可以相互指代</li>
-</ul>
-</li>
-<li><ul>
-<li>深度：depth(v) = | path(v) |</li>
-</ul>
-</li>
-<li><ul>
-<li>祖先后代：路径上的节点均为v的祖先，v是它们的后代</li>
-</ul>
-</li>
-<li><ul>
-<li>真祖先后代：除开自己的</li>
-</ul>
-</li>
-<li><ul>
-<li>半线性：任一深度，祖先唯一，后代未必唯一</li>
-</ul>
-</li>
-<li><ul>
-<li>根：所有节点的公共祖先，深度为0，无祖先</li>
-</ul>
-</li>
-<li><ul>
-<li>叶子：没有后代的节点，出度为0</li>
-</ul>
-</li>
-<li><ul>
-<li>高度：所有叶子深度的最大值称树的高度，空树（一个节点没有）的高度为-1</li>
-</ul>
-</li>
-</ul>
-<h3 id="树的表示"><a href="#树的表示" class="headerlink" title="树的表示"></a>树的表示</h3><ul>
-<li>接口：</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>节点</th>
-<th>功能</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>root()</td>
-<td>根节点</td>
-</tr>
-<tr>
-<td>parent()</td>
-<td>父节点</td>
-</tr>
-<tr>
-<td>firstChild()</td>
-<td>长子</td>
-</tr>
-<tr>
-<td>nexrSibling()</td>
-<td>兄弟</td>
-</tr>
-<tr>
-<td>insert(i, e)</td>
-<td>第i个孩子插入</td>
-</tr>
-<tr>
-<td>remove(i)</td>
-<td>删除第i个孩子</td>
-</tr>
-<tr>
-<td>traverse()</td>
-<td>遍历</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li>父节点实现：</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>rank</th>
-<th>data</th>
-<th>parent</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>0</td>
-<td>A</td>
-<td>-1</td>
-</tr>
-<tr>
-<td>1</td>
-<td>B</td>
-<td>0</td>
-</tr>
-<tr>
-<td>2</td>
-<td>C</td>
-<td>0</td>
-</tr>
-<tr>
-<td>3</td>
-<td>D</td>
-<td>0</td>
-</tr>
-<tr>
-<td>4</td>
-<td>E</td>
-<td>1</td>
-</tr>
-<tr>
-<td>5</td>
-<td>F</td>
-<td>1</td>
-</tr>
-<tr>
-<td>6</td>
-<td>G</td>
-<td>3</td>
-</tr>
-<tr>
-<td>7</td>
-<td>H</td>
-<td>6</td>
-</tr>
-<tr>
-<td>8</td>
-<td>I</td>
-<td>6</td>
-</tr>
-<tr>
-<td>9</td>
-<td>J</td>
-<td>6</td>
-</tr>
-</tbody>
-</table>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//空间性能： O(n)</span><br><span class="line">//时间性能</span><br><span class="line">//parent(): O(1)</span><br><span class="line">//root(): O(n)或O(1)</span><br><span class="line">//firstChild(): O(n) //不好</span><br><span class="line">//nextSibling(): O(n) //不好</span><br></pre></td></tr></table></figure>
-<ul>
-<li>子节点实现：</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>rank</th>
-<th>data</th>
-<th>children</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>0</td>
-<td>A</td>
-<td>35</td>
-</tr>
-<tr>
-<td>1</td>
-<td>B</td>
-<td>-1</td>
-</tr>
-<tr>
-<td>2</td>
-<td>C</td>
-<td>-1</td>
-</tr>
-<tr>
-<td>3</td>
-<td>D</td>
-<td>-1</td>
-</tr>
-<tr>
-<td>4</td>
-<td>E</td>
-<td>012</td>
-</tr>
-<tr>
-<td>5</td>
-<td>F</td>
-<td>-1</td>
-</tr>
-<tr>
-<td>6</td>
-<td>G</td>
-<td>789</td>
-</tr>
-<tr>
-<td>7</td>
-<td>H</td>
-<td>-1</td>
-</tr>
-<tr>
-<td>8</td>
-<td>I</td>
-<td>-1</td>
-</tr>
-<tr>
-<td>9</td>
-<td>J</td>
-<td>-1</td>
-</tr>
-</tbody>
-</table>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//空间性能： O(n)</span><br><span class="line">//时间性能</span><br><span class="line">//parent(): O(n) //不好</span><br><span class="line">//root(): O(n)或O(1)</span><br><span class="line">//firstChild(): O(1) </span><br><span class="line">//nextSibling(): O(1)</span><br></pre></td></tr></table></figure>
-<ul>
-<li>组合实现：</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>rank</th>
-<th>data</th>
-<th>parent</th>
-<th>children</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>0</td>
-<td>A</td>
-<td>4</td>
-<td>35</td>
-</tr>
-<tr>
-<td>1</td>
-<td>B</td>
-<td>4</td>
-<td>-1</td>
-</tr>
-<tr>
-<td>2</td>
-<td>C</td>
-<td>4</td>
-<td>6</td>
-</tr>
-<tr>
-<td>3</td>
-<td>D</td>
-<td>0</td>
-<td>-1</td>
-</tr>
-<tr>
-<td>4</td>
-<td>E</td>
-<td>-1</td>
-<td>012</td>
-</tr>
-<tr>
-<td>5</td>
-<td>F</td>
-<td>0</td>
-<td>-1</td>
-</tr>
-<tr>
-<td>6</td>
-<td>G</td>
-<td>2</td>
-<td>789</td>
-</tr>
-<tr>
-<td>7</td>
-<td>H</td>
-<td>6</td>
-<td>-1</td>
-</tr>
-<tr>
-<td>8</td>
-<td>I</td>
-<td>6</td>
-<td>-1</td>
-</tr>
-<tr>
-<td>9</td>
-<td>J</td>
-<td>6</td>
-<td>-1</td>
-</tr>
-</tbody>
-</table>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//空间性能： O(n)</span><br><span class="line">//时间性能</span><br><span class="line">//parent(): O(1) </span><br><span class="line">//root(): O(n)或O(1)</span><br><span class="line">//firstChild(): O(1) </span><br><span class="line">//nextSibling(): O(1) //不好</span><br></pre></td></tr></table></figure>
-<ul>
-<li>长子兄弟法:设2个引用，纵firstChild(), 横nextSibling()</li>
-</ul>
-<h3 id="二叉树-binary-tree-节点度数不超过2"><a href="#二叉树-binary-tree-节点度数不超过2" class="headerlink" title="二叉树(binary tree):节点度数不超过2"></a>二叉树(binary tree):节点度数不超过2</h3><ul>
-<li>左右孩子：lChild–&gt;lSubTree,rChild–&gt;rSubtree隐含了树的有序性</li>
-<li>基数：深度为k的节点，至多2^k个，含n个节点，高度为h的二叉树 h &lt; n &lt; 2^(h+1)</li>
-<li>满树：顶点树最大，饱和状态，宽度2^h</li>
-<li>度与节点：0度叶子，1度单分支，2度双分支</li>
-<li>真二叉树：所有节点度数为0或2，补全1度节点（假想策略）</li>
-<li>描述二叉树:二叉树是多叉树的特例，有根有序时能力足以覆盖后者</li>
-<li>多叉树化二叉树</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1. 长子兄弟法</span><br><span class="line">2. 向左45度旋转</span><br></pre></td></tr></table></figure>
-<ul>
-<li>二叉树化树</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1. 若某结点是其双亲的左儿子，则把该结点的右儿子，右儿子的右儿子，...都与该结点的双亲结点用线连起来；</span><br><span class="line">2. 删掉原二叉树中所有的双亲结点与右儿子结点的连线；</span><br><span class="line">3. 整理由两步所得到的树，使之结构层次分明。</span><br></pre></td></tr></table></figure>
-<h3 id="二叉树实现"><a href="#二叉树实现" class="headerlink" title="二叉树实现"></a>二叉树实现</h3><ul>
-<li>节点实现(BinNode)</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> BinNodePosi(T) BinNode<span class="meta-string">&lt;T&gt;*</span></span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="class"><span class="keyword">struct</span> <span class="title">BinNode</span> &#123;</span></span><br><span class="line">    BinNodePosi(T) parent, lChild, rChild; <span class="comment">//父亲孩子</span></span><br><span class="line">    T data; <span class="comment">//数据</span></span><br><span class="line">    <span class="keyword">int</span> height; <span class="comment">//高度</span></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">size</span><span class="params">()</span></span>; <span class="comment">//规模</span></span><br><span class="line">    BinNodePosi(T) insertAsLc(T <span class="keyword">const</span> &amp;); <span class="comment">//插入左子</span></span><br><span class="line">    BinNodePosi(T) insertAsRc(T <span class="keyword">const</span> &amp;); <span class="comment">//插入右子</span></span><br><span class="line">    BinNodePosi(T) succ(); <span class="comment">//（中序）后继</span></span><br><span class="line">    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> VST&gt; <span class="function"><span class="keyword">void</span> <span class="title">travLevel</span><span class="params">( VST &amp; )</span></span>; <span class="comment">//层次遍历</span></span><br><span class="line">    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> VST&gt; <span class="function"><span class="keyword">void</span> <span class="title">travIn</span><span class="params">( VST &amp; )</span></span>; <span class="comment">//中序遍历</span></span><br><span class="line">    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> VST&gt; <span class="function"><span class="keyword">void</span> <span class="title">travPost</span><span class="params">( VST &amp; )</span></span>; <span class="comment">//后序遍历</span></span><br><span class="line">&#125; <span class="comment">//O(1)</span></span><br><span class="line"><span class="comment">//插入左子</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; BinNodePosi(T) BinNode&lt;T&gt;::insertAsLc(T <span class="keyword">const</span> &amp;) &#123;</span><br><span class="line">    <span class="keyword">return</span> lChild = <span class="keyword">new</span> BinNode( e, <span class="keyword">this</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//插入右子</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; BinNodePosi(T) BinNode&lt;T&gt;::insertAsRc(T <span class="keyword">const</span> &amp;) &#123;</span><br><span class="line">    <span class="keyword">return</span> rChild = <span class="keyword">new</span> BinNode( e, <span class="keyword">this</span>);</span><br><span class="line">&#125;<span class="comment">//O(1)</span></span><br><span class="line"><span class="comment">//规模</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">int</span> BinNode&lt;T&gt;::size() &#123;</span><br><span class="line">    <span class="keyword">int</span> s = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span> (lChild) </span><br><span class="line">        s += lChild-&gt;size();</span><br><span class="line">    <span class="keyword">if</span> (rChild)</span><br><span class="line">        s += rChild-&gt;size();</span><br><span class="line">    <span class="keyword">return</span> s;</span><br><span class="line">&#125;<span class="comment">//O(n)</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>二叉树实现接口(BinTree)</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> stature ((p) ? (p)-&gt;height : -1)</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="class"><span class="keyword">class</span> <span class="title">BinTree</span> &#123;</span></span><br><span class="line">    <span class="keyword">protected</span>:</span><br><span class="line">        <span class="keyword">int</span> _size; <span class="comment">//规模</span></span><br><span class="line">        BinNodePosi(T) _root; <span class="comment">//根节点</span></span><br><span class="line">        virtual int updateHeight( BinNodePosi(T) x );</span><br><span class="line">        void updateHeightAbout( BinNodePosi(T) x );</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">        <span class="function"><span class="keyword">int</span> <span class="title">size</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123; <span class="keyword">return</span> _size; &#125;</span><br><span class="line">        <span class="function"><span class="keyword">bool</span> <span class="title">empty</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123; <span class="keyword">return</span> _root; &#125;</span><br><span class="line">        BinNodePosi(T) root() <span class="keyword">const</span> &#123; <span class="keyword">return</span> _root; &#125;</span><br><span class="line">        <span class="comment">//接入删除分离</span></span><br><span class="line">        <span class="comment">//遍历</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li><p>更新高度</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">int</span> BinTree&lt;T&gt;::updateHeight( BinNodePosi(T) x ) &#123;</span><br><span class="line">    <span class="keyword">return</span> x-&gt;height = <span class="number">1</span> +</span><br><span class="line">    max( stature(x-&gt;lChild), stature(x-&gt;rChild) );</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">void</span> BinTree&lt;T&gt;::updateHeightAbout( BinNodePosi(T) x ) &#123;</span><br><span class="line">    <span class="keyword">while</span> (x) &#123;</span><br><span class="line">        updateHeight(x);</span><br><span class="line">        x = x-&gt;parent;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>节点插入</p>
-</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; BinNodePosi(T) BinTree&lt;T&gt;::insertAsRC( BinNodePosi(T) x, T <span class="keyword">const</span> &amp;e)&#123;</span><br><span class="line">    _size++;</span><br><span class="line">    x-&gt;insertAsRC(e);</span><br><span class="line">    updateHeightAbout(x);</span><br><span class="line">    <span class="keyword">return</span> x-&gt;rChild;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="先序遍历"><a href="#先序遍历" class="headerlink" title="先序遍历"></a>先序遍历</h3><p><em>不要从轮子造起，利用之前的工作</em></p>
-<ul>
-<li>按照某种次序访问，每个节点被访问恰好一次</li>
-<li>遍历结果：先序，中序，后序</li>
-<li>区别：局部的根节点的访问顺序</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">先序：V --&gt; L --&gt; R</span><br><span class="line">中序：L --&gt; V --&gt; R</span><br><span class="line">后序：L --&gt; R --&gt; V</span><br><span class="line">//左子树总是在右子树之前</span><br></pre></td></tr></table></figure>
-<ul>
-<li>递归实现：</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">template &lt;typename T&gt; void traverse( BinNodePosi(T) x, VST &amp; visit) &#123;</span><br><span class="line">    <span class="keyword">if</span> ( !x )</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    visit( x-&gt;data );   <span class="comment">//访问根</span></span><br><span class="line">    traverse( x-&gt;lChild, visit ); <span class="comment">//访问左子树</span></span><br><span class="line">    traverse( x-&gt;rChild, visit ); <span class="comment">//访问右子树</span></span><br><span class="line">&#125; <span class="comment">//O(n)渐进的</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>改进1(迭代)</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">template &lt;typename T, typename VST&gt; void travPre_I1( BinNodePosi(T) x, VST &amp; visit) &#123;</span><br><span class="line">    Stack &lt;BinNodePosi(T)&gt; S; <span class="comment">//辅助栈</span></span><br><span class="line">    <span class="keyword">if</span> ( x )   <span class="comment">//根入栈</span></span><br><span class="line">        S.push(x); </span><br><span class="line">    <span class="keyword">while</span> ( !S.empty() ) &#123;</span><br><span class="line">        x = S.pop(); <span class="comment">//出栈并访问当前节点</span></span><br><span class="line">        visit( x-&gt;data );</span><br><span class="line">        <span class="keyword">if</span>( HasRChild( *x ) )  <span class="comment">//右孩子先进后出</span></span><br><span class="line">            S.push( x-&gt;rChild );</span><br><span class="line">        <span class="keyword">if</span>( HasLChild( *x ) )  <span class="comment">//左孩子先出后进</span></span><br><span class="line">            S.push( x-&gt;lChild );</span><br><span class="line">    &#125;</span><br><span class="line">&#125; <span class="comment">//无法推广</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>改进2(左侧下行迭代)</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">template &lt;typename T, typename VST&gt; void travPre_I2( BinNodePosi(T) x, VST &amp; visit ) &#123;</span><br><span class="line">    Stack &lt;BinNodePosi(T)&gt; S;  <span class="comment">//辅助栈</span></span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>) &#123;             <span class="comment">//以右子树为单位，逐批访问节点</span></span><br><span class="line">        visitAlongLeftBranch(x, visit, S);</span><br><span class="line">        <span class="keyword">if</span>( S.empty() )        <span class="comment">//栈空即退出</span></span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        x = S.pop();           <span class="comment">//弹出下一个子树的根</span></span><br><span class="line">    &#125; <span class="comment">//pop = push = visit = O(n) = 分摊O(1)</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> VST&gt; </span><br><span class="line">static void visitAlongLeftBranch( BinNodePosi(T) x, VST &amp; visit, Stack&lt;BinNodePosi(T)&gt; &amp; S) &#123;</span><br><span class="line">    <span class="keyword">while</span> (x) &#123;</span><br><span class="line">        visit( x-&gt;data );</span><br><span class="line">        S-&gt;pash( x-&gt;rChild );  <span class="comment">//右孩子入栈</span></span><br><span class="line">        x = x-&gt;lChild;         <span class="comment">//沿左侧下行</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="中序遍历"><a href="#中序遍历" class="headerlink" title="中序遍历"></a>中序遍历</h3><ul>
-<li>递归实现</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">template &lt;typename T, typename VST&gt; void traverse( BinNodePosi(T) x, VST &amp; visit) &#123;</span><br><span class="line">    <span class="keyword">if</span> ( !x )</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    traverse( x-&gt;lChild, visit ); <span class="comment">//访问左子树O(a)</span></span><br><span class="line">    visit( x-&gt;data );   <span class="comment">//访问根O(1)</span></span><br><span class="line">    traverse( x-&gt;rChild, visit ); <span class="comment">//访问右子树O(n-1-a)</span></span><br><span class="line">&#125; <span class="comment">//O(n)渐进的</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>改进：左侧下行迭代</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">template &lt;typename T, typename VST&gt; void travIn_I2( BinNodePosi(T) x, VST &amp; visit ) &#123;</span><br><span class="line">    Stack &lt;BinNodePosi(T)&gt; S;  <span class="comment">//辅助栈</span></span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>) &#123;             <span class="comment">//以右子树为单位，逐批访问节点</span></span><br><span class="line">        goAlongLeftBranch(x, visit, S);</span><br><span class="line">        <span class="keyword">if</span>( S.empty() )        <span class="comment">//栈空即退出</span></span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        x = S.pop();</span><br><span class="line">        visit( x-&gt;data );      <span class="comment">//立即访问</span></span><br><span class="line">        x = x-&gt;rChild;         <span class="comment">//转向右子树</span></span><br><span class="line">    &#125; <span class="comment">//pop = push = visit = O(n) = 分摊O(1)</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> VST&gt; </span><br><span class="line">static void goAlongLeftBranch( BinNodePosi(T) x, VST &amp; visit, Stack&lt;BinNodePosi(T)&gt; &amp; S) &#123;</span><br><span class="line">    <span class="keyword">while</span> (x) &#123;</span><br><span class="line">        S-&gt;pash( x-&gt;rChild );  <span class="comment">//右孩子入栈 </span></span><br><span class="line">        x = x-&gt;lChild;         <span class="comment">//沿左侧下行</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;<span class="comment">//每一个节点都只有一个入栈动作，实际只有O(n)复杂度，分摊分析，优于递归</span></span><br></pre></td></tr></table></figure>
-<h3 id="层次遍历：借助队列"><a href="#层次遍历：借助队列" class="headerlink" title="层次遍历：借助队列"></a>层次遍历：借助队列</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> VST&gt; <span class="function"><span class="keyword">void</span> <span class="title">traverse</span><span class="params">( VST &amp; visit)</span> </span>&#123;</span><br><span class="line">    Queue &lt;BinNodePosi(T)&gt; Q; <span class="comment">//辅助栈</span></span><br><span class="line">    Q.enqueue( <span class="keyword">this</span> ); </span><br><span class="line">    <span class="keyword">while</span> ( !Q.empty() ) &#123;</span><br><span class="line">        BinNodePosi(T) x = Q.dequeue(); <span class="comment">//出列并访问当前节点</span></span><br><span class="line">        visit( x-&gt;data );</span><br><span class="line">        <span class="keyword">if</span>( HasLChild( *x ) )  <span class="comment">//左孩子先进先出</span></span><br><span class="line">            Q.enqueue( x-&gt;lChild );</span><br><span class="line">        <span class="keyword">if</span>( HasRChild( *x ) )  <span class="comment">//右孩子后进后出</span></span><br><span class="line">            Q.enqueue( x-&gt;rChild );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="重构：已知三种遍历序列其中2种还原二叉树"><a href="#重构：已知三种遍历序列其中2种还原二叉树" class="headerlink" title="重构：已知三种遍历序列其中2种还原二叉树"></a>重构：已知三种遍历序列其中2种还原二叉树</h3><ul>
-<li>中序 + 先序/后序：数学归纳法</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">证明：</span><br><span class="line">preorder:              r -&gt; [L] -&gt; [R]</span><br><span class="line">inorder:        [L] -&gt; r -&gt; [R]</span><br><span class="line">postorder：[L]-&gt;[R] -&gt; r        </span><br><span class="line">定位r，判断左右子树，递归实现</span><br><span class="line">                A</span><br><span class="line">            B      C</span><br><span class="line">        D        E</span><br><span class="line">                   F</span><br><span class="line">先序： A  B  D  C  E  F</span><br><span class="line">中序： D  B  A  E  F  C</span><br><span class="line">后序： D  B  F  E  C  A</span><br><span class="line">先+中</span><br><span class="line">1. root:A   L:DB   R:EFC</span><br><span class="line">2. root:B   L:D,  root:C , root:C  L:EF</span><br><span class="line">3. root:E   R:F</span><br><span class="line">后+中</span><br><span class="line">1. root:A   L:DB   R:EFC</span><br><span class="line">2. root:C   L:EF,  root:B  L:D </span><br><span class="line">3. root:E   R:E</span><br><span class="line">//技巧，先序后序确定根，中序确定左右分支</span><br></pre></td></tr></table></figure>
-<ul>
-<li>先序 + 后序 + 真二叉树：</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">                A</span><br><span class="line">            B      C</span><br><span class="line">           D E    F G</span><br><span class="line">                   H I</span><br><span class="line">先序： A  B  D  E  C  F  G  H  I</span><br><span class="line">后序： D  E  B  F  H  I  G  C  A</span><br><span class="line">1. root: A   L: BDE    R:CFGHI</span><br><span class="line">2. root: B   L: D      R:E, root:C   L:F    R:GHI</span><br><span class="line">3. root: G   L: H      R:I</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">作者：77plus</span><br><span class="line">链接：https://www.zhihu.com/question/39190896/answer/264524567</span><br><span class="line"></span><br><span class="line">cmd+n 新建页面</span><br><span class="line">cmd+数字键 切换到对应页面</span><br><span class="line">cmd+p 搜索跳转到对应页</span><br><span class="line">cmd+w 关闭页面</span><br><span class="line">cmd+j 合并一行</span><br><span class="line">cmd+d 选中当前单词，继续敲可以选中多个</span><br><span class="line">cmd+l 选中当前行</span><br><span class="line">cmd+z 撤销</span><br><span class="line">cmd+c 复制</span><br><span class="line">cmd+v 粘贴</span><br><span class="line">cmd+s 保存</span><br><span class="line">cmd+x 删除当前行</span><br><span class="line">cmd+delete 删除光标定位到当前行起始的一块</span><br><span class="line">cmd+]缩进当前行，[回缩当前行，对应tab/<span class="built_in">shift</span>+tab功能</span><br><span class="line">cmd+enter 向下开辟一行</span><br><span class="line">cmd+<span class="built_in">shift</span>+enter 向上开辟一行</span><br><span class="line">cmd+f 查询内容</span><br><span class="line">cmd+<span class="built_in">shift</span>+f 全局查询，可替换</span><br><span class="line">cmd+g 查询到的内容下一个</span><br><span class="line">cmd+鼠标右键 多点编辑</span><br><span class="line">cmd+~ 调出控制台</span><br><span class="line">cmd+k <span class="keyword">then</span> u 大写</span><br><span class="line">cmd+k <span class="keyword">then</span> l 小写</span><br><span class="line">cmd+<span class="built_in">shift</span>+p 调出命令面板</span><br><span class="line">cmd+⬅️ 光标定位到当前行最前 +<span class="built_in">shift</span> 选中</span><br><span class="line">cmd+➡️ 光标定位到当前行最后 +<span class="built_in">shift</span> 选中</span><br><span class="line">cmd+⬇️ 光标定位到当前页最后 +<span class="built_in">shift</span> 选中</span><br><span class="line">cmd+⬆️ 光标定位到当前页最前 +<span class="built_in">shift</span> 选中</span><br><span class="line"></span><br><span class="line">ctrl+g 跳转到对应行号</span><br><span class="line">ctrl+tab 切换到下一个页面</span><br><span class="line">ctrl+<span class="built_in">shift</span>+tab 切换到上一个页面</span><br><span class="line">ctrl+delete 删除光标定位到当前单词起始的一块</span><br><span class="line"></span><br><span class="line">opt+鼠标左键 纵向选择编辑</span><br><span class="line">opt+⬅️ 光标定位到当前块最前 +<span class="built_in">shift</span> 选中</span><br><span class="line">opt+➡️ 光标定位到当前块最后 +<span class="built_in">shift</span> 选中</span><br></pre></td></tr></table></figure>
+<h4 id="Vim"><a href="#Vim" class="headerlink" title="Vim"></a>Vim</h4>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/08/25/t-course_ds_005/" data-id="cjwvqj4ay005v2jjdf3t8lhp0" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2018/01/17/t-note_kj_001/" data-id="cjwvu9vil004ejfjd7n36rfbm" class="article-share-link">分享</a>
       
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据结构/">数据结构</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/编辑器/">编辑器</a></li></ul>
 
     </footer>
   </div>
@@ -736,14 +215,14 @@
 
 
   
-    <article id="post-t-course_ds_004" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-t-note_git_001" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2015/08/20/t-course_ds_004/" class="article-date">
-  <time datetime="2015-08-20T04:22:23.000Z" itemprop="datePublished">2015-08-20</time>
+    <a href="/2017/12/23/t-note_git_001/" class="article-date">
+  <time datetime="2017-12-23T12:33:23.000Z" itemprop="datePublished">2017-12-23</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/编程基础/">编程基础</a>
+    <a class="article-category-link" href="/categories/通用工具/">通用工具</a>
   </div>
 
   </div>
@@ -754,7 +233,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/08/20/t-course_ds_004/">《数据结构》笔记：栈</a>
+      <a class="article-title" href="/2017/12/23/t-note_git_001/">git熟练运用</a>
     </h1>
   
 
@@ -764,76 +243,46 @@
       
         <!-- Table of Contents -->
         
-        <blockquote>
-<p>一组元素的线性序列，通常只能访问一个元素<br>开放的端top,不开放的bottom<br>push,pop只能操纵当前的顶部的元素  </p>
-<h3 id="接口与实现"><a href="#接口与实现" class="headerlink" title="接口与实现"></a>接口与实现</h3></blockquote>
+        <h4 id="git与gitflow使用"><a href="#git与gitflow使用" class="headerlink" title="git与gitflow使用"></a>git与gitflow使用</h4><p>自从接触 git 来一直用一些简单的命令，但是最近工作经常遇到一些 git 的这种那种麻烦冲突，所以决定一定要熟练使用，先列出一个清单，然后多记多用，直到熟练为止</p>
+<h4 id="新建"><a href="#新建" class="headerlink" title="新建"></a>新建</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 新建本地 git 仓库</span></span><br><span class="line">git init [repoName]</span><br><span class="line"><span class="comment"># 克隆远程仓库</span></span><br><span class="line">git <span class="built_in">clone</span> [repoUrl]</span><br></pre></td></tr></table></figure>
+<h4 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看配置内容</span></span><br><span class="line">git config --list</span><br><span class="line"><span class="comment"># 编辑配置文件</span></span><br><span class="line">git config -e</span><br><span class="line"><span class="comment"># 配置姓名</span></span><br><span class="line">git config [--global] user.name <span class="string">"suoyue"</span></span><br><span class="line"><span class="comment"># 配置邮箱 </span></span><br><span class="line">git config [--glabal] .user.email <span class="string">"email"</span></span><br></pre></td></tr></table></figure>
+<h4 id="分解"><a href="#分解" class="headerlink" title="分解"></a>分解</h4><p>平时我们</p>
 <ul>
-<li>操纵</li>
+<li>工作区(workspace):平时编写代码的地方,本地的文件</li>
+<li>暂存区(stash):我们在提交到本地仓库前的一个暂存处</li>
+<li>本地仓库(repo)：提交后的本地仓库</li>
+<li>远程仓库(remote)：远端的一个代码托管的仓库</li>
 </ul>
-<table>
-<thead>
-<tr>
-<th>操纵</th>
-<th>功能</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Stack()</td>
-<td>初始化栈</td>
-</tr>
-<tr>
-<td>empty()</td>
-<td>判断栈是否为空</td>
-</tr>
-<tr>
-<td>push(e)</td>
-<td>进栈</td>
-</tr>
-<tr>
-<td>pop(e)</td>
-<td>出栈</td>
-</tr>
-<tr>
-<td>size()</td>
-<td>返回元素数量</td>
-</tr>
-</tbody>
-</table>
+<h4 id="状态"><a href="#状态" class="headerlink" title="状态"></a>状态</h4><ul>
+<li>未跟踪(untracked)</li>
+<li>未修改(ummodified)</li>
+<li>已修改(modified)</li>
+<li>已暂存(stashed)</li>
+</ul>
+<h4 id="添加、删除"><a href="#添加、删除" class="headerlink" title="添加、删除"></a>添加、删除</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 添加工作区改变的到暂存区</span></span><br><span class="line">git add [file1] [file2]</span><br><span class="line"><span class="comment"># 编辑工作区与本地不同的地方</span></span><br><span class="line">git add -e</span><br><span class="line"><span class="comment"># 添加所有修改或者删除的文件</span></span><br><span class="line">git add -u</span><br><span class="line"><span class="comment"># 添加变动的文件到暂存区</span></span><br><span class="line">git add -A</span><br><span class="line"><span class="comment"># 移除暂存区文件</span></span><br><span class="line">git rm [file1] [file2]</span><br><span class="line"><span class="comment"># 停止追踪某个文件</span></span><br><span class="line">git rm --cached [file1] [file2]</span><br><span class="line"><span class="comment"># 改名</span></span><br><span class="line">git mv [oriFile] [distFile]</span><br></pre></td></tr></table></figure>
+<h4 id="提交"><a href="#提交" class="headerlink" title="提交"></a>提交</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 提交暂存区的文件到仓库</span></span><br><span class="line">git commit -m <span class="string">"test commit"</span></span><br><span class="line">git commit [file1] [file2] -m <span class="string">"test commit"</span></span><br><span class="line"><span class="comment"># 全部直接提交</span></span><br><span class="line">git commit -a</span><br><span class="line"><span class="comment"># 显示diff</span></span><br><span class="line">git commit -v</span><br><span class="line"><span class="comment"># 替代上次提交</span></span><br><span class="line">git commit -ament -m <span class="string">"replace commit last"</span></span><br><span class="line">git commit -ament [file1] [file2] -m <span class="string">"replace commit last"</span></span><br></pre></td></tr></table></figure>
+<h4 id="回滚"><a href="#回滚" class="headerlink" title="回滚"></a>回滚</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用checkout </span></span><br><span class="line"><span class="comment"># 恢复暂存区文件到工作区 stash --&gt; work （撤销暂存）</span></span><br><span class="line">git checkout [file]</span><br><span class="line">git checkout</span><br><span class="line"><span class="comment"># 恢复某个commit到暂存区和工作区</span></span><br><span class="line">git checkout [commit] [file]</span><br><span class="line"><span class="comment"># 重置暂存区到仓库 stash --&gt; repo</span></span><br><span class="line">git reset [file]</span><br><span class="line">git reset [commit]</span><br><span class="line"><span class="comment"># 回滚commit stash &amp; work --&gt; repo (回滚提交)</span></span><br><span class="line">git reset --hard <span class="comment">#上一次</span></span><br><span class="line">git reset --hard [commit] <span class="comment">#指定</span></span><br><span class="line"><span class="comment"># 回滚commit 但是工作区和暂存区不变</span></span><br><span class="line">git reset --keep [commit] <span class="comment">#指定</span></span><br><span class="line"><span class="comment"># 新建commit 回滚应用当前分支</span></span><br><span class="line">git revert [commit]</span><br></pre></td></tr></table></figure>
+<h4 id="忽略"><a href="#忽略" class="headerlink" title="忽略"></a>忽略</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 编辑 git 忽略配置文件</span></span><br><span class="line">vim .gitignore</span><br><span class="line"><span class="comment"># 被写 git 忽略文件, git add 会自动忽略它</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># .gitignore 自动忽略log文件和文件名为suo结尾的文件</span></span><br><span class="line">*.<span class="built_in">log</span></span><br><span class="line">*suo</span><br></pre></td></tr></table></figure>
+<h4 id="分支"><a href="#分支" class="headerlink" title="分支"></a>分支</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看本地分支</span></span><br><span class="line">git branch</span><br><span class="line"><span class="comment"># 查看远程的分支</span></span><br><span class="line">git branch -vgit</span><br><span class="line"><span class="comment"># 查看已跟踪到远程和本地所有分支</span></span><br><span class="line">git branch -a</span><br><span class="line"><span class="comment"># 新建一个分支名为ss的分支（不切换）</span></span><br><span class="line">git branch ss</span><br><span class="line"><span class="comment"># 新建一个分支名为test的分支并切换过去</span></span><br><span class="line">git checkout -b <span class="built_in">test</span></span><br><span class="line"><span class="comment"># 切换分支并更新工作区</span></span><br><span class="line">git checkout ss</span><br><span class="line"><span class="comment"># 合并分支到当前</span></span><br><span class="line">git merge <span class="built_in">test</span></span><br><span class="line"><span class="comment"># 如果有冲突手动改代码在添加提交</span></span><br><span class="line"><span class="comment"># 删除不用分支</span></span><br><span class="line">git checkout -d <span class="built_in">test</span> -m</span><br><span class="line"><span class="comment"># 新建远程分支</span></span><br><span class="line">git push origin ss:ss</span><br><span class="line"><span class="comment"># 删除远程分支</span></span><br><span class="line">git push origin --delete ss</span><br><span class="line"><span class="comment"># 建立远程追踪关系</span></span><br><span class="line">git branch --<span class="built_in">set</span>-upstream-to=origin/ss <span class="built_in">test</span></span><br></pre></td></tr></table></figure>
+<h4 id="远程"><a href="#远程" class="headerlink" title="远程"></a>远程</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 下载远程变动</span></span><br><span class="line">git fetch xx </span><br><span class="line"><span class="comment"># 显示远程分支</span></span><br><span class="line">git remote -v</span><br><span class="line"><span class="comment"># 显示远程仓库信息</span></span><br><span class="line">git remote show xx</span><br><span class="line"><span class="comment"># 增加远程仓库</span></span><br><span class="line">git remote add xx[name] xx[url]</span><br><span class="line"><span class="comment"># 拉取远程变化,合并本地</span></span><br><span class="line">git pull xx[remote] xx[b]</span><br><span class="line"><span class="comment"># 推送本地到远程仓库</span></span><br><span class="line">git push xx[remote] xx[b]</span><br><span class="line"><span class="comment"># 强推，全推</span></span><br><span class="line">git push xx[remote] --force/--all</span><br></pre></td></tr></table></figure>
+<h4 id="日志"><a href="#日志" class="headerlink" title="日志"></a>日志</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 显示变更文件</span></span><br><span class="line">git status</span><br><span class="line"><span class="comment"># 当前分支版本信息</span></span><br><span class="line">git <span class="built_in">log</span></span><br><span class="line">git reflog</span><br><span class="line">git <span class="built_in">log</span> --follow [file]</span><br><span class="line">git whatchanged [file] <span class="comment"># 追踪文件修改</span></span><br><span class="line">git <span class="built_in">log</span> -p [file] <span class="comment"># 文件相关diff</span></span><br><span class="line">git blame [file] <span class="comment"># 追责</span></span><br><span class="line"><span class="comment"># 比较</span></span><br><span class="line">git diff <span class="comment"># 暂存区与工作区</span></span><br><span class="line">git diff --cached [file] <span class="comment"># 暂存区与上一个commit</span></span><br><span class="line">git diff HEAD <span class="comment"># 工作区与最新commit</span></span><br><span class="line">git show [commit] <span class="comment"># commit的内容变化</span></span><br><span class="line">git show [commit] [file]</span><br></pre></td></tr></table></figure>
+<h4 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h4><ul>
+<li>拉取远程合并本地（切换分支-&gt;拉取-&gt;修改-&gt;提交-&gt;推送）</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">git commit -am <span class="string">'xx'</span> [提交] [or] git stash [暂存]</span><br><span class="line">git checkout xx [切换分支]</span><br><span class="line">git status [查看状态]</span><br><span class="line">git pull [拉取远程并合并]</span><br><span class="line">git <span class="built_in">log</span> [查看历史]</span><br><span class="line">git diff [对比]</span><br><span class="line">git status [查看忽略文件]</span><br><span class="line">git commit -am <span class="string">'xx'</span> [提交修改]</span><br><span class="line">git push [推到远程]</span><br></pre></td></tr></table></figure>
 <ul>
-<li><p>特性：后进先出(LIFO)</p>
-</li>
-<li><p>实现：通过向量或列表派生</p>
-</li>
+<li>本地修复issue分支 (切换并新建分支-&gt;修改-&gt;提交-&gt;切回-&gt;合并-&gt;删除临时分支)</li>
 </ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//向量实现</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="class"><span class="keyword">class</span> <span class="title">Stack</span> :</span><span class="keyword">public</span> Vector&lt;T&gt; &#123;</span><br><span class="line">    <span class="keyword">public</span>: <span class="comment">//size() empty()直接沿用</span></span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">push</span><span class="params">(T <span class="keyword">const</span> &amp; e)</span> </span>&#123; insert(size(), e); &#125; <span class="comment">//入栈</span></span><br><span class="line">        <span class="function">T <span class="title">pop</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> remove( size() <span class="number">-1</span> ); &#125;       <span class="comment">//出栈</span></span><br><span class="line">        <span class="function">T &amp; <span class="title">top</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> (*<span class="keyword">this</span>)[ size() - <span class="number">1</span>]; &#125;    <span class="comment">//取顶 O(1)</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//列表实现</span></span><br></pre></td></tr></table></figure>
-<h3 id="进制转换-逆序输出"><a href="#进制转换-逆序输出" class="headerlink" title="进制转换(逆序输出)"></a>进制转换(逆序输出)</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stack&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">convert</span><span class="params">( Stack&lt;<span class="keyword">char</span>&gt; &amp; S, __int64 n, <span class="keyword">int</span> base)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">char</span> digit[] = &#123;<span class="string">'0'</span>,<span class="string">'1'</span>,<span class="string">'2'</span>,<span class="string">'3'</span>,<span class="string">'4'</span>,<span class="string">'5'</span>,<span class="string">'6'</span>,<span class="string">'7'</span>,<span class="string">'8'</span>,<span class="string">'9'</span>,<span class="string">'A'</span>,<span class="string">'B'</span>,<span class="string">'C'</span>,<span class="string">'D'</span>,<span class="string">'E'</span>,<span class="string">'F'</span>&#125;;</span><br><span class="line">    <span class="keyword">while</span> (n &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        s.push( digit[ n % base ]);</span><br><span class="line">        n /= base;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line">    Stack&lt;<span class="keyword">char</span>&gt; S;</span><br><span class="line">    <span class="built_in">cin</span> &gt;&gt; n &gt;&gt; base;</span><br><span class="line">    convert(S, n, base);</span><br><span class="line">    <span class="keyword">while</span> ( !S.empty() )</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; S.pop();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="括号匹配（递归嵌套）"><a href="#括号匹配（递归嵌套）" class="headerlink" title="括号匹配（递归嵌套）"></a>括号匹配（递归嵌套）</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stack&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">paren</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> <span class="built_in">exp</span>[], <span class="keyword">int</span> lo, <span class="keyword">int</span> hi)</span> </span>&#123;</span><br><span class="line">    Stack&lt;<span class="keyword">char</span>&gt; S;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = lo; i &lt; hi; i++)</span><br><span class="line">        <span class="keyword">if</span>( <span class="built_in">exp</span>[i] == <span class="string">'('</span> )</span><br><span class="line">            S.push(<span class="built_in">exp</span>[i]);</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>( !S.empty() )</span><br><span class="line">            S.pop();</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">return</span> S.empty();</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">char</span> <span class="built_in">exp</span>[<span class="number">20</span>] = &#123; <span class="string">'('</span> &#125;;</span><br><span class="line">    paren(<span class="built_in">exp</span>, <span class="number">0</span>, <span class="number">20</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//通过计数器也可以实现</span></span><br><span class="line"><span class="comment">//但是通过栈可以拓展到多个括号并存的实例</span></span><br></pre></td></tr></table></figure>
-<h3 id="栈混洗"><a href="#栈混洗" class="headerlink" title="栈混洗"></a>栈混洗</h3><ul>
-<li>计数：cabula数 （2n!）/ (n!*(n+1)!)</li>
-<li>甄别：n = 3 时 3 1 2 不是栈混洗，与元素无关，这是一个禁型，是充要条件</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//高效算法，引入3个栈，模拟混洗过程，使用贪心算法</span><br><span class="line">//练习</span><br></pre></td></tr></table></figure>
-<ul>
-<li>与括号匹配的联系</li>
-</ul>
-<h3 id="中缀表达式求值（延迟缓冲）"><a href="#中缀表达式求值（延迟缓冲）" class="headerlink" title="中缀表达式求值（延迟缓冲）"></a>中缀表达式求值（延迟缓冲）</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">float</span> <span class="title">evaluate</span><span class="params">(<span class="keyword">char</span> * s, <span class="keyword">char</span> * &amp; RPN)</span> </span>&#123;</span><br><span class="line">    Stack&lt;<span class="keyword">float</span>&gt; opnd; </span><br><span class="line">    Stack&lt;<span class="keyword">char</span>&gt; optr;</span><br><span class="line">    optr.push(<span class="string">'\0'</span>);</span><br><span class="line">    <span class="keyword">while</span> (!optr.empty()) &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">isdigit</span>(*S))</span><br><span class="line">            readNumber(S, opnd);</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">switch</span>( orderBetween(optr.top(), *S) ) &#123;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">'&lt;'</span>:</span><br><span class="line">                    optr.push(*S);</span><br><span class="line">                    S++;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">'='</span>:</span><br><span class="line">                    optr.pop();</span><br><span class="line">                    S++;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">'&gt;'</span>: &#123;</span><br><span class="line">                    <span class="keyword">char</span> op = optr.pop();</span><br><span class="line">                    <span class="keyword">if</span> (<span class="string">'!'</span> == op)   <span class="comment">//一元运算符</span></span><br><span class="line">                        opnd.push( calcu(op, opnd.pop()) );</span><br><span class="line">                    <span class="keyword">else</span> &#123;           <span class="comment">//二元运算符</span></span><br><span class="line">                        <span class="keyword">float</span> pOpnd2 = opnd.pop(); <span class="comment">//操作数</span></span><br><span class="line">                        <span class="keyword">float</span> pOpnd1 = opnd.pop();</span><br><span class="line">                        opnd.push( calcu(pOpnd1, op, pOpnd2) ); <span class="comment">//运算并回收</span></span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> opnd.pop();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="逆波兰表达式（RPN）-不需要判断优先级，只要遇到操作符就计算，后缀表达式"><a href="#逆波兰表达式（RPN）-不需要判断优先级，只要遇到操作符就计算，后缀表达式" class="headerlink" title="逆波兰表达式（RPN）:不需要判断优先级，只要遇到操作符就计算，后缀表达式"></a>逆波兰表达式（RPN）:不需要判断优先级，只要遇到操作符就计算，后缀表达式</h3><ul>
-<li>变形：若欲取之，必先予之</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1. 括号显示表示优先级</span><br><span class="line">2. 将运算符移动对应的右括号之后</span><br><span class="line">3. 抹去所有运算符</span><br><span class="line">4. 稍加整理</span><br></pre></td></tr></table></figure>
-<ul>
-<li>实现：</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">//练习</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b new-issue [切换新分支]</span><br><span class="line">git status [重要]</span><br><span class="line">git diff [对比]</span><br><span class="line">git commit -am <span class="string">"xx"</span></span><br><span class="line">git checkout ss [切换]</span><br><span class="line">git merge new-issue [合并分支]</span><br><span class="line">git checkout -d new-issue [删除分支]</span><br></pre></td></tr></table></figure>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/08/20/t-course_ds_004/" data-id="cjwvqj499001o2jjdv7n4z25a" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/12/23/t-note_git_001/" data-id="cjwvu9vij0047jfjdzllb8w25" class="article-share-link">分享</a>
       
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据结构/">数据结构</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/git/">git</a></li></ul>
 
     </footer>
   </div>
@@ -843,14 +292,14 @@
 
 
   
-    <article id="post-t-course_ds_003" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-t-note_tools_001" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2015/08/16/t-course_ds_003/" class="article-date">
-  <time datetime="2015-08-16T03:38:34.000Z" itemprop="datePublished">2015-08-16</time>
+    <a href="/2017/12/17/t-note_tools_001/" class="article-date">
+  <time datetime="2017-12-17T14:34:22.000Z" itemprop="datePublished">2017-12-17</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/编程基础/">编程基础</a>
+    <a class="article-category-link" href="/categories/通用工具/">通用工具</a>
   </div>
 
   </div>
@@ -861,7 +310,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/08/16/t-course_ds_003/">《数据结构》笔记：列表</a>
+      <a class="article-title" href="/2017/12/17/t-note_tools_001/">各大编辑器快捷键收集</a>
     </h1>
   
 
@@ -871,81 +320,19 @@
       
         <!-- Table of Contents -->
         
-        <h3 id="接口与实现"><a href="#接口与实现" class="headerlink" title="接口与实现"></a>接口与实现</h3><blockquote>
-<p>列表是采用<strong>动态存储</strong>策略的典型结构，其中的元素称作节点(node)<br>各节点通过指针或者引用彼此联结，在<strong>逻辑</strong>上构成一个线性序列<br>属于双向链表结构</p>
-</blockquote>
-<ul>
-<li>从静态到动态操作</li>
-<li>1）静态：get O(1), search O(logn)</li>
-<li>2）动态：insert O(n), remove O(n)</li>
-<li>前驱后继：彼此相邻的节点，前驱或后继若存在则必然唯一</li>
-<li>首末节点：没有前驱后后继的唯一节点</li>
-<li>寻位置访问：called-by-position,通过节点的相互引用找到特定的节点</li>
-<li>实现接口：列表节点作为基本单位<br>操作 | 功能<br>—|—<br>pred() | 取节点前驱<br>succ() | 取节点后继<br>data() | 取节点数据对象<br>insertAsPred(e) | 插入前驱节点，存入e，返回新节点位置<br>insertAsSucc(e) | 插入后继节点，存入e，返回新节点位置</li>
+        <h4 id="Sublime-text-转载"><a href="#Sublime-text-转载" class="headerlink" title="Sublime text [转载]"></a>Sublime text [转载]</h4><ul>
+<li>Mac版</li>
 </ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> Post(T) ListNode<span class="meta-string">&lt;T&gt;*</span></span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="class"><span class="keyword">struct</span> <span class="title">ListNode</span> &#123;</span>  <span class="comment">//完全开放，不再过度封装</span></span><br><span class="line">    T data;   <span class="comment">//数值</span></span><br><span class="line">    Post(T) pred;  <span class="comment">//前驱</span></span><br><span class="line">    Post(T) succ;  <span class="comment">//后继</span></span><br><span class="line">    ListNode() &#123;&#125;  <span class="comment">//针对header和trailer的构造</span></span><br><span class="line">    ListNode(T e, Posi(T) p = <span class="literal">NULL</span>, Post(T) s = <span class="literal">NULL</span>) : data(e), pred(p), succ(s) &#123;&#125; <span class="comment">//默认构造</span></span><br><span class="line">    Posi(T) insertAsPred(T <span class="keyword">const</span> &amp; e); <span class="comment">//前插入</span></span><br><span class="line">    Posi(T) insertAsSucc(T <span class="keyword">const</span> &amp; e); <span class="comment">//后插入</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>操作接口</li>
-<li>模板类</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"ListNode.h"</span></span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="class"><span class="keyword">class</span> <span class="title">List</span> &#123;</span></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">int</span> _size;</span><br><span class="line">    Posi(T) header;  <span class="comment">//头元素（不可见）</span></span><br><span class="line">    Posi(T) tailer;  <span class="comment">//末元素（不可见）</span></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    <span class="comment">//内部函数</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">//构造函数</span></span><br><span class="line">    <span class="comment">//析构函数</span></span><br><span class="line">    <span class="comment">//只读接口</span></span><br><span class="line">    <span class="comment">//可写接口</span></span><br><span class="line">    <span class="comment">//遍历接口</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//构造函数 规模为0</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">void</span> List&lt;T&gt;::init() &#123;</span><br><span class="line">    header = <span class="keyword">new</span> ListNode&lt;T&gt;;</span><br><span class="line">    trailer = <span class="keyword">new</span> ListNode&lt;T&gt;;</span><br><span class="line">    header-&gt;succ = trailer;</span><br><span class="line">    header-&gt;pred = <span class="literal">NULL</span>;</span><br><span class="line">    tailer-&gt;pred = header;</span><br><span class="line">    tailer-&gt;succ = <span class="literal">NULL</span>;</span><br><span class="line">    _size = <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="无序列表"><a href="#无序列表" class="headerlink" title="无序列表"></a>无序列表</h3><ul>
-<li>秩到位置：模仿向量的循秩访问方式，重载下标符</li>
-<li>查找</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; Posi(T) List&lt;T&gt;::find(T <span class="keyword">const</span> &amp;e, <span class="keyword">int</span> n, Posi(n) p) <span class="keyword">const</span> &#123;</span><br><span class="line">    <span class="keyword">while</span> (<span class="number">0</span> &lt; n--) </span><br><span class="line">        <span class="keyword">if</span> (e == ( p = p-&gt;pred )-&gt;data )</span><br><span class="line">            <span class="keyword">return</span> p;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>插入</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; Posi(T) List&lt;T&gt;::insertBefore(Posi(T) p, T <span class="keyword">const</span> &amp; e) &#123;</span><br><span class="line">    _size++;</span><br><span class="line">    <span class="keyword">return</span> p-&gt;insertAsPred(e);  <span class="comment">//e当作前驱插入</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; Posi(T) ListNode&lt;T&gt;::insertAsPred(T <span class="keyword">const</span> &amp; e) &#123;</span><br><span class="line">    Posi(T) x = <span class="keyword">new</span> ListNode(e, pred, <span class="keyword">this</span>); <span class="comment">//创建</span></span><br><span class="line">    pred-&gt;succ = x;                          <span class="comment">//建立连接</span></span><br><span class="line">    pred = x;</span><br><span class="line">    <span class="keyword">return</span> x;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>基于复制的构造</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//基于复制的构造</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">void</span> List&lt;T&gt;::copyNodes(Posi(T) p, <span class="keyword">int</span> n) &#123;  <span class="comment">//O(n)</span></span><br><span class="line">    init();  <span class="comment">//创建头尾节点初始化</span></span><br><span class="line">    <span class="keyword">while</span> (n--) &#123;  <span class="comment">//自p的n下依次作为末节点插入</span></span><br><span class="line">        insertAsLast(p-&gt;data);</span><br><span class="line">        p = p-&gt;succ;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>删除节点</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//删除</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; T List&lt;T&gt;::remove(Posi(T) p) &#123;  <span class="comment">//O(1)</span></span><br><span class="line">    T e = p-&gt;data;     <span class="comment">//备份待删除的数值</span></span><br><span class="line">    p-&gt;pred-&gt;succ = p-&gt;succ; <span class="comment">//跳过p</span></span><br><span class="line">    p-&gt;succ-&gt;pred = p-&gt;pred; <span class="comment">//对称</span></span><br><span class="line">    <span class="keyword">delete</span> p;</span><br><span class="line">    _size--;</span><br><span class="line">    <span class="keyword">return</span> e;          <span class="comment">//返回数值</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>析构</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//析构</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; List&lt;T&gt;::~List() &#123;</span><br><span class="line">    clear();          <span class="comment">//清空列表</span></span><br><span class="line">    <span class="keyword">delete</span> header;    <span class="comment">//释放头</span></span><br><span class="line">    <span class="keyword">delete</span> tailer;    <span class="comment">//释放末</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">int</span> List&lt;T&gt;::clear() &#123;</span><br><span class="line">    <span class="keyword">int</span> oldSize = _size;</span><br><span class="line">    <span class="keyword">while</span>(<span class="number">0</span> &lt; _size)</span><br><span class="line">        remove(header-&gt;succ); <span class="comment">//反复删除首节点</span></span><br><span class="line">    <span class="keyword">return</span> oldSize;</span><br><span class="line">&#125;  <span class="comment">//O(n)</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>唯一化</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//唯一化</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">int</span> List&lt;T&gt;::deduplicate() &#123;</span><br><span class="line">    <span class="keyword">if</span> (_size &lt; <span class="number">2</span>)    <span class="comment">//平凡列表自然无重复</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;     </span><br><span class="line">    <span class="keyword">int</span> oldSize = _size;  <span class="comment">//记录原规模</span></span><br><span class="line">    Posi(T) p = first();</span><br><span class="line">    Rank r = <span class="number">1</span>;           <span class="comment">//p从首节点开始</span></span><br><span class="line">    <span class="keyword">while</span> ( trailer != ( p = p-&gt;succ ) ) &#123;  <span class="comment">//依次到末节点</span></span><br><span class="line">        Posi(T) q = find(p-&gt;data, r, p);    <span class="comment">//从前驱中查找雷同的</span></span><br><span class="line">        q ? remove(q) : r++;                <span class="comment">//若存在删除，否则秩递增</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> oldSize - _size;                 <span class="comment">//列表规模变化，等于删除的元素</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="有序列表"><a href="#有序列表" class="headerlink" title="有序列表"></a>有序列表</h3><ul>
-<li>唯一化</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//有序向量唯一化</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">int</span> List&lt;T&gt;::uniquify() &#123; </span><br><span class="line">    <span class="keyword">if</span>(_size &lt; <span class="number">2</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> ordSize = _size;   <span class="comment">//原始规模</span></span><br><span class="line">    ListNodePosi(T) p = first(); </span><br><span class="line">    ListNodePosi(T) q;</span><br><span class="line">    <span class="keyword">while</span> ( trailer != ( q = p-&gt;succ ) ) <span class="comment">//遍历</span></span><br><span class="line">        <span class="keyword">if</span> ( p-&gt;data != q-&gt;data )  <span class="comment">//不同</span></span><br><span class="line">            p = q;  <span class="comment">//连接</span></span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            remove(q); <span class="comment">//雷同删除</span></span><br><span class="line">    <span class="keyword">return</span> oldSize - _size;</span><br><span class="line">&#125; <span class="comment">//O(n)</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>查找</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//查找</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; Posi(T) List&lt;T&gt;::search(T <span class="keyword">const</span> &amp;e, <span class="keyword">int</span> n, Posi(T) p) <span class="keyword">const</span> &#123;</span><br><span class="line">    <span class="keyword">while</span> ( <span class="number">0</span> &lt;= n-- )  <span class="comment">//从右往左扫描，发现下于即命中</span></span><br><span class="line">        <span class="keyword">if</span> ( ( (  p = p-&gt;pred )-&gt;data ) &lt;= e ) <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">return</span> p;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="链表"><a href="#链表" class="headerlink" title="链表"></a>链表</h3><ul>
-<li>单链表：节点只包含值域和指针域两个部分</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> posi(T) sList<span class="meta-string">&lt;T&gt;*</span></span></span><br><span class="line">Template &lt;<span class="keyword">typename</span> T&gt; <span class="class"><span class="keyword">struct</span> <span class="title">sList</span> &#123;</span></span><br><span class="line">    T data;</span><br><span class="line">    posi(T) next;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//特点：特定元素之后插入，删除，复杂度为O(1)</span></span><br><span class="line"><span class="comment">//尾节点的指针为空 tail-&gt;next = NULL;</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>- </li>
-<li>双向链表（列表）</li>
-<li>循环单链表：尾指针指向了首元素</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tail-&gt;next = head;</span><br><span class="line"><span class="comment">//特点：特点元素前后插入，删除复杂度O(1)</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>循环双链表：兼具双向链表和循环链表优势</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tail-&gt;succ = head;</span><br><span class="line">head-&gt;pred = tail;</span><br><span class="line"><span class="comment">//优势：在尾部插入删除元素的复杂度为O(1)</span></span><br></pre></td></tr></table></figure>
-<h3 id="选择排序"><a href="#选择排序" class="headerlink" title="选择排序"></a>选择排序</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">void</span> List&lt;T&gt;::selectionSort(Posi(T) p, <span class="keyword">int</span> n) &#123;</span><br><span class="line">    Posi(T) head = p-&gt;pred;   <span class="comment">//待排区间</span></span><br><span class="line">    Posi(T) tail = p;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        tail = tail-&gt;succ;   </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span> (<span class="number">1</span> &lt; n) &#123;          <span class="comment">//反复从待排区间找出最大的移至有序区间前端</span></span><br><span class="line">        insertBefore( tail, remove( selectMax(head-&gt;succ), n) );</span><br><span class="line">        tail = tail-&gt;pred;</span><br><span class="line">        n--;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//尽可能少的使用new delete</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; Posi(T) List&lt;T&gt;::selectMax(Posi(T) p, <span class="keyword">int</span> n) &#123;</span><br><span class="line">    Posi(T) max = p;</span><br><span class="line">    <span class="keyword">for</span> (Posi(T) cur = p; <span class="number">1</span> &lt; n; n--) &#123;</span><br><span class="line">        <span class="keyword">if</span> ( !lt ( (cur = cur-&gt;succ )-&gt;data, max-&gt;data) )</span><br><span class="line">            max = cur;</span><br><span class="line">    <span class="keyword">return</span> max;   <span class="comment">//返回最大节点位置</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//O(n^2)  但是移动操作远远少于起泡排序</span></span><br><span class="line"><span class="comment">//改进比较操作后可以在nlogn下完成</span></span><br></pre></td></tr></table></figure>
-<h3 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h3><h3 id="LightHouse"><a href="#LightHouse" class="headerlink" title="LightHouse"></a>LightHouse</h3>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">作者：77plus</span><br><span class="line">链接：https://www.zhihu.com/question/39190896/answer/264524567</span><br><span class="line"></span><br><span class="line">cmd+n 新建页面</span><br><span class="line">cmd+数字键 切换到对应页面</span><br><span class="line">cmd+p 搜索跳转到对应页</span><br><span class="line">cmd+w 关闭页面</span><br><span class="line">cmd+j 合并一行</span><br><span class="line">cmd+d 选中当前单词，继续敲可以选中多个</span><br><span class="line">cmd+l 选中当前行</span><br><span class="line">cmd+z 撤销</span><br><span class="line">cmd+c 复制</span><br><span class="line">cmd+v 粘贴</span><br><span class="line">cmd+s 保存</span><br><span class="line">cmd+x 删除当前行</span><br><span class="line">cmd+delete 删除光标定位到当前行起始的一块</span><br><span class="line">cmd+]缩进当前行，[回缩当前行，对应tab/<span class="built_in">shift</span>+tab功能</span><br><span class="line">cmd+enter 向下开辟一行</span><br><span class="line">cmd+<span class="built_in">shift</span>+enter 向上开辟一行</span><br><span class="line">cmd+f 查询内容</span><br><span class="line">cmd+<span class="built_in">shift</span>+f 全局查询，可替换</span><br><span class="line">cmd+g 查询到的内容下一个</span><br><span class="line">cmd+鼠标右键 多点编辑</span><br><span class="line">cmd+~ 调出控制台</span><br><span class="line">cmd+k <span class="keyword">then</span> u 大写</span><br><span class="line">cmd+k <span class="keyword">then</span> l 小写</span><br><span class="line">cmd+<span class="built_in">shift</span>+p 调出命令面板</span><br><span class="line">cmd+⬅️ 光标定位到当前行最前 +<span class="built_in">shift</span> 选中</span><br><span class="line">cmd+➡️ 光标定位到当前行最后 +<span class="built_in">shift</span> 选中</span><br><span class="line">cmd+⬇️ 光标定位到当前页最后 +<span class="built_in">shift</span> 选中</span><br><span class="line">cmd+⬆️ 光标定位到当前页最前 +<span class="built_in">shift</span> 选中</span><br><span class="line"></span><br><span class="line">ctrl+g 跳转到对应行号</span><br><span class="line">ctrl+tab 切换到下一个页面</span><br><span class="line">ctrl+<span class="built_in">shift</span>+tab 切换到上一个页面</span><br><span class="line">ctrl+delete 删除光标定位到当前单词起始的一块</span><br><span class="line"></span><br><span class="line">opt+鼠标左键 纵向选择编辑</span><br><span class="line">opt+⬅️ 光标定位到当前块最前 +<span class="built_in">shift</span> 选中</span><br><span class="line">opt+➡️ 光标定位到当前块最后 +<span class="built_in">shift</span> 选中</span><br></pre></td></tr></table></figure>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/08/16/t-course_ds_003/" data-id="cjwvqj497001k2jjdfypiu1rd" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/12/17/t-note_tools_001/" data-id="cjwvu9vip004jjfjdu83qan00" class="article-share-link">分享</a>
       
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据结构/">数据结构</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/编辑器/">编辑器</a></li></ul>
 
     </footer>
   </div>
@@ -958,7 +345,7 @@
 
 
   <nav id="page-nav">
-    <a class="extend prev" rel="prev" href="/page/8/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/10/">下一页&raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/8/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/10/">下一页&raquo;</a>
   </nav>
 </section>
            
@@ -981,23 +368,23 @@
       <ul>
         
           <li>
-            <a href="/2019/02/26/t-note_vue_004/">(no title)</a>
+            <a href="/2019/05/24/vue-cli3 把配置都封装了这样设计有什么好处？/">vue-cli3 把配置都封装了这样设计有什么好处？</a>
           </li>
         
           <li>
-            <a href="/2019/02/26/t/">(no title)</a>
+            <a href="/2019/05/12/dva 试用/">dva 试用</a>
           </li>
         
           <li>
-            <a href="/2018/01/17/t-note_kj_001/">各大编辑器快捷键收集</a>
+            <a href="/2019/04/23/vue3 要增强 typescript？/">vue3 要增强 typescript？</a>
           </li>
         
           <li>
-            <a href="/2018/01/17/t-note_tools_001/">各大编辑器快捷键收集</a>
+            <a href="/2019/04/18/redux 为啥叫 redux？/">redux 为啥叫 redux？</a>
           </li>
         
           <li>
-            <a href="/2018/01/09/t-note_ci_001/">持续集成工具 CI 使用</a>
+            <a href="/2019/04/08/什么是react-hooks？为什么尤大佬这么关注/">什么是react-hooks？为什么尤大佬这么关注</a>
           </li>
         
       </ul>

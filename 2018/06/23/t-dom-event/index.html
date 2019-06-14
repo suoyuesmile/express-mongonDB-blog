@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>DOM事件流 | 锁越smile</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="DOM 事件流基本概念（dom级别）级别 dom0element.onclick = function() {} dom2element.addEventListener(&amp;#39;click&amp;#39;, function(){}, false) dom3element.addEventListener">
+<meta name="keywords" content="JavaScript,es5">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DOM事件流">
+<meta property="og:url" content="http://yoursite.com/2018/06/23/t-dom-event/index.html">
+<meta property="og:site_name" content="锁越smile">
+<meta property="og:description" content="DOM 事件流基本概念（dom级别）级别 dom0element.onclick = function() {} dom2element.addEventListener(&amp;#39;click&amp;#39;, function(){}, false) dom3element.addEventListener(&amp;#39;keyup&amp;#39;, function(){}, false)  DOM事件模型（">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-06-14T07:13:58.291Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="DOM事件流">
+<meta name="twitter:description" content="DOM 事件流基本概念（dom级别）级别 dom0element.onclick = function() {} dom2element.addEventListener(&amp;#39;click&amp;#39;, function(){}, false) dom3element.addEventListener(&amp;#39;keyup&amp;#39;, function(){}, false)  DOM事件模型（">
+  
+    <link rel="alternate" href="/atom.xml" title="锁越smile" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    
+    <div id="header-inner" class="inner">
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+          <a class="main-nav-link" href="/about">关于</a>
+        
+      </nav>
+      
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">锁越smile</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">邵锁的博客</a>
+        </h2>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-t-dom-event" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/06/23/t-dom-event/" class="article-date">
+  <time datetime="2018-06-23T12:33:23.000Z" itemprop="datePublished">2018-06-23</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      DOM事件流
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <h1 id="DOM-事件流"><a href="#DOM-事件流" class="headerlink" title="DOM 事件流"></a>DOM 事件流</h1><h2 id="基本概念（dom级别）"><a href="#基本概念（dom级别）" class="headerlink" title="基本概念（dom级别）"></a>基本概念（dom级别）</h2><h3 id="级别"><a href="#级别" class="headerlink" title="级别"></a>级别</h3><ul>
+<li>dom0<br><code>element.onclick = function() {}</code></li>
+<li>dom2<br><code>element.addEventListener(&#39;click&#39;, function(){}, false)</code></li>
+<li>dom3<br><code>element.addEventListener(&#39;keyup&#39;, function(){}, false)</code></li>
+</ul>
+<h2 id="DOM事件模型（捕获、冒泡）"><a href="#DOM事件模型（捕获、冒泡）" class="headerlink" title="DOM事件模型（捕获、冒泡）"></a>DOM事件模型（捕获、冒泡）</h2><ul>
+<li>捕获</li>
+<li>冒泡</li>
+</ul>
+<h2 id="DOM事件流"><a href="#DOM事件流" class="headerlink" title="DOM事件流"></a>DOM事件流</h2><ol>
+<li>捕获</li>
+<li>目标阶段</li>
+<li>冒泡</li>
+</ol>
+<h2 id="DOM事件捕获的具体流程"><a href="#DOM事件捕获的具体流程" class="headerlink" title="DOM事件捕获的具体流程"></a>DOM事件捕获的具体流程</h2><ol>
+<li>window</li>
+<li>document</li>
+<li>html （document.documentElement）</li>
+<li>body</li>
+<li>…</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 捕获 true</span></span><br><span class="line"><span class="comment">// 冒泡 false</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> event = <span class="built_in">document</span>.getElementById(<span class="string">'ev'</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">window</span>.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">'window'</span>)</span><br><span class="line">&#125;, <span class="literal">true</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">document</span>.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">'document'</span>)</span><br><span class="line">&#125;, <span class="literal">true</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">document</span>.documentElement.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">'html'</span>)</span><br><span class="line">&#125;, <span class="literal">true</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">document</span>.body.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">'body'</span>)</span><br><span class="line">&#125;, <span class="literal">true</span>)</span><br><span class="line"></span><br><span class="line">event.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">'el'</span>)</span><br><span class="line">&#125;, <span class="literal">true</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="Event对象的常见应用（监听、响应）"><a href="#Event对象的常见应用（监听、响应）" class="headerlink" title="Event对象的常见应用（监听、响应）"></a>Event对象的常见应用（监听、响应）</h2><ol>
+<li><code>event.preventDefault()</code></li>
+<li><code>event.stopPropagation()</code> 阻止冒泡</li>
+<li><code>event.stopImmediatePropagation()</code> 阻止立即冒泡</li>
+<li><code>event.currentTarget</code> 当前绑定事件的元素</li>
+<li><code>event.target</code> 当前被点击的元素</li>
+</ol>
+<h2 id="自定义事件"><a href="#自定义事件" class="headerlink" title="自定义事件"></a>自定义事件</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> event = <span class="keyword">new</span> Event(<span class="string">'myClick'</span>)</span><br><span class="line">event.addEventListener(<span class="string">'myClick'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">'custome'</span>)</span><br><span class="line">&#125;)</span><br><span class="line">event.dispatchEvent(event)</span><br><span class="line"></span><br><span class="line"><span class="comment">// CostomEvent</span></span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/06/23/t-dom-event/" data-id="cjwvu9vic003tjfjdncwgozc8" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/es5/">es5</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+ <script src="/jquery/jquery.min.js"></script>
+  <div id="random_posts">
+    <h2>推荐文章</h2>
+    <div class="random_posts_ul">
+      <script>
+          var random_count =4
+          var site = {BASE_URI:'/'};
+          function load_random_posts(obj) {
+              var arr=site.posts;
+              if (!obj) return;
+              // var count = $(obj).attr('data-count') || 6;
+              for (var i, tmp, n = arr.length; n; i = Math.floor(Math.random() * n), tmp = arr[--n], arr[n] = arr[i], arr[i] = tmp);
+              arr = arr.slice(0, random_count);
+              var html = '<ul>';
+            
+              for(var j=0;j<arr.length;j++){
+                var item=arr[j];
+                html += '<li><strong>' + 
+                item.date + ':&nbsp;&nbsp;<a href="' + (site.BASE_URI+item.uri) + '">' + 
+                (item.title || item.uri) + '</a></strong>';
+                if(item.excerpt){
+                  html +='<div class="post-excerpt">'+item.excerpt+'</div>';
+                }
+                html +='</li>';
+                
+              }
+              $(obj).html(html + '</ul>');
+          }
+          $('.random_posts_ul').each(function () {
+              var c = this;
+              if (!site.posts || !site.posts.length){
+                  $.getJSON(site.BASE_URI + 'js/posts.js',function(json){site.posts = json;load_random_posts(c)});
+              } 
+               else{
+                load_random_posts(c);
+              }
+          });
+      </script>
+    </div>
+  </div>
+
+    
+<nav id="article-nav">
+  
+    <a href="/2018/07/23/t-note_apiza/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">
+        
+          apiza 管理api
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/06/18/复杂的图表业务临时实现方案/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">复杂的图表业务临时实现方案</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+ 
+     
+  <div class="comments" id="comments">
+    
+     
+       
+      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    
+       
+      
+      
+  </div>
+ 
+  
+
+</section>
+           
+    <aside id="sidebar">
+  
+    
+
+  
+    
+    <div class="widget-wrap">
+    
+      <div class="widget" id="toc-widget-fixed">
+      
+        <strong class="toc-title">文章目录</strong>
+        <div class="toc-widget-list">
+              <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#DOM-事件流"><span class="toc-number">1.</span> <span class="toc-text">DOM 事件流</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#基本概念（dom级别）"><span class="toc-number">1.1.</span> <span class="toc-text">基本概念（dom级别）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#级别"><span class="toc-number">1.1.1.</span> <span class="toc-text">级别</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DOM事件模型（捕获、冒泡）"><span class="toc-number">1.2.</span> <span class="toc-text">DOM事件模型（捕获、冒泡）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DOM事件流"><span class="toc-number">1.3.</span> <span class="toc-text">DOM事件流</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DOM事件捕获的具体流程"><span class="toc-number">1.4.</span> <span class="toc-text">DOM事件捕获的具体流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Event对象的常见应用（监听、响应）"><span class="toc-number">1.5.</span> <span class="toc-text">Event对象的常见应用（监听、响应）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#自定义事件"><span class="toc-number">1.6.</span> <span class="toc-text">自定义事件</span></a></li></ol></li></ol>
+          </div>
+      </div>
+    </div>
+
+  
+    
+
+  
+    
+  
+    
+  
+    
+
+  
+    
+  
+    <!--微信公众号二维码-->
+
+
+  
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-left">
+      &copy; 2014 - 2019 suoyue&nbsp;|&nbsp;
+      主题 <a href="https://github.com/giscafer/hexo-theme-cafe/" target="_blank">Cafe</a>
+    </div>
+     <div id="footer-right">
+      联系方式&nbsp;|&nbsp;suoyuesmile@gmail.com
+    </div>
+  </div>
+</footer>
+ <script src="/jquery/jquery.min.js"></script>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+    <a href="/about" class="mobile-nav-link">关于</a>
+  
+</nav>
+    <img class="back-to-top-btn" src="/images/fly-to-top.png"/>
+<script>
+// Elevator script included on the page, already.
+window.onload = function() {
+  var elevator = new Elevator({
+    selector:'.back-to-top-btn',
+    element: document.querySelector('.back-to-top-btn'),
+    duration: 1000 // milliseconds
+  });
+}
+</script>
+      
+
+  
+    <script>
+      var cloudTieConfig = {
+        url: document.location.href, 
+        sourceId: "",
+        productKey: "e2fb4051c49842688ce669e634bc983f",
+        target: "cloud-tie-wrapper"
+      };
+    </script>
+    <script src="https://img1.ws.126.net/f2e/tie/yun/sdk/loader.js"></script>
+    
+
+  
+
+
+
+
+
+
+
+<!-- author:forvoid begin -->
+<!-- author:forvoid begin -->
+
+<!-- author:forvoid end -->
+
+<!-- author:forvoid end -->
+
+
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      })
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      })
+    </script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+ <script src="/js/is.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+<script src="/js/elevator.js"></script>
+  </div>
+</body>
+</html>

@@ -73,14 +73,14 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-t-note_ar_001" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-上线构建引发的思考" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/06/23/t-note_ar_001/" class="article-date">
-  <time datetime="2016-06-23T12:33:23.000Z" itemprop="datePublished">2016-06-23</time>
+    <a href="/2018/10/13/上线构建引发的思考/" class="article-date">
+  <time datetime="2018-10-13T12:31:11.000Z" itemprop="datePublished">2018-10-13</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/算法/">算法</a>
+    <a class="article-category-link" href="/categories/前端工程化/">前端工程化</a>
   </div>
 
   </div>
@@ -91,7 +91,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/06/23/t-note_ar_001/">JavaScript 写常见算法之二分查找</a>
+      <a class="article-title" href="/2018/10/13/上线构建引发的思考/">上线构建引发的思考</a>
     </h1>
   
 
@@ -101,23 +101,15 @@
       
         <!-- Table of Contents -->
         
-        <p>学习数据结构时，写过很多二分查找，具体细节已经忘的差不多了。现在重新用 JavaScript 捡起来，这其实和我之前写的快排有异曲同工之妙。</p>
-<h3 id="二分查找原理"><a href="#二分查找原理" class="headerlink" title="二分查找原理"></a>二分查找原理</h3><p>1.思想：<strong>减而治之</strong><br><strong>同样先选择一个轴点，左边比轴点小，右边比轴点大。目标大于左边，则缩减整体规模为左边，反之缩减至右边规模。</strong></p>
-<p>2.方法：<strong>迭代</strong><br>简单分为 2 步</p>
-<ul>
-<li>确定中间轴点</li>
-<li>迭代深入，轴点替换换上下界</li>
-</ul>
-<h3 id="JavaScript-代码"><a href="#JavaScript-代码" class="headerlink" title="JavaScript 代码"></a>JavaScript 代码</h3><p>代码如下<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 原始数组</span></span><br><span class="line"><span class="keyword">var</span> originArr = [<span class="number">1</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">10</span>, <span class="number">11</span>, <span class="number">13</span>, <span class="number">14</span>];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">binSearch</span>(<span class="params">arr, target</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> mi, <span class="comment">// 轴点下标</span></span><br><span class="line">        lo = <span class="number">0</span>, <span class="comment">// 下界下标</span></span><br><span class="line">        hi = arr.length; <span class="comment">// 上界下标</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (hi - lo &gt;= <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="comment">// 取整处理</span></span><br><span class="line">        mi = <span class="built_in">Math</span>.floor((hi + lo) / <span class="number">2</span>);</span><br><span class="line">        <span class="keyword">if</span> (target &lt; arr[mi]) &#123;</span><br><span class="line">            hi = mi;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (arr[mi] &lt; target)&#123;</span><br><span class="line">            lo = mi;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> mi;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 测试</span></span><br><span class="line"><span class="built_in">console</span>.log(binSearch(originArr, <span class="number">4</span>));</span><br><span class="line"><span class="comment">// 2</span></span><br></pre></td></tr></table></figure></p>
-
+        
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/06/23/t-note_ar_001/" data-id="cjwvqj49h002a2jjdzdr4igme" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2018/10/13/上线构建引发的思考/" data-id="cjwvu9vj4005qjfjdofw0qa50" class="article-share-link">分享</a>
       
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/算法/">算法</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ci/">ci</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端工程化/">前端工程化</a></li></ul>
 
     </footer>
   </div>
@@ -127,14 +119,14 @@
 
 
   
-    <article id="post-t-note_ar_002" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-极端数据情况下的处理" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/06/22/t-note_ar_002/" class="article-date">
-  <time datetime="2016-06-22T12:33:23.000Z" itemprop="datePublished">2016-06-22</time>
+    <a href="/2018/09/13/极端数据情况下的处理/" class="article-date">
+  <time datetime="2018-09-13T12:31:11.000Z" itemprop="datePublished">2018-09-13</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/算法/">算法</a>
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
   </div>
 
   </div>
@@ -145,7 +137,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/06/22/t-note_ar_002/">JavaScript 写常见算法之快速排序</a>
+      <a class="article-title" href="/2018/09/13/极端数据情况下的处理/">极端数据情况下的处理</a>
     </h1>
   
 
@@ -155,25 +147,15 @@
       
         <!-- Table of Contents -->
         
-        <p>之前学习数据结构的时候，用 C++ 的模板写过快速排序，而且还写了不少的变种。现在将用 JavaScipt 再重新复习一遍吧</p>
-<h3 id="快速排序原理"><a href="#快速排序原理" class="headerlink" title="快速排序原理"></a>快速排序原理</h3><p>1.思想： <strong>分而治之</strong><br><strong>选择一个数作为轴点，将整个序列分为左右两侧，左边不比轴点大，右边不比轴点小，对左右两边的子集迭代或递归直至缩减为最小规模。</strong></p>
-<p>2.方法： <strong>递归</strong><br>简单分为4 步</p>
-<ul>
-<li>求平凡解</li>
-<li>选取轴点</li>
-<li>左右分组</li>
-<li>递归连接</li>
-</ul>
-<h3 id="JavaScipt-代码"><a href="#JavaScipt-代码" class="headerlink" title="JavaScipt 代码"></a>JavaScipt 代码</h3><p>代码如下<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 原始序列</span></span><br><span class="line"><span class="keyword">var</span> originArr = [<span class="number">2</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">3</span>, <span class="number">8</span>, <span class="number">1</span>, <span class="number">10</span>, <span class="number">9</span>, <span class="number">6</span>];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">quickSort</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 1.最小规模</span></span><br><span class="line">    <span class="keyword">if</span> (arr.length &lt;= <span class="number">1</span>) <span class="keyword">return</span> arr;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 2.确定轴点</span></span><br><span class="line">    <span class="keyword">var</span> povitIndex = <span class="built_in">Math</span>.floor(arr.length / <span class="number">2</span>);</span><br><span class="line">    <span class="keyword">var</span> pivot = arr.splice(povitIndex, <span class="number">1</span>)[<span class="number">0</span>];</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 3.遍历集合分类</span></span><br><span class="line">    <span class="keyword">var</span> leftArr = [], rightArr = [];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; arr.length; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span>(arr[i] &lt; pivot) &#123;</span><br><span class="line">            leftArr.push(arr[i]);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            rightArr.push(arr[i]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 4.递归子集并连接</span></span><br><span class="line">    <span class="keyword">return</span> quickSort(leftArr).concat(pivot, quickSort(rightArr));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 测试</span></span><br><span class="line"><span class="built_in">console</span>.log(quickSort(originArr));</span><br><span class="line"><span class="comment">// [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]</span></span><br></pre></td></tr></table></figure></p>
-
+        
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/06/22/t-note_ar_002/" data-id="cjwvqj49j002e2jjdb4mi6axb" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2018/09/13/极端数据情况下的处理/" data-id="cjwvu9vjj006tjfjdpgd1h50d" class="article-share-link">分享</a>
       
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/算法/">算法</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/data/">data</a></li></ul>
 
     </footer>
   </div>
@@ -183,14 +165,14 @@
 
 
   
-    <article id="post-t-note_gulp_001" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-t-design_mode" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/06/10/t-note_gulp_001/" class="article-date">
-  <time datetime="2016-06-10T12:33:23.000Z" itemprop="datePublished">2016-06-10</time>
+    <a href="/2018/09/02/t-design_mode/" class="article-date">
+  <time datetime="2018-09-02T12:31:11.000Z" itemprop="datePublished">2018-09-02</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/前端工具/">前端工具</a>
+    <a class="article-category-link" href="/categories/设计模式/">设计模式</a>
   </div>
 
   </div>
@@ -201,7 +183,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/06/10/t-note_gulp_001/">前端工程化之路：初探 Gulp流式构建工具</a>
+      <a class="article-title" href="/2018/09/02/t-design_mode/">设计模式研究</a>
     </h1>
   
 
@@ -211,87 +193,15 @@
       
         <!-- Table of Contents -->
         
-        <p>用了一段事件的 webpack，感觉挺好用的，现在也试一下 gulp，这个工具上手起来其实也很快的。虽然它和 webpack 的原理相差很大，但是都能出色的完成任务。所以写一篇入门博客供以后参考。</p>
-<h3 id="什么是-gulp"><a href="#什么是-gulp" class="headerlink" title="什么是 gulp"></a>什么是 gulp</h3><p>流式自动化构建工具，简单的说就是，把输入的某些东西，经过某个管道处理后，输出需要的形式。</p>
-<h3 id="为什么要用-gulp"><a href="#为什么要用-gulp" class="headerlink" title="为什么要用 gulp"></a>为什么要用 gulp</h3><p>简单来说，就是减少我们一个一个构建的时间，使用这个工具自动化构建，如：scss 转化成 css, ES6 转化成 ES5, 等等，只要装了插件都能完成，最后就是把这些功能都写在一个函数里面，一起处理。</p>
-<h4 id="gulp-安装"><a href="#gulp-安装" class="headerlink" title="gulp 安装"></a>gulp 安装</h4><p>和其他 npm 一样，直接输入命令<br>全局安装<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --global gulp</span><br></pre></td></tr></table></figure></p>
-<p>工程安装<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save-dev gulp</span><br></pre></td></tr></table></figure></p>
-<h4 id="gulp-使用"><a href="#gulp-使用" class="headerlink" title="gulp 使用"></a>gulp 使用</h4><p><strong>1.在工程目录里新建文件 gulpfile, 然后引入gulp</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> gulp = <span class="built_in">require</span>(<span class="string">'gulp'</span>);</span><br></pre></td></tr></table></figure></p>
-<p><strong>2.gulp 四个核心方法</strong></p>
-<ul>
-<li>task() : 执行的任务</li>
-<li>src()  : 输入的文件</li>
-<li>pipe() : 执行的管道方法，接在源后面或者其他管道后面</li>
-<li>dest() : 输出的位置</li>
-</ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> gulp = <span class="built_in">require</span>(<span class="string">'gulp'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 第一个参数为任务名（默认为default)， 第一个是任务内容</span></span><br><span class="line">gulp.task(<span class="string">'default'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    gulp.src(<span class="string">'../source/*.js'</span>)</span><br><span class="line">    .pipe(gulp.dest(<span class="string">'../dest'</span>));</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<p><strong>3.gulp 插件使用</strong></p>
-<p>安装压缩插件<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --global gulp-uglify</span><br></pre></td></tr></table></figure></p>
-<p>使用插件<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> gulp = <span class="built_in">require</span>(<span class="string">'gulp'</span>);</span><br><span class="line"><span class="keyword">var</span> uglify = <span class="built_in">require</span>(<span class="string">'gulp-uglify'</span>);</span><br><span class="line"></span><br><span class="line">gulp.task(<span class="string">'compess'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    gulp.src(<span class="string">'../source/js/*.js'</span>)</span><br><span class="line">        .pipe(uglify())</span><br><span class="line">        .pipe(gulp.dest(<span class="string">'../dest/js'</span>))</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
-<p>执行任务<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gulp compress</span><br></pre></td></tr></table></figure></p>
-<h4 id="gulp-实践"><a href="#gulp-实践" class="headerlink" title="gulp 实践"></a>gulp 实践</h4><p>根据需要搜索想要的插件并安装<a href="http://www.gulpjs.com.cn/docs/" target="_blank" rel="noopener">gulp文档</a>与<a href="https://gulpjs.com/plugins/" target="_blank" rel="noopener">gulp插件</a><br>任务列表：</p>
-<table>
-<thead>
-<tr>
-<th>任务</th>
-<th>插件</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>检测js</td>
-<td>gulp-jshint</td>
-</tr>
-<tr>
-<td>scss =&gt; css</td>
-<td>gulp-sass</td>
-</tr>
-<tr>
-<td>jsx =&gt; js</td>
-<td>gulp-react</td>
-</tr>
-<tr>
-<td>es6 =&gt; es5</td>
-<td>gulp-babel</td>
-</tr>
-<tr>
-<td>文件拷贝</td>
-<td>gulp-copy</td>
-</tr>
-<tr>
-<td>文件合并</td>
-<td>gulp-concat</td>
-</tr>
-<tr>
-<td>压缩js</td>
-<td>gulp-uglify</td>
-</tr>
-<tr>
-<td>压缩css</td>
-<td>gulp-cssmin</td>
-</tr>
-<tr>
-<td>压缩html</td>
-<td>gulp-htmlmin</td>
-</tr>
-<tr>
-<td>压缩img</td>
-<td>gulp-imagemin</td>
-</tr>
-</tbody>
-</table>
-<p>安装各种插件<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm insatll --global gulp-sass </span><br><span class="line">...</span><br></pre></td></tr></table></figure></p>
-<p>写构建任务<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> gulp = <span class="built_in">require</span>(<span class="string">'gulp'</span>);</span><br><span class="line"><span class="keyword">var</span> sass = <span class="built_in">require</span>(<span class="string">'gulp-sass'</span>);</span><br><span class="line"><span class="keyword">var</span> jsinit = <span class="built_in">require</span>(<span class="string">'gulp-jsinit'</span>);</span><br><span class="line"><span class="comment">// ...</span></span><br><span class="line">gulp.task(<span class="string">'all'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    gulp.src(<span class="string">'../source/js'</span>)</span><br><span class="line">        .pipe(react())</span><br><span class="line">        .pipe(babel())</span><br><span class="line">        .pipe(concat())</span><br><span class="line">        .pipe(uglify())</span><br><span class="line">        .pipe(gulp(<span class="string">'../dest/js'</span>));</span><br><span class="line">    gulp.src(<span class="string">'../source/css'</span>)</span><br><span class="line">        .pipe(sass())</span><br><span class="line">        .pipe(concat())</span><br><span class="line">        .pipe(cssmin())</span><br><span class="line">        .pipe(<span class="string">'../dest/css'</span>);</span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
-<p>执行任务<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gulp all</span><br></pre></td></tr></table></figure></p>
-
+        
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/06/10/t-note_gulp_001/" data-id="cjwvqj49n002p2jjd12q0jv5h" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2018/09/02/t-design_mode/" data-id="cjwvu9vfh0003jfjdwcpbsk33" class="article-share-link">分享</a>
       
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/gulp/">gulp</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
 
     </footer>
   </div>
@@ -301,14 +211,14 @@
 
 
   
-    <article id="post-t-note_webpack_001" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-vue 卡在了一个奇怪的问题上了？" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/04/01/t-note_webpack_001/" class="article-date">
-  <time datetime="2016-04-01T12:33:23.000Z" itemprop="datePublished">2016-04-01</time>
+    <a href="/2018/08/20/vue 卡在了一个奇怪的问题上了？/" class="article-date">
+  <time datetime="2018-08-20T12:31:11.000Z" itemprop="datePublished">2018-08-20</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/前端工具/">前端工具</a>
+    <a class="article-category-link" href="/categories/vue/">vue</a>
   </div>
 
   </div>
@@ -319,7 +229,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/04/01/t-note_webpack_001/">前端工程化之路：初探 Webpack 打包工具</a>
+      <a class="article-title" href="/2018/08/20/vue 卡在了一个奇怪的问题上了？/">vue 卡在了一个奇怪的问题上了？</a>
     </h1>
   
 
@@ -329,31 +239,15 @@
       
         <!-- Table of Contents -->
         
-        <p>最近一段时间前端的工具越来越多，让人不禁眼花缭绕。其中也不乏好的工具，比如 Webpack 和 Gulp 两种不同风格的前端工具。感觉再不学都跟不上技术的节奏了。所以最近尝试的去学习了一些。收获也是颇丰。现在记下笔记，以便日后，查看。</p>
-<h3 id="Webpack-作用"><a href="#Webpack-作用" class="headerlink" title="Webpack 作用"></a>Webpack 作用</h3><p>Webpack 被称为前端打包工具。将项目当作一个整体，通过给定主文件，使用 loaders 处理后生成浏览器可识别的 JavaScript 文件</p>
-<h3 id="Webpack-原理"><a href="#Webpack-原理" class="headerlink" title="Webpack 原理"></a>Webpack 原理</h3><ul>
-<li>模块化，处理依赖关系</li>
-<li>CommonJs 标准</li>
-<li>加载工具，集成在一起</li>
-</ul>
-<h3 id="Webpack-安装"><a href="#Webpack-安装" class="headerlink" title="Webpack 安装"></a>Webpack 安装</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 全局安装</span></span><br><span class="line">npm install -g webpack</span><br><span class="line"><span class="comment"># 安装到项目目录</span></span><br><span class="line">npm install --save-dev webpack</span><br></pre></td></tr></table></figure>
-<h3 id="Webpack-使用"><a href="#Webpack-使用" class="headerlink" title="Webpack 使用"></a>Webpack 使用</h3><p>1.建立npn环境<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm init</span><br></pre></td></tr></table></figure></p>
-<p>2.使用webpack工具<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">webpack &#123;entry file&#125; &#123;destination file&#125;</span><br></pre></td></tr></table></figure></p>
-<p>3.添加配置文件<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// webpack.config.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    entry: _dirname + <span class="string">"/app/main.js"</span>,</span><br><span class="line">    output: &#123;</span><br><span class="line">        path: _dirname + <span class="string">"/public"</span>,</span><br><span class="line">        filename: <span class="string">"bundle.js"</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>4.添加调试工具<br>(1)安装<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save-dev webpack-dev-server</span><br></pre></td></tr></table></figure></p>
-<p>(2)配置<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// webpack.config.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    devtools: <span class="string">"eval-source-map"</span>,</span><br><span class="line">    entry: _dirname + <span class="string">"/app/main.js"</span>,</span><br><span class="line">    output: &#123;</span><br><span class="line">        path: _dirname + <span class="string">"/public"</span>,</span><br><span class="line">        filename: <span class="string">"bundle.js"</span></span><br><span class="line">    &#125;</span><br><span class="line">    devServer: &#123;</span><br><span class="line">        contentBase: <span class="string">"./public"</span>,</span><br><span class="line">        historyApiFallback: <span class="literal">true</span>,</span><br><span class="line">        inline: <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>(3)开启服务器<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// package.json</span><br><span class="line">"script": &#123;</span><br><span class="line">    "server": "webpack-dev-server --open"</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>(4)运行<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run server</span><br></pre></td></tr></table></figure></p>
-<p>5.使用loaders</p>
-
+        
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/04/01/t-note_webpack_001/" data-id="cjwvqj4a0003j2jjdsqk9neno" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2018/08/20/vue 卡在了一个奇怪的问题上了？/" data-id="cjwvu9viz005ajfjdqyei96zy" class="article-share-link">分享</a>
       
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webpack/">webpack</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/question/">question</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vue/">vue</a></li></ul>
 
     </footer>
   </div>
@@ -363,14 +257,14 @@
 
 
   
-    <article id="post-t-note_sass_001" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-两天开发一个敏感词检测工具并参加黑客比赛" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/03/23/t-note_sass_001/" class="article-date">
-  <time datetime="2016-03-23T11:25:23.000Z" itemprop="datePublished">2016-03-23</time>
+    <a href="/2018/08/10/两天开发一个敏感词检测工具并参加黑客比赛/" class="article-date">
+  <time datetime="2018-08-10T12:31:11.000Z" itemprop="datePublished">2018-08-10</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/前端工具/">前端工具</a>
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
   </div>
 
   </div>
@@ -381,7 +275,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/03/23/t-note_sass_001/">前端工程化之路：初探 Sass 技术</a>
+      <a class="article-title" href="/2018/08/10/两天开发一个敏感词检测工具并参加黑客比赛/">两天开发一个敏感词检测工具并参加黑客比赛</a>
     </h1>
   
 
@@ -391,28 +285,15 @@
       
         <!-- Table of Contents -->
         
-        <p>对于 CSS 来说这门语言就如同是写给设计者们的。语言本身是不需要编译的。而且写起来简单明了，但是对于程序员来说没有一种编程的感觉。对于一些重复冗余的代码，无力提高编写效率。现在推出了两个工具 Sass 和 Less，决定尝试一下，慢慢的适应用编程的方式来写 css。因此写了这篇入门的博客，以便以后忘记了的地方能很快捡起来。</p>
-<h3 id="Sass-语法"><a href="#Sass-语法" class="headerlink" title="Sass 语法"></a>Sass 语法</h3><h4 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h4><figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 普通变量：全局使用属性值</span></span><br><span class="line"><span class="variable">$mainColor</span>: <span class="number">#666666</span>;</span><br><span class="line"><span class="variable">$color</span>: <span class="number">#ff0000</span>;</span><br><span class="line"><span class="selector-tag">body</span> &#123;<span class="attribute">background-color</span>: <span class="variable">$mainColor</span>; <span class="attribute">color</span>: $  color;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 默认变量</span></span><br><span class="line"><span class="variable">$color</span>: <span class="number">#ff0000</span>;</span><br><span class="line"><span class="variable">$color</span>: <span class="number">#000</span> !default; <span class="comment">// 组件化开发时有用</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 特殊变量：名字属性或者其他的</span></span><br><span class="line">$borderDire = top;</span><br><span class="line"><span class="selector-class">.border-</span>#&#123;<span class="variable">$borderDire</span>&#125; &#123;</span><br><span class="line">    <span class="attribute">border</span>-#&#123;<span class="variable">$borderDire</span>&#125;: <span class="variable">$color</span> <span class="number">1px</span> solid;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 多值变量</span></span><br><span class="line">$pList = 5px 10px 15px 20px;</span><br><span class="line"><span class="selector-tag">p</span> &#123;<span class="attribute">margin</span>: <span class="variable">$pList</span>;&#125;</span><br><span class="line">$hSize = (h1: 10px, h2: 15px, h3: 20px);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 全局变量(将新增)</span></span><br><span class="line"><span class="variable">$color</span>: <span class="number">#333333</span>;</span><br><span class="line"><span class="variable">$color</span>: <span class="number">#666666</span> !global;</span><br></pre></td></tr></table></figure>
-<h4 id="嵌套"><a href="#嵌套" class="headerlink" title="嵌套"></a>嵌套</h4><figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 选择器嵌套</span></span><br><span class="line"><span class="selector-tag">body</span> &#123;</span><br><span class="line">    <span class="selector-class">.main</span> &#123;</span><br><span class="line">        <span class="attribute">color</span>: <span class="variable">$color</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 等同于</span></span><br><span class="line"><span class="selector-tag">body</span> <span class="selector-class">.main</span> &#123;<span class="attribute">color</span>: <span class="variable">$color</span>;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 属性嵌套</span></span><br><span class="line"><span class="selector-class">.main</span> &#123;</span><br><span class="line">    <span class="attribute">border</span>: &#123;</span><br><span class="line">        left: &#123;</span><br><span class="line">            width: <span class="number">2px</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="attribute">top</span>: &#123;</span><br><span class="line">            width: <span class="number">3px</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 等同于</span></span><br><span class="line"><span class="selector-class">.main</span> &#123;<span class="attribute">border-left-width</span>: <span class="number">2px</span>; <span class="attribute">border-top-width</span>: <span class="number">3px</span>;&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="导入"><a href="#导入" class="headerlink" title="导入"></a>导入</h4><figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// file: _reset.scss</span></span><br><span class="line">* &#123;<span class="attribute">margin</span>: <span class="number">0</span>; <span class="attribute">padding</span>: <span class="number">0</span>;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// file: test.scss</span></span><br><span class="line">@<span class="keyword">import</span> <span class="string">'reset'</span>;</span><br><span class="line"><span class="selector-tag">body</span> &#123;</span><br><span class="line">    <span class="selector-class">.main</span> &#123;</span><br><span class="line">        <span class="attribute">color</span>: <span class="variable">$color</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//等同于</span></span><br><span class="line">* &#123;<span class="attribute">margin</span>: <span class="number">0</span>; <span class="attribute">padding</span> 0;&#125;</span><br><span class="line"><span class="selector-tag">body</span> <span class="selector-class">.main</span> &#123;<span class="attribute">color</span>: <span class="number">#c</span>olor;&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="混合"><a href="#混合" class="headerlink" title="混合"></a>混合</h4><figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 无参</span></span><br><span class="line">@<span class="keyword">mixin</span> center-block &#123;</span><br><span class="line">    <span class="attribute">margin</span>: <span class="number">0</span> auto;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.main</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">600px</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">300px</span>;</span><br><span class="line">    @<span class="keyword">include</span> center-block;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 有参</span></span><br><span class="line">@<span class="keyword">mixin</span> box-sizing (<span class="variable">$sizing</span>) &#123;</span><br><span class="line">    -webkit-<span class="attribute">box-sizing</span>: <span class="variable">$sizing</span>;</span><br><span class="line">       -moz-bix-sizing: <span class="variable">$sizing</span>;</span><br><span class="line">                sizing: <span class="variable">$sizing</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.box-border</span> &#123;</span><br><span class="line">    <span class="attribute">border</span>: <span class="number">1px</span> <span class="variable">$color</span> solid;</span><br><span class="line">    @<span class="keyword">include</span> box-sizing(border-box);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 多参</span></span><br><span class="line">@<span class="keyword">mixin</span> border-default(<span class="variable">$borderWidth</span>: 1px, <span class="variable">$borderStyle</span>: dashed) &#123;</span><br><span class="line">    <span class="attribute">border</span>: <span class="variable">$borderWidth</span> <span class="variable">$borderStyle</span> <span class="number">#666</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">div</span> <span class="selector-tag">p</span> &#123;@<span class="keyword">include</span> border-default;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// media问题</span></span><br><span class="line">@<span class="keyword">mixin</span> screen-max(<span class="variable">$res</span>) &#123;</span><br><span class="line">    @<span class="keyword">media</span> only screen and (max-width: <span class="variable">$res</span>) &#123;</span><br><span class="line">        @<span class="keyword">content</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">@<span class="keyword">include</span> screen-max(<span class="number">600px</span>) &#123;</span><br><span class="line">    <span class="selector-tag">body</span> &#123;</span><br><span class="line">        <span class="attribute">color</span>: red;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h4><figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$baseFontSize</span>: <span class="number">10px</span> !default;</span><br><span class="line"><span class="variable">$greyColor</span>: <span class="number">#cccccc</span> !default;</span><br><span class="line"></span><br><span class="line">@function pxToRem(<span class="variable">$px</span>) &#123;</span><br><span class="line">    @return <span class="variable">$px</span> / <span class="variable">$baseFontSize</span> * 1rem;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">p</span> &#123;</span><br><span class="line">    <span class="attribute">font-size</span>: pxToRem(<span class="number">20px</span>); <span class="comment">// 自定义</span></span><br><span class="line">    <span class="attribute">color</span>: darken(<span class="variable">$greyColor</span>, <span class="number">20%</span>); <span class="comment">// 内置函数</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h4><figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.main</span> &#123;<span class="attribute">height</span>: <span class="variable">$height</span>; <span class="attribute">width</span>: <span class="variable">$width</span>;&#125;</span><br><span class="line"><span class="selector-class">.left</span> &#123;@<span class="keyword">extend</span> .main; <span class="attribute">color</span>: <span class="variable">$color</span>;&#125;</span><br><span class="line"><span class="selector-class">.right</span> &#123;@<span class="keyword">extend</span> .main; <span class="attribute">color</span>: <span class="number">#777777</span>;&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="运算"><a href="#运算" class="headerlink" title="运算"></a>运算</h4><figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.main</span> &#123;<span class="attribute">width</span>: <span class="number">500px</span>;&#125;</span><br><span class="line"><span class="selector-class">.left</span> &#123;<span class="attribute">width</span>: <span class="number">200px</span>;&#125;</span><br><span class="line"><span class="selector-class">.right</span> &#123;<span class="attribute">width</span>: <span class="number">500px</span> - <span class="number">200px</span> - <span class="number">30px</span>;&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="条件"><a href="#条件" class="headerlink" title="条件"></a>条件</h4><figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 双目判断</span></span><br><span class="line">$size = 10;</span><br><span class="line">$color = red;</span><br><span class="line"><span class="selector-tag">p</span> &#123;</span><br><span class="line">    @<span class="keyword">if</span> <span class="variable">$size</span> &lt; 10 &#123;</span><br><span class="line">        <span class="attribute">font-size</span>: <span class="number">10px</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">p</span> <span class="selector-tag">div</span> &#123;</span><br><span class="line">    @<span class="keyword">if</span> <span class="variable">$color</span> == yellow &#123;</span><br><span class="line">        <span class="attribute">color</span>: darken(yellow, <span class="number">20%</span>);</span><br><span class="line">    &#125; @<span class="keyword">else</span> if <span class="variable">$color</span> == green &#123;</span><br><span class="line">        <span class="attribute">color</span>: darken(green, <span class="number">30%</span>);</span><br><span class="line">    &#125; @<span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="attribute">color</span>: <span class="variable">$color</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 三目判断</span></span><br><span class="line">if(true, 1px, 2px) <span class="comment">// 1px</span></span><br></pre></td></tr></table></figure>
-<h4 id="循环"><a href="#循环" class="headerlink" title="循环"></a>循环</h4><figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1-10</span></span><br><span class="line">@<span class="keyword">for</span> <span class="variable">$i</span> from 1 through 10 &#123;</span><br><span class="line">    <span class="selector-class">.item-</span>#&#123;<span class="variable">$i</span>&#125;: &#123;</span><br><span class="line">        display: none;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 1-10</span></span><br><span class="line">@<span class="keyword">for</span> <span class="variable">$i</span> from 1 to 11 &#123;</span><br><span class="line">    <span class="selector-class">.item-</span>#&#123;<span class="variable">$i</span>&#125;: &#123;</span><br><span class="line">        display: none;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="Sass-安装"><a href="#Sass-安装" class="headerlink" title="Sass 安装"></a>Sass 安装</h3><p>1.安装 Ruby<br>2.安装 Sass<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gem install sass</span><br></pre></td></tr></table></figure></p>
-<h3 id="Sass-编译"><a href="#Sass-编译" class="headerlink" title="Sass 编译"></a>Sass 编译</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 单文件编译</span></span><br><span class="line">sass test.scss test.css</span><br><span class="line"><span class="comment"># 文件夹监听编译</span></span><br><span class="line">sass --watch scssDir:cssDir </span><br><span class="line"><span class="comment"># 逆向转换</span></span><br><span class="line">sass-convert test.css test.scss</span><br></pre></td></tr></table></figure>
-<h3 id="Sass-调试"><a href="#Sass-调试" class="headerlink" title="Sass 调试"></a>Sass 调试</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 开启调试</span></span><br><span class="line">sass --watch scssDir:cssDir --debug-info</span><br><span class="line">sass --watch scssDir:cssDir --sourcemap</span><br></pre></td></tr></table></figure>
-
+        
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/03/23/t-note_sass_001/" data-id="cjwvqj49r00312jjdlk66uec5" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2018/08/10/两天开发一个敏感词检测工具并参加黑客比赛/" data-id="cjwvu9vj6005ujfjdhatpywib" class="article-share-link">分享</a>
       
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css/">css</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sass/">sass</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/谷歌插件/">谷歌插件</a></li></ul>
 
     </footer>
   </div>
@@ -425,7 +306,7 @@
 
 
   <nav id="page-nav">
-    <a class="extend prev" rel="prev" href="/page/3/">&laquo; 上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/5/">下一页&raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/3/">&laquo; 上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/5/">下一页&raquo;</a>
   </nav>
 </section>
            
@@ -448,23 +329,23 @@
       <ul>
         
           <li>
-            <a href="/2019/02/26/t-note_vue_004/">(no title)</a>
+            <a href="/2019/05/24/vue-cli3 把配置都封装了这样设计有什么好处？/">vue-cli3 把配置都封装了这样设计有什么好处？</a>
           </li>
         
           <li>
-            <a href="/2019/02/26/t/">(no title)</a>
+            <a href="/2019/05/12/dva 试用/">dva 试用</a>
           </li>
         
           <li>
-            <a href="/2018/01/17/t-note_kj_001/">各大编辑器快捷键收集</a>
+            <a href="/2019/04/23/vue3 要增强 typescript？/">vue3 要增强 typescript？</a>
           </li>
         
           <li>
-            <a href="/2018/01/17/t-note_tools_001/">各大编辑器快捷键收集</a>
+            <a href="/2019/04/18/redux 为啥叫 redux？/">redux 为啥叫 redux？</a>
           </li>
         
           <li>
-            <a href="/2018/01/09/t-note_ci_001/">持续集成工具 CI 使用</a>
+            <a href="/2019/04/08/什么是react-hooks？为什么尤大佬这么关注/">什么是react-hooks？为什么尤大佬这么关注</a>
           </li>
         
       </ul>
