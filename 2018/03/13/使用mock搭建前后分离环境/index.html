@@ -5,18 +5,18 @@
   
   <title>使用mock搭建前后分离环境 | 锁越smile</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="保持乐观，保持谦虚">
+  <meta name="description" content="为什么要搭建mock 真正实现前后分离，后端接口未实现的情况下，前端也能开发 接口变化情况，前端依然可以开发 接口数据真实数据没办法反映数据极端情况的状态  怎么搭建mock 方法一：使用json-serve 方法二：使用nodejs或者express和koa搭建  对于第一种方式可以查阅json-serve文档即可 ">
 <meta name="keywords" content="前端工程化,Mock">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用mock搭建前后分离环境">
 <meta property="og:url" content="http://yoursite.com/2018/03/13/使用mock搭建前后分离环境/index.html">
 <meta property="og:site_name" content="锁越smile">
-<meta property="og:description" content="保持乐观，保持谦虚">
+<meta property="og:description" content="为什么要搭建mock 真正实现前后分离，后端接口未实现的情况下，前端也能开发 接口变化情况，前端依然可以开发 接口数据真实数据没办法反映数据极端情况的状态  怎么搭建mock 方法一：使用json-serve 方法二：使用nodejs或者express和koa搭建  对于第一种方式可以查阅json-serve文档即可 简单来说就就三步  安装模块 配置config，路由替换相关 使用mock.js">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-06-14T07:58:58.275Z">
+<meta property="og:updated_time" content="2019-06-17T03:44:27.551Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用mock搭建前后分离环境">
-<meta name="twitter:description" content="保持乐观，保持谦虚">
+<meta name="twitter:description" content="为什么要搭建mock 真正实现前后分离，后端接口未实现的情况下，前端也能开发 接口变化情况，前端依然可以开发 接口数据真实数据没办法反映数据极端情况的状态  怎么搭建mock 方法一：使用json-serve 方法二：使用nodejs或者express和koa搭建  对于第一种方式可以查阅json-serve文档即可 简单来说就就三步  安装模块 配置config，路由替换相关 使用mock.js">
   
     <link rel="alternate" href="/atom.xml" title="锁越smile" type="application/atom+xml">
   
@@ -101,11 +101,29 @@
       
         <!-- Table of Contents -->
         
-        
+        <h4 id="为什么要搭建mock"><a href="#为什么要搭建mock" class="headerlink" title="为什么要搭建mock"></a>为什么要搭建mock</h4><ol>
+<li>真正实现前后分离，后端接口未实现的情况下，前端也能开发</li>
+<li>接口变化情况，前端依然可以开发</li>
+<li>接口数据真实数据没办法反映数据极端情况的状态</li>
+</ol>
+<h4 id="怎么搭建mock"><a href="#怎么搭建mock" class="headerlink" title="怎么搭建mock"></a>怎么搭建mock</h4><ol>
+<li>方法一：使用json-serve</li>
+<li>方法二：使用nodejs或者express和koa搭建</li>
+</ol>
+<p>对于第一种方式可以查阅json-serve文档即可</p>
+<p>简单来说就就三步</p>
+<ol>
+<li>安装模块</li>
+<li>配置config，路由替换相关</li>
+<li>使用mock.js 将data生成模拟数据，并在json服务器上运行</li>
+</ol>
+<p>对于第二种方式，直接使用file文件io来处理。读取json文件，使用node的获取json，解析json数据，最后使用mockjs模拟生成数据,在服务器上响应<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>)</span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>)</span><br><span class="line"><span class="keyword">const</span> Mock = <span class="built_in">require</span>(<span class="string">'mockjs'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> respond = <span class="function">(<span class="params">fn</span>) =&gt;</span> &#123;</span><br><span class="line">    setTimeout(fn, <span class="number">500</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 将请求url与响应数据做对应</span></span><br><span class="line"><span class="keyword">const</span> MockExpection = <span class="function"><span class="keyword">function</span> <span class="title">MockExpection</span> (<span class="params">app</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.app = app</span><br><span class="line">&#125;</span><br><span class="line">MockExpection.prototype.expect = <span class="function"><span class="keyword">function</span> (<span class="params">method, apiList</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> app = <span class="keyword">this</span>.app</span><br><span class="line">    apiList.forEach(<span class="function">(<span class="params">[url, getMock]</span>) =&gt;</span> &#123;</span><br><span class="line">        app[method](url, (rep, res) =&gt; &#123;</span><br><span class="line">            respond(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">                res.json(Mock.mock(getMock(rep.query)))</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    getJsonFile (filePath) &#123;</span><br><span class="line">        <span class="keyword">var</span> json = fs.readFileSync(path.resolve(__dirname, filePath), <span class="string">'utf-8'</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">JSON</span>.parse(json)</span><br><span class="line">    &#125;,</span><br><span class="line">    MockExpection,</span><br><span class="line">    errorResponse: &#123;</span><br><span class="line">        code: <span class="number">1</span>,</span><br><span class="line">        message: <span class="string">'错误的响应'</span></span><br><span class="line">    &#125;,</span><br><span class="line">    successResponse: &#123;</span><br><span class="line">        code: <span class="number">0</span>,</span><br><span class="line">        message: <span class="string">'成功的响应'</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>其实本质上第二种也是一个json服务器，不过是我们自己写的，不是直接拿的包</p>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/03/13/使用mock搭建前后分离环境/" data-id="cjwvvdnx50063eajdm9rcfkvb" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2018/03/13/使用mock搭建前后分离环境/" data-id="cjx1d5z3z003wywjd9mxek5wh" class="article-share-link">分享</a>
       
       
       
@@ -159,19 +177,19 @@
     
 <nav id="article-nav">
   
-    <a href="/2018/03/20/使用element实现复杂的业务/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2018/04/03/添加 download 下载文件/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">上一篇</strong>
       <div class="article-nav-title">
         
-          使用element实现复杂的业务
+          添加 download 下载文件
         
       </div>
     </a>
   
   
-    <a href="/2018/03/02/用Resful api 规范来约束后端行为/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2018/03/01/t-note_webpack_001/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">下一篇</strong>
-      <div class="article-nav-title">用Restful api 规范来约束后端行为</div>
+      <div class="article-nav-title">前端工程化之路：初探 Webpack 打包工具</div>
     </a>
   
 </nav>
@@ -201,42 +219,24 @@
 
   
     
-  
+    <div class="widget-wrap">
     
-
-  
-    
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title recent-posts">最新文章</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2019/05/24/vue-cli3 把配置都封装了这样设计有什么好处？/">vue-cli3 把配置都封装了这样设计有什么好处？</a>
-          </li>
-        
-          <li>
-            <a href="/2019/05/12/dva 试用/">dva 试用</a>
-          </li>
-        
-          <li>
-            <a href="/2019/04/23/vue3 要增强 typescript？/">vue3 要增强 typescript？</a>
-          </li>
-        
-          <li>
-            <a href="/2019/04/18/redux 为啥叫 redux？/">redux 为啥叫 redux？</a>
-          </li>
-        
-          <li>
-            <a href="/2019/04/08/什么是react-hooks？为什么尤大佬这么关注/">什么是react-hooks？为什么尤大佬这么关注</a>
-          </li>
-        
-      </ul>
+      <div class="widget" id="toc-widget-fixed">
+      
+        <strong class="toc-title">文章目录</strong>
+        <div class="toc-widget-list">
+              <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#为什么要搭建mock"><span class="toc-number">1.</span> <span class="toc-text">为什么要搭建mock</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#怎么搭建mock"><span class="toc-number">2.</span> <span class="toc-text">怎么搭建mock</span></a></li></ol>
+          </div>
+      </div>
     </div>
-  </div>
 
+  
+    
+
+  
+    
+  
+    
   
     
 

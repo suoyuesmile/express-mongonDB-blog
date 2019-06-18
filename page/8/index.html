@@ -73,10 +73,10 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-使用element实现复杂的业务" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-t-book_js_004" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/03/20/使用element实现复杂的业务/" class="article-date">
-  <time datetime="2018-03-20T12:31:11.000Z" itemprop="datePublished">2018-03-20</time>
+    <a href="/2015/11/29/t-book_js_004/" class="article-date">
+  <time datetime="2015-11-29T07:22:15.000Z" itemprop="datePublished">2015-11-29</time>
 </a>
     
   <div class="article-category">
@@ -91,7 +91,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/03/20/使用element实现复杂的业务/">使用element实现复杂的业务</a>
+      <a class="article-title" href="/2015/11/29/t-book_js_004/">《JavaScript高级程序设计》读后记&lt;四&gt;：垃圾回收</a>
     </h1>
   
 
@@ -101,15 +101,25 @@
       
         <!-- Table of Contents -->
         
-        
+        <p>上一篇博客里，阐明了闭包的概念和作用，但是它有个缺点就是容易造成内存泄露，为什么会造成内存泄露呢？内存泄露又是怎样产生的呢？这一切要从 JavaScript 的垃圾回收机制说起</p>
+<h3 id="理解JavaScript的垃圾回收机制"><a href="#理解JavaScript的垃圾回收机制" class="headerlink" title="理解JavaScript的垃圾回收机制"></a>理解JavaScript的垃圾回收机制</h3><p>JavaScript 具有自动垃圾回收机制，因此我们可以不必管它，但是也要知道它的原理。<br>垃圾回收机制的原理：<strong>垃圾回收机制会周期性的释放不再使用的变量的内存</strong>。<br>这里我们要知道两点：<br>1.这个周期是多少？是如何决定的？<br>2.如何判断这个变量不再继续使用？</p>
+<p>我们先来探究第二个问题，<strong>如何判断这个变量不再使用，并回收</strong>？<br>我们知道，每一个变量都是有生命周期的，如果哪个变量没有的话，就会一直残留下去，总有一天会消耗完内存。这也叫内存泄露。下面我们分析下局部变量的正常生命周期<br>局部变量只在函数执行过程中存在，函数执行结束后，局部变量就没有存在价值了，然后垃圾回收器给无用的局部变量标记。等回收周期到来的时候，回收这个变量。</p>
+<p><strong>标记变量有两种策略：一种是标记清除法，另一种是引用计数法</strong><br>这个标记清除法其实很简单解释，当变量进入环境时（变量声明），该变量就被标记为“进入环境”。当变量离开环境时（函数执行完），该变量就被标记为“离开环境”。而这些被标记成离开环境的变量就是无用变量，等着垃圾回收机制回收就可以了</p>
+<p>第二个问题清楚了，我们看看第一个问题，<strong>垃圾回收机制的周期是多少？怎么决定的？</strong><br>从 IE 开始谈起，IE 垃圾回收器是根据内存分配量运行的，具体就是 256 个变量，4096 个对象字面量，数组元素，或者 64Kb 的字符串。达到上面任何一个临界值，垃圾回收器就开始运行。但是这样又出现了一个问题，如果一个脚本本来就有那么多变量，垃圾回收器就会一直的运行。每次回收完了又到达临界值，这样导致垃圾回收器频繁的调用，对性能来说是有很大影响的。</p>
+<p>等到 IE7 的出现，重写了垃圾回收机制。<strong>固定的临界量改为了动态的分配</strong>。垃圾回收的内存分配量低于 15% 时，临界值就加倍。当内存分配量达 85% 时，临界时恢复为初始的值。简单的来说就是，内存够用时，就不急着回收。内存不够时，就和初始一样，达到就回收。这样一来，即便脚本中的变量很多，只要内存够用，也不会频繁的调用垃圾回收器了。</p>
+<p>在 JavaScript 中虽然我们不必担心内存管理的问题，但是我们也需要保证页面的性能更好。这里我们可以去优化内存。<strong>优化内存最佳的方式就是，将无用数据，设置为<code>null</code>,来释放其引用，也就是解除引用</strong>。</p>
+<p>下面我们来看一段代码<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createPerson</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span>  localPerson = <span class="keyword">new</span> <span class="built_in">Object</span>;</span><br><span class="line">    localPerson.name = name;</span><br><span class="line">    <span class="keyword">return</span> localPerson;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> globalPerson = createPerson(<span class="string">"suo"</span>);</span><br><span class="line"><span class="comment">// 解除引用</span></span><br><span class="line">globalPerson = <span class="literal">null</span>;</span><br></pre></td></tr></table></figure></p>
+<p>这里我们可以知道的是<code>localPerson</code>是局部的变量，所以垃圾回收器会自动为它解除引用<br>但是<code>globalPerson</code>是全局变量，如果不需要用了，垃圾回收机制不会干，现在我们手动为它解除引用。解除引用之后，它不会立即销毁，只是脱离了执行环境，等待垃圾回收器来回收。</p>
+<p>说了这么多，搞清楚了垃圾回收机制。上一篇博客中谈到闭包的缺点，闭包会造成内存泄露。清楚了垃圾回收机制，我们可以知道的是，闭包访问的变量是无法被垃圾回收器回收的。那么我们该怎么办了。恰好刚刚就有种方法。我们可以手动来解除引用。这样就避免了闭包产生的内存泄露了。<br>下面给出闭包和解除引用的实例<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">assignHadler</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> element = <span class="built_in">document</span>.getElementById(<span class="string">"div"</span>);</span><br><span class="line">    <span class="keyword">var</span> id = element.id;</span><br><span class="line">    element.onclick = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        alert(id);</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="comment">// 解除引用</span></span><br><span class="line">    element = <span class="literal">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/03/20/使用element实现复杂的业务/" data-id="cjwvvdnx4005zeajdi588yuxl" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2015/11/29/t-book_js_004/" data-id="cjx1d5z2n000zywjdinut5zdc" class="article-share-link">分享</a>
       
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/UI/">UI</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
 
     </footer>
   </div>
@@ -119,14 +129,14 @@
 
 
   
-    <article id="post-使用mock搭建前后分离环境" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-t-book_js_003" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/03/13/使用mock搭建前后分离环境/" class="article-date">
-  <time datetime="2018-03-13T12:31:11.000Z" itemprop="datePublished">2018-03-13</time>
+    <a href="/2015/11/28/t-book_js_003/" class="article-date">
+  <time datetime="2015-11-28T03:28:15.000Z" itemprop="datePublished">2015-11-28</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/前端工程化/">前端工程化</a>
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
   </div>
 
   </div>
@@ -137,7 +147,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/03/13/使用mock搭建前后分离环境/">使用mock搭建前后分离环境</a>
+      <a class="article-title" href="/2015/11/28/t-book_js_003/">《JavaScript高级程序设计》读后记&lt;三&gt;：闭包</a>
     </h1>
   
 
@@ -147,15 +157,29 @@
       
         <!-- Table of Contents -->
         
-        
+        <p>在上一篇博客里，谈到了作用域，留下了一个问题，怎样从函数外访问到函数内部的局部变量。这是在我完全理解闭包和函数后，写的一篇博客。</p>
+<h3 id="理解函数与闭包"><a href="#理解函数与闭包" class="headerlink" title="理解函数与闭包"></a>理解函数与闭包</h3><p>前面我们知道了作用域最小单位就是函数，那么函数是怎么表示的呢？<br>定义函数有两种方式：一种是函数声明，另一种是函数表达式。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 函数声明</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params">arg0, arg1, arg2</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// code...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>我们知道函数也是一种引用类型，所以函数，也有自己的属性，其中一个就是<code>name</code><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(foo.name);  <span class="comment">// foo</span></span><br></pre></td></tr></table></figure></p>
+<p>由此我们也更加确定了，函数也是一个对象，里面包含各种属性和方法<br>对于函数还有一个特别的性质，那就是函数声明提升，如同变量声明提升，函数声明也是可以提升的<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sayBye();  <span class="comment">// bye bye</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sayBye</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    alert(<span class="string">"bye bye"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>函数声明提升会带来一个问题<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 反例</span></span><br><span class="line"><span class="keyword">var</span> a = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">if</span> (a &gt; <span class="number">1</span>) &#123;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">saybye</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="comment">// code...</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> (a &lt; <span class="number">1</span>) &#123;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">saybye</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="comment">// code...</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>上面的代码，很容易看出来，函数声明提升后，可能产生和预期不一样的效果<br>接下来我们看下函数表达式<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> foo = <span class="function"><span class="keyword">function</span>(<span class="params">arg0, arg1, arg2</span>) </span>&#123;</span><br><span class="line">    <span class="comment">//code..</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p><strong>这个表达式怎么解释呢？</strong><br>就如一个赋值语句一样，将后面的匿名函数赋值给<code>foo</code>变量，有人可能有疑问，函数也可以赋值吗？在 js 里面来说，这是可以的，因为 js 里面函数也是一种引用类型，当作对象赋值给变量</p>
+<p><strong>那么函数表达式是否也有函数提升呢？</strong><br>下面验证一下<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">foo(); <span class="comment">// VM225:1 Uncaught TypeError: foo is not a function</span></span><br><span class="line"><span class="keyword">var</span> foo = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    alert(<span class="string">"ok"</span>);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>答案是没有，函数并没有提升上去，因为在这里函数作为了对象赋值给了变量，并不是声明，这里的赋值同样的也是引用赋值。此时<code>foo</code>指向的是堆中的内存块。</p>
+<p><strong>谈谈闭包</strong><br>闭包是有权访问另一个函数作用域中的变量的函数，创建闭包的常见方式，就是在一个函数内部创建另一个函数<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 要访问foo中的a</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> a1 = <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line">foo();</span><br><span class="line"><span class="built_in">console</span>.log(a1);</span><br><span class="line"><span class="comment">// VM309:4 Uncaught ReferenceError: a1 is not defined</span></span><br></pre></td></tr></table></figure></p>
+<p>显然访问不了<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用闭包函数访问</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> a2 = <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">var</span> b = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(a2);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> b();</span><br><span class="line">&#125;</span><br><span class="line">foo(); <span class="comment">// 2</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>下面解释一下是怎么做到的</strong><br><code>a2</code>是<code>foo</code>的局部变量，而是<code>b</code>函数的外部变量，而<code>b</code>是可以访问到的，<code>b</code>函数在闭包函数<code>b</code>返回到外部的函数或全局变量<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 改写成立即执行函数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> a3 = <span class="number">3</span>;</span><br><span class="line">    <span class="keyword">return</span> (<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(a3);</span><br><span class="line">        &#125;)();</span><br><span class="line">&#125;</span><br><span class="line">foo(); <span class="comment">// 3</span></span><br></pre></td></tr></table></figure></p>
+<p>将<code>b</code>函数改写成立即执行函数更加清晰紧凑了，相当于函数里面将一个执行的函数返回到外部去<br>就好像在函数内外构建了一个桥梁。<br><strong>闭包有闭包的好处，但是它也有不少缺陷</strong><br>闭包会携带包含它的函数的作用域，因此比其他函数占用更多的内存，过度的使用闭包可能会导致内存占用过多<br><strong>闭包的限制与解除</strong>，闭包只能取得包含函数中的任何变量的最后一个值，闭包保存的是整个变量对象，而不是某个特殊的变量<br>下面我们来看看代码<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> arr = <span class="keyword">new</span> <span class="built_in">Array</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i=<span class="number">0</span>; i&lt;<span class="number">10</span>; i++) &#123;</span><br><span class="line">        arr[i] = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> i;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> arr;</span><br><span class="line">&#125;</span><br><span class="line">alert(foo());</span><br></pre></td></tr></table></figure></p>
+<p>谈到闭包的缺点，必须要说的一个东西就是 Js 的垃圾回收机制，下篇博客，我将重点研究关于 JS 的垃圾回收机制，</p>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/03/13/使用mock搭建前后分离环境/" data-id="cjwvvdnx50063eajdm9rcfkvb" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2015/11/28/t-book_js_003/" data-id="cjx1d5z2m000wywjdpa0mho6e" class="article-share-link">分享</a>
       
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Mock/">Mock</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端工程化/">前端工程化</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
 
     </footer>
   </div>
@@ -165,14 +189,14 @@
 
 
   
-    <article id="post-用Resful api 规范来约束后端行为" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-t-book_js_002" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/03/02/用Resful api 规范来约束后端行为/" class="article-date">
-  <time datetime="2018-03-02T12:31:11.000Z" itemprop="datePublished">2018-03-02</time>
+    <a href="/2015/11/27/t-book_js_002/" class="article-date">
+  <time datetime="2015-11-27T13:18:03.000Z" itemprop="datePublished">2015-11-27</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/api/">api</a>
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
   </div>
 
   </div>
@@ -183,7 +207,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/03/02/用Resful api 规范来约束后端行为/">用Restful api 规范来约束后端行为</a>
+      <a class="article-title" href="/2015/11/27/t-book_js_002/">《JavaScript高级程序设计》读后记&lt;二&gt;：作用域</a>
     </h1>
   
 
@@ -193,76 +217,38 @@
       
         <!-- Table of Contents -->
         
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/03/02/用Resful api 规范来约束后端行为/" data-id="cjwvvdnxg0072eajdg5en4tsl" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/api/">api</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/restful/">restful</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
- 
-
-
-  
-    <article id="post-t-note_webpack_001" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/03/01/t-note_webpack_001/" class="article-date">
-  <time datetime="2018-03-01T12:33:23.000Z" itemprop="datePublished">2018-03-01</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/前端工具/">前端工具</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/03/01/t-note_webpack_001/">前端工程化之路：初探 Webpack 打包工具</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <!-- Table of Contents -->
-        
-        <p>最近一段时间前端的工具越来越多，让人不禁眼花缭绕。其中也不乏好的工具，比如 Webpack 和 Gulp 两种不同风格的前端工具。感觉再不学都跟不上技术的节奏了。所以最近尝试的去学习了一些。收获也是颇丰。现在记下笔记，以便日后，查看。</p>
-<h3 id="Webpack-作用Webpack-被称为前端打包工具。将项目当作一个整体，通过给定主文件，使用-loaders-处理后生成浏览器可识别的-JavaScript-文件"><a href="#Webpack-作用Webpack-被称为前端打包工具。将项目当作一个整体，通过给定主文件，使用-loaders-处理后生成浏览器可识别的-JavaScript-文件" class="headerlink" title="Webpack 作用Webpack 被称为前端打包工具。将项目当作一个整体，通过给定主文件，使用 loaders 处理后生成浏览器可识别的 JavaScript 文件"></a>Webpack 作用Webpack 被称为前端打包工具。将项目当作一个整体，通过给定主文件，使用 loaders 处理后生成浏览器可识别的 JavaScript 文件</h3><h3 id="Webpack-原理"><a href="#Webpack-原理" class="headerlink" title="Webpack 原理"></a>Webpack 原理</h3><ul>
-<li>模块化，处理依赖关系</li>
-<li>CommonJs 标准</li>
-<li>加载工具，集成在一起</li>
+        <p>在第一篇博客里面，提到过变量是松散变量，决定它只是特定时间保持特定的值的符号而已，而变量的值和数据类型可以在脚本的生命周期内改变的。接下来就是理解这种特性的性质了。</p>
+<h3 id="理解引用类型，作用域"><a href="#理解引用类型，作用域" class="headerlink" title="理解引用类型，作用域"></a>理解引用类型，作用域</h3><p>前面我们已经知道了，ES 变量类型包括 5 种基本类型和引用类型。</p>
+<p><strong>基本类型与引用类型的区别？</strong></p>
+<ul>
+<li>基本类型值在内存中占据固定大小的空间，保存在栈中，引用类型的值是对象，被保存在堆中</li>
+<li>这 5 种基本类型可以按值访问的，而引用类型的值是按引用访问</li>
+<li>基本类型的变量包含的是实际的值，引用对象实际包含的并不是对象本身而是指向对象的指针。</li>
 </ul>
-<h3 id="Webpack-安装"><a href="#Webpack-安装" class="headerlink" title="Webpack 安装"></a>Webpack 安装</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 全局安装</span></span><br><span class="line">npm install -g webpack</span><br><span class="line"><span class="comment"># 安装到项目目录</span></span><br><span class="line">npm install --save-dev webpack</span><br></pre></td></tr></table></figure>
-<h3 id="Webpack-使用"><a href="#Webpack-使用" class="headerlink" title="Webpack 使用"></a>Webpack 使用</h3><p>1.建立npn环境<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm init</span><br></pre></td></tr></table></figure></p>
-<p>2.使用webpack工具<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">webpack &#123;entry file&#125; &#123;destination file&#125;</span><br></pre></td></tr></table></figure></p>
-<p>3.添加配置文件<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// webpack.config.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    entry: _dirname + <span class="string">"/app/main.js"</span>,</span><br><span class="line">    output: &#123;</span><br><span class="line">        path: _dirname + <span class="string">"/public"</span>,</span><br><span class="line">        filename: <span class="string">"bundle.js"</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>4.添加调试工具<br>(1)安装<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save-dev webpack-dev-server</span><br></pre></td></tr></table></figure></p>
-<p>(2)配置<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// webpack.config.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    devtools: <span class="string">"eval-source-map"</span>,</span><br><span class="line">    entry: _dirname + <span class="string">"/app/main.js"</span>,</span><br><span class="line">    output: &#123;</span><br><span class="line">        path: _dirname + <span class="string">"/public"</span>,</span><br><span class="line">        filename: <span class="string">"bundle.js"</span></span><br><span class="line">    &#125;</span><br><span class="line">    devServer: &#123;</span><br><span class="line">        contentBase: <span class="string">"./public"</span>,</span><br><span class="line">        historyApiFallback: <span class="literal">true</span>,</span><br><span class="line">        inline: <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>(3)开启服务器<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// package.json</span><br><span class="line">"script": &#123;</span><br><span class="line">    "server": "webpack-dev-server --open"</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>(4)运行<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run server</span><br></pre></td></tr></table></figure></p>
-<p>5.使用loaders</p>
+<p><strong>这里要解释一下什么是按值访问？什么是按引用访问？</strong><br>如果学过 C++ ,我们就会知道 C++ 传参有两种方式，一种是传值，一种是传引用。</p>
+<p><strong>这两种方式有什么区别呢？</strong><br>区别在于传值是将实参拷贝给形参，而传引用并不是简单的赋值，而是将形参与实参绑定在一起，它们同时指向同一内存空间，修改形参相当于修改实参。<strong>引用相当于变量的别名</strong>，理解这句话。<br>我们可能大致知道什么是按值访问，什么是按引用访问了</p>
+<p><strong>那么，为什么基本类型是按值访问？而引用类型是按引用访问？</strong><br>我们知道引用类型不同于基本类型，它不是单纯的值，而是一种数据结构，包含有属性和方法。<br>如果按值传递，会拷贝整个对象，这样消耗的空间是否太大了呢，所以<code>ES</code>将这些对象的访问都设置成了按引用访问。</p>
+<p><strong>刚才我们提到了，<code>c++</code>的值拷贝方式和引用拷贝方式，<code>JS</code>是否也是这样的呢？</strong><br>的确，<code>JS</code>也是这样的，下面简单的验证一下<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 基本类型的拷贝</span></span><br><span class="line"><span class="keyword">var</span> a = <span class="string">"hello"</span>;</span><br><span class="line"><span class="keyword">var</span> b = a;</span><br><span class="line"><span class="built_in">console</span>.log(a+<span class="string">','</span>+b); <span class="comment">// hello,hello</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 引用类型的拷贝</span></span><br><span class="line"><span class="keyword">var</span> obj = <span class="keyword">new</span> Objcet();</span><br><span class="line"><span class="keyword">var</span> obj1 = obj2;</span><br><span class="line">obj.name = <span class="string">"hello"</span>;</span><br><span class="line"><span class="built_in">console</span>.log(obj.name+<span class="string">','</span>+obj1.name); <span class="comment">// hello,hello</span></span><br></pre></td></tr></table></figure>
+<p>因此我们可以看到，对象<code>obj1</code>是随<code>obj</code>变化的，他们是指向同一个内存块的，而不是简单的拷贝而已</p>
+<p><strong>那么传参是否也是在我们的意料之中呢？</strong><br>然而并不是这样的，ES 中所有函数的参数都是按值传递的，基本类型值的传递就像复制一样<br>而引用类型的值的传递，就行引用类型的变量复制一样，为什么会这样呢？<br>这里我们重点看一下传递引用参数<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">setName</span>(<span class="params">obj</span>) </span>&#123;</span><br><span class="line">    obj.name = <span class="string">"suo"</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> person = <span class="keyword">new</span> <span class="built_in">Object</span>;</span><br><span class="line">setName(person);</span><br><span class="line"><span class="built_in">console</span>.log(person.name);   <span class="comment">// suo</span></span><br></pre></td></tr></table></figure></p>
+<p>由上可知，对象传递后，通过函数修改对象属性影响了全局变量的值<br>在这里有人可能会觉得，函数传的是引用并非是值吧<br>其实 ES 中所有的函数都是按值传递，并非引用传递，有人肯定会有疑问为什么<code>obj</code>会被改变呢<br>其实这里说的按值传递有点特殊，这个值恰好是指向内存的指针，与引用传递的不同在于，并没有，形参并没有和实参进行引用绑定<br>接下来进一步验证一下<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">setName</span>(<span class="params">obj</span>) </span>&#123;</span><br><span class="line">    obj.name = <span class="string">"suo"</span>;</span><br><span class="line">    obj = <span class="keyword">new</span> <span class="built_in">Object</span>;   </span><br><span class="line">    obj.name = <span class="string">"yue"</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> person = <span class="keyword">new</span> <span class="built_in">Object</span>;</span><br><span class="line">setName(person);</span><br><span class="line"><span class="built_in">console</span>.log(person.name);   <span class="comment">// suo</span></span><br></pre></td></tr></table></figure></p>
+<p>上面代码的意义是什么呢？我们在函数内重新定义了这个对象，并给了它一个属性<br>而执行后，结果<code>person</code>并没有和<code>obj</code>的属性一样，也就是说<code>obj</code>并不是<code>person</code>的引用，仅仅是它的地址的值等于<code>person</code>的地址而已</p>
+<p>我们已经知道了<code>ES</code>有引用类型和基本类型，而且<code>typeof</code>操作符可以检测基本类型的类型<br><strong>那么我们怎样检测引用类型呢？</strong>其实也有个操作符可以利用，不过它只能判断是或者不是，不能直接得出是什么类型<br>下面我们测试一下几个引用类型检测<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> person = <span class="keyword">new</span> <span class="built_in">Object</span>;</span><br><span class="line"><span class="built_in">console</span>.log(person <span class="keyword">instanceof</span> <span class="built_in">Object</span>);</span><br></pre></td></tr></table></figure></p>
+<p>刚刚看到了，函数通过传值的形式来传参<br><strong>现在思考一下，函数是怎么执行的呢？</strong><br>原来每个函数都有执行环境，每个执行环境都有与之对应的变量对象，环境中所有的对象和函数都保存在这个对象中。<br>代码在一个环境中执行时，会创建变量对象的作用域链，作用域链控制执行环境访问变量和函数的顺序和权限。<br>下面先看一段代码<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> color = <span class="string">"red"</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">changeColor</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (color === <span class="string">"red"</span>)</span><br><span class="line">        color = <span class="string">"yellow"</span>;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        color = <span class="string">"green"</span>;</span><br><span class="line">&#125;</span><br><span class="line">changeColor();</span><br><span class="line"><span class="built_in">console</span>.log(color); <span class="comment">// yellow</span></span><br></pre></td></tr></table></figure></p>
+<p>可知，函数执行时可以访问到外部的变量，这里的作用域包括两个对象：自己的对象，全局环境的对象<br><strong>进一步研究，多层函数套用，执行是怎样的呢？</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> color = <span class="string">"blue"</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">changeColor</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> anotherColor = <span class="string">"red"</span>;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">swapColors</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> tempColor = anotherColor;</span><br><span class="line">        anotherColor = color;</span><br><span class="line">        color = tempColor; <span class="comment">// 都能访问</span></span><br><span class="line">    &#125; <span class="comment">// 只能访问color,anothor</span></span><br><span class="line">    swapColor();</span><br><span class="line">&#125; <span class="comment">// 只能访问color</span></span><br><span class="line">changeColor();</span><br></pre></td></tr></table></figure></p>
+<p>可以看出作用域链是由内而外的，也就是说函数是从当前的环境对象向外搜索变量，直至到全局对象。函数可以访问外部的变量，但是无法访问当前环境下函数里的局部变量。<br>用更确切的话说，<strong>ES 的作用域链是单向的，而这个方向是由里向外的访问原则</strong>。<br>下面画一个图式来说明这个问题<br><img src="/images/dm2.png" alt="img"><br>现在问题来了，既然作用域是单向访问，有没有办法访问到由外访问到里面的局部变量呢？<br>答案是有的，下节谈一下闭包，这个特性能很好的解决这个问题。<br>还有一点要说明的是,<strong>JS 没有块级作用域</strong>，不同域 c 语言，花括号括起来的都有作用域，<strong>JS 只有函数作用域</strong><br>下面用代码解释下<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> b = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> a=<span class="number">0</span>; a&lt;<span class="number">10</span>; a++) &#123;</span><br><span class="line">        b++; <span class="comment">// 出错</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d,%d"</span>, &amp;a, &amp;b);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// error: 'b' was not declared in this scope,b++;</span></span><br><span class="line"><span class="comment">// error: 'a' was not declared in this scope</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="keyword">var</span> b = <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> a=<span class="number">0</span>; a&lt;<span class="number">10</span>; a++) &#123;</span><br><span class="line">    b++;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(a+<span class="string">','</span>+b);</span><br><span class="line"><span class="comment">// 10,10</span></span><br></pre></td></tr></table></figure>
+<p>根据上面的运行结果，我们很容易看到 C 中花括号的是单独的作用域，其他作用域是访问不到的，<code>for</code>循环里的变量，循环结束后，也不会保留<br>而 JS 里的不一样，他们虽然有花括号，但是这个花括号如同形式一般，没特别的意义，与去掉花括号是同样的意义。 JS 是通过函数作用域，来实现作用域链，控制访问顺序和权限。所有它的最小执行的单元就是函数。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/03/01/t-note_webpack_001/" data-id="cjwvvdnwq0052eajdp3cbdxze" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2015/11/27/t-book_js_002/" data-id="cjx1d5z2k000sywjdlgvnuxmu" class="article-share-link">分享</a>
       
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webpack/">webpack</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
 
     </footer>
   </div>
@@ -272,10 +258,10 @@
 
 
   
-    <article id="post-react 初探 下" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-t-book_js_001" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/02/16/react 初探 下/" class="article-date">
-  <time datetime="2018-02-16T12:31:11.000Z" itemprop="datePublished">2018-02-16</time>
+    <a href="/2015/11/27/t-book_js_001/" class="article-date">
+  <time datetime="2015-11-27T00:25:46.000Z" itemprop="datePublished">2015-11-27</time>
 </a>
     
   <div class="article-category">
@@ -290,7 +276,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/02/16/react 初探 下/">React 初探（下）</a>
+      <a class="article-title" href="/2015/11/27/t-book_js_001/">《JavaScript高级程序设计》读后记&lt;一&gt;：数据类型</a>
     </h1>
   
 
@@ -300,15 +286,152 @@
       
         <!-- Table of Contents -->
         
-        
+        <p>经过一段时间的学习，深感 JavaScript 知识点还是挺多。之前一直是看视频教程和博客学习 JavaScript 。但是总觉得缺点什么，不管是视频还是博客，它们强调的始终是单一的知识或者是技术点。并没有对整个语言有一个更加全面的概述。基于这些学习上的不足，我向师哥师姐们询问到了这方面的问题，于是乎他们向我推荐了这本书，《JavaScript高级程序设计》第三版。无奈由于时间原因，一直放在书桌上搁置了好一段时间。就在近几天我终于有机会专心看这本书了。经过一个星期的学习，感觉大有收获，所以写下这篇博客，记录学习中的偏向于重点知识的理解和体会。</p>
+<h3 id="理解变量与数据类型"><a href="#理解变量与数据类型" class="headerlink" title="理解变量与数据类型"></a>理解变量与数据类型</h3><p><strong>1.ES的变量是松散变量</strong>，也就是说每一个变量仅仅是用于保存一个值的占位符，它可以保存任何值。变量未声明或未初始化之前的值是<code>undefined</code>,定义之后的值是赋给它的任何值。到这里就一个小疑问，通常我们学习其他语言都会有，一个值和类型相对应，那么问题来了，<code>undefind</code>是值那么它的类型又是啥呢？做个简单的例子测试一下看看<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a; </span><br><span class="line">alert(a); <span class="comment">// undefined</span></span><br><span class="line">alert(<span class="keyword">typeof</span> a); <span class="comment">// undefined</span></span><br></pre></td></tr></table></figure></p>
+<p>原来值为<code>undefined</code>的类型也是<code>undefined</code>。<br>由此我们可能会想到另外一个值，那就是<code>null</code>,是不是<code>nUll</code>的类型也是<code>null</code>呢？<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="literal">null</span>; <span class="comment">// null</span></span><br><span class="line">alert(a); <span class="comment">// object</span></span><br><span class="line">alert(<span class="keyword">typeof</span> a);</span><br></pre></td></tr></table></figure></p>
+<p><code>null</code>的类型竟然是<code>object</code>，估计有不少人会大跌眼镜吧，为啥会这样？凭什么？<br>其实这是正确的，<code>JavaScript</code>的<code>null</code>被认为是空对象的引用<br>这里还要解释下什么是空对象的引用？简单的说就是一个变量本该保存一个对象，但是还没有保存对象，这个时候就应该把这个变量来保存<code>null</code>，显示的表示这个变量是一个空对象的变量。</p>
+<p><strong>2.<code>undefined</code>和<code>null</code>又有哪些区别和联系呢？</strong><br>首先说联系<code>undefined</code>其实是<code>null</code>派生出来的，在代码层上表现为<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">alert(<span class="literal">undefined</span> == <span class="literal">null</span>); <span class="comment">// true</span></span><br><span class="line">alert(<span class="literal">undefined</span> === <span class="literal">null</span>); <span class="comment">// false</span></span><br></pre></td></tr></table></figure></p>
+<p>第<code>2</code>个为<code>false</code>好说，至少是他们类型是不一致的。第一个为什么为<code>true</code>呢？<br>原来这个<code>==</code>符是类似相等符，不是绝对相等，<code>null</code>和u<code>ndefined</code>的值是类似的。<br>区别上面也很容易看出来</p>
+<ul>
+<li>用途不一致：<code>null</code>用于空对象指针，给还没对象的变量赋值。<code>undefined</code>是来区别变量的未初始化或声明的。</li>
+<li>常用于：<code>null</code>常用与显示的赋值变量，<code>undefined</code>不会这么做.</li>
+</ul>
+<p><strong>3.基本类型</strong><br>ES 中有 5 种简单数据类型和一种复杂数据类型，分别为<code>undefined</code>，<code>null</code>，<code>boolean</code>，<code>number</code>，<code>string</code>，<code>object</code>。其中<code>object</code>实质是一组无序名值对组成的。<br>具体理解的是<code>object</code>这一类型。通过执行<code>new</code>来创建对象<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> o = <span class="keyword">new</span> <span class="built_in">Object</span>();</span><br><span class="line"><span class="keyword">var</span> o = <span class="keyword">new</span> <span class="built_in">Object</span>; <span class="comment">// 都可以</span></span><br></pre></td></tr></table></figure></p>
+<p><code>object</code>的每一个实例下面都有属性和方法</p>
+<ul>
+<li><code>constructor</code>:创建当前对象的函数，对于上面就是<code>Object()</code>这个构造函数</li>
+<li><code>hasOwnProperty(propertyName)</code>:检查属性在当前对象中是否存在</li>
+<li><code>isProtptypeOf(object)</code>:检查属性是否是当前对象原型</li>
+<li><code>propertIsEnumerable(propertypeName)</code>:检查对象是否可以用<code>for-in</code>来枚举</li>
+<li><code>toLocaleString()</code>:返回对象字符串表示，与执行环境对应</li>
+<li><code>toString()</code>:返回对象字符串表示</li>
+<li><code>valueOf()</code>:返回对象的字符串，数值，布尔值表示<br>要具体理解这些函数和属性，需要后面面向对象的思想做铺垫。<br>ES 中 Object 是所有对象的基础。因此所有对象都具有这些基本的属性和方法。</li>
+</ul>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/02/16/react 初探 下/" data-id="cjwvvdnuy0011eajdih3ouc99" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2015/11/27/t-book_js_001/" data-id="cjx1d5z2j000pywjdggyhc4sd" class="article-share-link">分享</a>
       
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/React/">React</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
+    <article id="post-note-this" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/10/25/note-this/" class="article-date">
+  <time datetime="2015-10-25T10:25:43.000Z" itemprop="datePublished">2015-10-25</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/10/25/note-this/">关于 this 的两种误解</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <h1 id="this"><a href="#this" class="headerlink" title="this"></a>this</h1><h2 id="两种误解"><a href="#两种误解" class="headerlink" title="两种误解"></a>两种误解</h2><ul>
+<li><p><strong>误解1 <code>this</code> 指向函数本身</strong></p>
+<ul>
+<li><p>对象内部引用自身 具名函数可以实现、匿名就不好实现了</p>
+<ul>
+<li>弃用的方法：<code>arguments.callee</code></li>
+</ul>
+</li>
+<li><p>解决方法1 <code>foo</code>函数名 代替 <code>this</code></p>
+</li>
+<li><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  foo.count++</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">foo.count = <span class="number">0</span></span><br><span class="line">foo()</span><br><span class="line"><span class="built_in">console</span>.log(foo.count) <span class="comment">// 1</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>解决方法2 强制 this 指向 foo</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo1</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.count++</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">foo1.count = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">foo1.call(foo1)</span><br><span class="line"><span class="built_in">console</span>.log(foo1.count)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p><strong>误解2 <code>this</code> 指向函数作用域</strong></p>
+<ul>
+<li>this 任何情况下都不指向函数词法作用域</li>
+<li>this 无法跨越词法作用域边界</li>
+</ul>
+</li>
+</ul>
+<h2 id="this-到底是什么"><a href="#this-到底是什么" class="headerlink" title="this 到底是什么?"></a>this 到底是什么?</h2><p><strong>this 的绑定和函数的声明位置没有任何关系，只取决于函数的调用方式</strong></p>
+<ul>
+<li><p>函数的调用位置</p>
+<ul>
+<li><p>分析调用栈</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 调用链相关</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// global</span></span><br><span class="line">    bar()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bar</span> </span>&#123;</span><br><span class="line">    <span class="comment">// global foo</span></span><br><span class="line">    baz()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">baz</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// global foo bar</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">foo()</span><br></pre></td></tr></table></figure>
+<p><strong>严格模式下，全局对象无法绑定</strong></p>
+</li>
+</ul>
+</li>
+<li><p>隐式调用</p>
+<ul>
+<li><p>绑定对象内部</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.a)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">    a: <span class="number">1</span>,</span><br><span class="line">    foo: foo</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">obj.foo() <span class="comment">// 1</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li><p>只有最顶层有效</p>
+</li>
+<li><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.a)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">    a: <span class="number">40</span>,</span><br><span class="line">    obj2: obj2</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> obj2 = &#123;</span><br><span class="line">    a: <span class="number">3</span>,</span><br><span class="line">    foo: foo</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">obj.obj2.foo() <span class="comment">// 42</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>隐式丢失</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.a)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">    a: <span class="number">10</span>,</span><br><span class="line">    foo: foo</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> bar = obj.foo</span><br><span class="line"><span class="keyword">var</span> a = <span class="string">'global'</span></span><br><span class="line">obj.foo()</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>隐式 传参丢失</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.a)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params">fn</span>) </span>&#123;</span><br><span class="line">    fn()</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">    a: <span class="number">1</span>,</span><br><span class="line">    foo: foo</span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> a = <span class="number">2</span></span><br><span class="line"><span class="built_in">console</span>.log(bar(obj.foo))</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>显式绑定</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.a)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">    a: <span class="number">1</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">foo.call(obj) <span class="comment">// 1</span></span><br></pre></td></tr></table></figure>
+<p><strong>无法解决隐式丢失问题</strong></p>
+<ul>
+<li><p>解决方法1: 硬绑定</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.a)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">    a: <span class="number">1</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> bar = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    foo.call(obj)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">bar() <span class="comment">// 1</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>New 调用</p>
+</li>
+<li><strong>优先级 new &gt; 显示调用 &gt; 隐式调用 &gt; 调用栈</strong></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/10/25/note-this/" data-id="cjx1d5z1s0002ywjducdepsdd" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ES5/">ES5</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
 
     </footer>
   </div>
@@ -321,7 +444,7 @@
 
 
   <nav id="page-nav">
-    <a class="extend prev" rel="prev" href="/page/7/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/9/">下一页&raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/7/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/9/">下一页&raquo;</a>
   </nav>
 </section>
            
@@ -344,23 +467,23 @@
       <ul>
         
           <li>
-            <a href="/2019/05/24/vue-cli3 把配置都封装了这样设计有什么好处？/">vue-cli3 把配置都封装了这样设计有什么好处？</a>
+            <a href="/2019/03/02/如何理解SSR以及在Vue和React中使用SSR/">如何理解 SSR？</a>
           </li>
         
           <li>
-            <a href="/2019/05/12/dva 试用/">dva 试用</a>
+            <a href="/2018/12/28/t-note_vue_004/">再探 vue 框架：&lt;下篇&gt;</a>
           </li>
         
           <li>
-            <a href="/2019/04/23/vue3 要增强 typescript？/">vue3 要增强 typescript？</a>
+            <a href="/2018/12/13/t-note_vue_003/">再探 vue 框架 &lt;上篇&gt;</a>
           </li>
         
           <li>
-            <a href="/2019/04/18/redux 为啥叫 redux？/">redux 为啥叫 redux？</a>
+            <a href="/2018/09/02/t-design_mode/">设计模式研究</a>
           </li>
         
           <li>
-            <a href="/2019/04/08/什么是react-hooks？为什么尤大佬这么关注/">什么是react-hooks？为什么尤大佬这么关注</a>
+            <a href="/2018/07/23/t-note_apiza/">apiza 管理api</a>
           </li>
         
       </ul>

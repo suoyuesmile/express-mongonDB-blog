@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>如何理解 SSR？ | 锁越smile</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="为啥要做服务器渲染？那我们就回顾一下，我们到底是怎么告别了使用 php/jsp 做服务器端渲染，进入前后端分离的客户端渲染时代，又为什么重新回到了服务端渲染。 其实把 next.js/nust.js 称为 SSR（服务器端渲染 Server Side Render）不太精确，应该是 Isomorphic render（">
+<meta name="keywords" content="React,ssr">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何理解 SSR？">
+<meta property="og:url" content="http://yoursite.com/2019/03/02/如何理解SSR以及在Vue和React中使用SSR/index.html">
+<meta property="og:site_name" content="锁越smile">
+<meta property="og:description" content="为啥要做服务器渲染？那我们就回顾一下，我们到底是怎么告别了使用 php/jsp 做服务器端渲染，进入前后端分离的客户端渲染时代，又为什么重新回到了服务端渲染。 其实把 next.js/nust.js 称为 SSR（服务器端渲染 Server Side Render）不太精确，应该是 Isomorphic render（同构渲染）。 为了方便解释，我们引入几个概念。  数据：通常来自数据库，或者第">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/Users/suosmile/Pictures/截图/Xnip2019-05-29_14-36-16.jpg">
+<meta property="og:updated_time" content="2019-06-18T05:23:25.885Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="如何理解 SSR？">
+<meta name="twitter:description" content="为啥要做服务器渲染？那我们就回顾一下，我们到底是怎么告别了使用 php/jsp 做服务器端渲染，进入前后端分离的客户端渲染时代，又为什么重新回到了服务端渲染。 其实把 next.js/nust.js 称为 SSR（服务器端渲染 Server Side Render）不太精确，应该是 Isomorphic render（同构渲染）。 为了方便解释，我们引入几个概念。  数据：通常来自数据库，或者第">
+<meta name="twitter:image" content="http://yoursite.com/Users/suosmile/Pictures/截图/Xnip2019-05-29_14-36-16.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="锁越smile" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    
+    <div id="header-inner" class="inner">
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+          <a class="main-nav-link" href="/about">关于</a>
+        
+      </nav>
+      
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">锁越smile</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">邵锁的博客</a>
+        </h2>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-如何理解SSR以及在Vue和React中使用SSR" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/03/02/如何理解SSR以及在Vue和React中使用SSR/" class="article-date">
+  <time datetime="2019-03-02T12:31:11.000Z" itemprop="datePublished">2019-03-02</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/React/">React</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      如何理解 SSR？
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p><img src="/Users/suosmile/Pictures/截图/Xnip2019-05-29_14-36-16.jpg" alt="Xnip2019-05-29_14-36-16"></p>
+<h2 id="为啥要做服务器渲染？"><a href="#为啥要做服务器渲染？" class="headerlink" title="为啥要做服务器渲染？"></a>为啥要做服务器渲染？</h2><p>那我们就回顾一下，我们到底是怎么告别了使用 php/jsp 做服务器端渲染，进入前后端分离的客户端渲染时代，又为什么重新回到了服务端渲染。</p>
+<p>其实把 next.js/nust.js 称为 SSR（服务器端渲染 Server Side Render）不太精确，应该是 Isomorphic render（同构渲染）。</p>
+<p>为了方便解释，我们引入几个概念。</p>
+<ul>
+<li>数据：通常来自数据库，或者第三方服务等，比如用户的信息，订单详情等。数据使用某些数据结果来存储和传输，例如 json，xml，数组，Map 等</li>
+<li>模块：一个页面的基本轮廓和展示，模板定义了某个元素显示在什么位置。比如 PHP/JSP 就是模板语言，还有很多的模板引擎包括 Smarty/Jad/JSX 等</li>
+<li>页面：为了简化后面的说明，我们就把页面狭义的定义为 HTML。</li>
+</ul>
+<p>在引入要给公式：</p>
+<p>​    页面 = 模板 + 数据</p>
+<p>上面的加号（+）并不是加法，它就是我们今天要讲到的<strong>渲染（Render）</strong>。</p>
+<ul>
+<li>服务端渲染：渲染过程在服务器端完成，最终的渲染结果 HTML 页面通过 HTTP 协议发送给客户端。对于客户端而言，只是看到了最终的 HTML 页面，看不到数据，也看不到模板。</li>
+<li>客户端渲染：服务器端把模板和数据发送给客户端，渲染过程在客户端完成。</li>
+</ul>
+<p>那么我们再对比一下，服务器端渲染的优势就是容易 SEO，首屏加载快，因为客户端接收到的是完整的 HTML 页面。这个时代，我称其为“Web Page”时代，我们开发的是网页，是给用户看的。</p>
+<p>但是缺点也很明显：渲染过程在后端完成，那么肯定会耗费后端资源。费流量，即使局部页面的变化也需要重新发送整个页面。等等</p>
+<p>对于客户端渲染，我们经常会讨论 React/Vue/Angular 三大框架，或者 SPA。这个时代，我称其为 “Web App”时代（SPA 中的 A 就是 Application 的首字母）。相比 Web Page 而言，我们现在开发的是 Web App，是给用户用的。</p>
+<p>客户端渲染的优势是：节省后端资源，局部刷新页面，多端渲染，前后端分离。缺点是：首屏性能差，白屏，无法（或很难）进行 SEO。等等。</p>
+<p>服务端渲染的优点就是客户端渲染的缺点，服务端渲染的缺点同时也是客户端渲染的优点，反之亦然。</p>
+<p>而 Next.js 做的是同构渲染。同一套代码既可以在服务器端渲染，也可以在客户端渲染。Exciting</p>
+<p>当我们首次访问时，换言之当我们访问<strong>首屏页面</strong>时，Next.js 使用服务器端渲染，为我们返回已经渲染完成的最终 HTML 页面。这样就同时解决了首屏白屏问题以及 SEO 问题。此后当我们再进行交互时，则使用客户端渲染。HTML、CSS、JS 等资源都不需要再重新请求，只需要通过 ajax/websocket 等途径获取数据，在客户端完成渲染过程。</p>
+<h2 id="总结服务器渲染的目的"><a href="#总结服务器渲染的目的" class="headerlink" title="总结服务器渲染的目的"></a>总结服务器渲染的目的</h2><p>解决 SEO 问题和首屏加载的性能问题，在服务端生成对应的<code>HTML</code>字符串，客户端接收到对应的<code>HTML</code>字符串，能立即渲染<code>DOM</code>，最高效的首屏耗时。此外，由于服务端直接生成了对应的<code>HTML</code>字符串，对<code>SEO</code>也非常友好；</p>
+<h2 id="Vue-中使用服务器渲染"><a href="#Vue-中使用服务器渲染" class="headerlink" title="Vue 中使用服务器渲染"></a>Vue 中使用服务器渲染</h2><h3 id="安装-vue-server-renderer"><a href="#安装-vue-server-renderer" class="headerlink" title="安装 vue-server-renderer"></a>安装 <code>vue-server-renderer</code></h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install vue vue-server-renderer --save</span><br></pre></td></tr></table></figure>
+<h3 id="渲染-Vue-实例"><a href="#渲染-Vue-实例" class="headerlink" title="渲染 Vue 实例"></a>渲染 Vue 实例</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 第 1 步：创建一个 Vue 实例</span></span><br><span class="line"><span class="keyword">const</span> Vue = <span class="built_in">require</span>(<span class="string">'vue'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> app = <span class="keyword">new</span> Vue(&#123;</span><br><span class="line">  template: <span class="string">`&lt;div&gt;Hello World&lt;/div&gt;`</span></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 第 2 步：创建一个 renderer</span></span><br><span class="line"><span class="keyword">const</span> renderer = <span class="built_in">require</span>(<span class="string">'vue-server-renderer'</span>).createRenderer();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 第 3 步：将 Vue 实例渲染为 HTML</span></span><br><span class="line">renderer.renderToString(app, (err, html) =&gt; &#123;</span><br><span class="line">  <span class="keyword">if</span> (err) &#123;</span><br><span class="line">      <span class="keyword">throw</span> err;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">console</span>.log(html);</span><br><span class="line">  <span class="comment">// =&gt; &lt;div data-server-rendered="true"&gt;Hello World&lt;/div&gt;</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="服务端处理"><a href="#服务端处理" class="headerlink" title="服务端处理"></a>服务端处理</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = <span class="keyword">async</span> <span class="function"><span class="keyword">function</span>(<span class="params">ctx</span>) </span>&#123;</span><br><span class="line">    ctx.status = <span class="number">200</span>;</span><br><span class="line">    <span class="keyword">let</span> html = <span class="string">''</span>;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">        html = <span class="keyword">await</span> renderer.renderToString(app, ctx);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">        ctx.logger(<span class="string">'Vue SSR Render error'</span>, <span class="built_in">JSON</span>.stringify(err));</span><br><span class="line">        html = <span class="keyword">await</span> ctx.getErrorPage(err); </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    ctx.body = html;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="读取文件传输到-Vue-Renderer"><a href="#读取文件传输到-Vue-Renderer" class="headerlink" title="读取文件传输到 Vue Renderer"></a>读取文件传输到 Vue Renderer</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> tpl = fs.readFileSync(path.resolve(__dirname, <span class="string">'./index.html'</span>), <span class="string">'utf-8'</span>);</span><br><span class="line"><span class="keyword">const</span> renderer = vssr.createRenderer(&#123;</span><br><span class="line">    template: tpl,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="HTML-模版包裹"><a href="#HTML-模版包裹" class="headerlink" title="HTML 模版包裹"></a>HTML 模版包裹</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span><span class="tag">&lt;<span class="name">title</span>&gt;</span>Hello<span class="tag">&lt;/<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--vue-ssr-outlet--&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/03/02/如何理解SSR以及在Vue和React中使用SSR/" data-id="cjx1d5z3x003sywjdja0bdqy4" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/React/">React</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ssr/">ssr</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+ <script src="/jquery/jquery.min.js"></script>
+  <div id="random_posts">
+    <h2>推荐文章</h2>
+    <div class="random_posts_ul">
+      <script>
+          var random_count =4
+          var site = {BASE_URI:'/'};
+          function load_random_posts(obj) {
+              var arr=site.posts;
+              if (!obj) return;
+              // var count = $(obj).attr('data-count') || 6;
+              for (var i, tmp, n = arr.length; n; i = Math.floor(Math.random() * n), tmp = arr[--n], arr[n] = arr[i], arr[i] = tmp);
+              arr = arr.slice(0, random_count);
+              var html = '<ul>';
+            
+              for(var j=0;j<arr.length;j++){
+                var item=arr[j];
+                html += '<li><strong>' + 
+                item.date + ':&nbsp;&nbsp;<a href="' + (site.BASE_URI+item.uri) + '">' + 
+                (item.title || item.uri) + '</a></strong>';
+                if(item.excerpt){
+                  html +='<div class="post-excerpt">'+item.excerpt+'</div>';
+                }
+                html +='</li>';
+                
+              }
+              $(obj).html(html + '</ul>');
+          }
+          $('.random_posts_ul').each(function () {
+              var c = this;
+              if (!site.posts || !site.posts.length){
+                  $.getJSON(site.BASE_URI + 'js/posts.js',function(json){site.posts = json;load_random_posts(c)});
+              } 
+               else{
+                load_random_posts(c);
+              }
+          });
+      </script>
+    </div>
+  </div>
+
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/12/28/t-note_vue_004/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">再探 vue 框架：&lt;下篇&gt;</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+ 
+     
+  <div class="comments" id="comments">
+    
+     
+       
+      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    
+       
+      
+      
+  </div>
+ 
+  
+
+</section>
+           
+    <aside id="sidebar">
+  
+    
+
+  
+    
+    <div class="widget-wrap">
+    
+      <div class="widget" id="toc-widget-fixed">
+      
+        <strong class="toc-title">文章目录</strong>
+        <div class="toc-widget-list">
+              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#为啥要做服务器渲染？"><span class="toc-number">1.</span> <span class="toc-text">为啥要做服务器渲染？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结服务器渲染的目的"><span class="toc-number">2.</span> <span class="toc-text">总结服务器渲染的目的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vue-中使用服务器渲染"><span class="toc-number">3.</span> <span class="toc-text">Vue 中使用服务器渲染</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装-vue-server-renderer"><span class="toc-number">3.1.</span> <span class="toc-text">安装 vue-server-renderer</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#渲染-Vue-实例"><span class="toc-number">3.2.</span> <span class="toc-text">渲染 Vue 实例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#服务端处理"><span class="toc-number">3.3.</span> <span class="toc-text">服务端处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#读取文件传输到-Vue-Renderer"><span class="toc-number">3.4.</span> <span class="toc-text">读取文件传输到 Vue Renderer</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTML-模版包裹"><span class="toc-number">3.5.</span> <span class="toc-text">HTML 模版包裹</span></a></li></ol></li></ol>
+          </div>
+      </div>
+    </div>
+
+  
+    
+
+  
+    
+  
+    
+  
+    
+
+  
+    
+  
+    <!--微信公众号二维码-->
+
+
+  
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-left">
+      &copy; 2014 - 2019 suoyue&nbsp;|&nbsp;
+      主题 <a href="https://github.com/giscafer/hexo-theme-cafe/" target="_blank">Cafe</a>
+    </div>
+     <div id="footer-right">
+      联系方式&nbsp;|&nbsp;suoyuesmile@gmail.com
+    </div>
+  </div>
+</footer>
+ <script src="/jquery/jquery.min.js"></script>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+    <a href="/about" class="mobile-nav-link">关于</a>
+  
+</nav>
+    <img class="back-to-top-btn" src="/images/fly-to-top.png"/>
+<script>
+// Elevator script included on the page, already.
+window.onload = function() {
+  var elevator = new Elevator({
+    selector:'.back-to-top-btn',
+    element: document.querySelector('.back-to-top-btn'),
+    duration: 1000 // milliseconds
+  });
+}
+</script>
+      
+
+  
+    <script>
+      var cloudTieConfig = {
+        url: document.location.href, 
+        sourceId: "",
+        productKey: "e2fb4051c49842688ce669e634bc983f",
+        target: "cloud-tie-wrapper"
+      };
+    </script>
+    <script src="https://img1.ws.126.net/f2e/tie/yun/sdk/loader.js"></script>
+    
+
+  
+
+
+
+
+
+
+
+<!-- author:forvoid begin -->
+<!-- author:forvoid begin -->
+
+<!-- author:forvoid end -->
+
+<!-- author:forvoid end -->
+
+
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      })
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      })
+    </script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+ <script src="/js/is.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+<script src="/js/elevator.js"></script>
+  </div>
+</body>
+</html>
